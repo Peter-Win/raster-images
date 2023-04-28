@@ -1,13 +1,13 @@
 {
   "name": "raster-images",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Library for working with bitmaps",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
     "lint": "eslint ./src --ext .ts --fix",
     "test": "jest",
-    "prepare": "husky install"
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "url": "https://github.com/Peter-Win/raster-images/issues"
   },
   "homepage": "https://github.com/Peter-Win/raster-images#readme",
+  "files": ["lib/**/*"],
   "devDependencies": {
     "@types/jest": "^29.5.1",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
