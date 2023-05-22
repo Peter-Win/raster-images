@@ -1,6 +1,6 @@
 import { PixelDepth } from "../types";
 import { ColorModel } from "../ColorModel";
-import { Palette } from "../Palette";
+import { Palette } from "../Palette/Palette";
 import { Sample, SampleSign } from "../Sample";
 import { PixelFormatDef } from "./PixelFormatDef";
 

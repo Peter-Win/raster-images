@@ -2,9 +2,9 @@
   "name": "raster-images",
   "version": "0.0.1",
   "description": "Library for working with bitmaps",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --declaration",
     "lint": "eslint ./src --ext .ts --fix",
     "test": "jest",
     "prepare": "npm run build"
