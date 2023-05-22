@@ -1,6 +1,6 @@
 import { Sample, equalSamplesList } from "../Sample";
 import { ColorModel } from "../ColorModel";
-import { Palette } from "../Palette";
+import { Palette } from "../Palette/Palette";
 import { PixelDepth } from "../types";
 import { PixelFormatDef } from "./PixelFormatDef";
 import { analysePixelFormatDef } from "./analysePixelFormatDef";
@@ -61,6 +61,11 @@ export class PixelFormat {
     return this.def.depth;
   }
 
+  get depthAligned(): PixelDepth {
+    const { depth } = this;
+    return depth === 15 ? 16 : depth;
+  }
+
   get colorModel(): ColorModel {
     return this.def.colorModel;
   }
@@ -79,4 +84,16 @@ export class PixelFormat {
       JSON.stringify(this.palette) === JSON.stringify(other.palette)
     );
   }
+
+  get sampleBitMasks(): BigInt[] {
+    return this.samples.map(
+      (sd) => BigInt((1 << sd.length) - 1) << BigInt(sd.shift)
+    );
+  }
+
+  toString(): string {
+    return this.signature;
+  }
+
+  static readonly canvas = new PixelFormat("R8G8B8A8");
 }

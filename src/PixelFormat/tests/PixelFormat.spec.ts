@@ -1,3 +1,4 @@
+import { dumpA } from "../../utils";
 import { PixelFormat } from "../PixelFormat";
 
 describe("PixelFormat", () => {
@@ -17,17 +18,20 @@ describe("PixelFormat", () => {
     expect(rgb16.signature).toBe("B5G6R5");
     expect(rgb16.depth).toBe(16);
     expect(rgb16.colorModel).toBe("RGB");
+    expect(dumpA(rgb16.sampleBitMasks)).toBe("1F 07E0 F800");
 
     const g8 = new PixelFormat(8);
     expect(g8.signature).toBe("G8");
     expect(g8.colorModel).toBe("Gray");
     expect(g8.depth).toBe(8);
+    // expect(g8.sampleBitMasks).toEqual([0xFF]);
 
     const ga16 = new PixelFormat(32, "Gray", true);
     expect(ga16.signature).toBe("G16A16");
     expect(ga16.colorModel).toBe("Gray");
     expect(ga16.depth).toBe(32);
     expect(ga16.alpha).toBe(true);
+    // expect(ga16.sampleBitMasks).toEqual([0xFFFF, 0xFFFF0000]);
   });
 
   it("constructor from PixelFormatDef", () => {
@@ -36,6 +40,7 @@ describe("PixelFormat", () => {
     expect(pf.depth).toBe(40);
     expect(pf.alpha).toBe(true);
     expect(pf.colorModel).toBe("CMYK");
+    expect(dumpA(pf.sampleBitMasks)).toBe("FF FF00 FF0000 FF000000 FF00000000");
   });
 
   it("constructor from signature", () => {
@@ -44,6 +49,7 @@ describe("PixelFormat", () => {
     expect(rgba16.alpha).toBe(true);
     expect(rgba16.depth).toBe(16);
     expect(rgba16.signature).toBe("B4G4R4A4");
+    expect(dumpA(rgba16.sampleBitMasks)).toBe("0F F0 0F00 F000");
   });
 
   it("constructor from samples", () => {
@@ -56,6 +62,7 @@ describe("PixelFormat", () => {
     expect(pf15.depth).toBe(15);
     expect(pf15.alpha).toBe(false);
     expect(pf15.colorModel).toBe("RGB");
+    expect(dumpA(pf15.sampleBitMasks)).toBe("1F 03E0 7C00");
   });
 
   it("equals", () => {

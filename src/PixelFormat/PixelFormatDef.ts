@@ -1,6 +1,6 @@
 import { PixelDepth } from "../types";
 import { ColorModel } from "../ColorModel";
-import { Palette } from "../Palette";
+import { Palette } from "../Palette/Palette";
 
 export interface PixelFormatDef {
   colorModel: ColorModel;
