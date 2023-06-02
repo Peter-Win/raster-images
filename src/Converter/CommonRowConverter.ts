@@ -1,19 +1,20 @@
 import { ImageReader } from "../transfer/ImageReader";
-import { CvtDescriptorDirect } from "../cvt";
+import { CvtDescriptor, FnCvt } from "../cvt";
 import { Converter } from "./Converter";
 import { PixelFormat } from "../PixelFormat";
 import { RowProxyReader } from "../transfer/RowProxyReader";
 
-export class RowConverter implements Converter {
+export class CommonRowConverter implements Converter {
   constructor(
     readonly srcSign: string,
     readonly dstSign: string,
-    readonly descriptor: CvtDescriptorDirect
+    readonly descriptor: CvtDescriptor,
+    readonly cvt: FnCvt
   ) {}
 
   createReader(nextReader: ImageReader): ImageReader {
     return new RowProxyReader(
-      this.descriptor.cvt,
+      this.cvt,
       new PixelFormat(this.dstSign),
       nextReader
     );
