@@ -1,3 +1,4 @@
+import { subBuffer } from "../utils";
 import { PixelDepth } from "../types";
 import { PixelFormat } from "../PixelFormat";
 import { Palette } from "../Palette/Palette";
@@ -67,13 +68,13 @@ export class SurfaceStd extends Surface {
   }
 
   getRowBuffer(y: number): Uint8Array {
-    return new Uint8Array(this.data.buffer, this.getRowOffset(y), this.rowSize);
+    return subBuffer(this.data, this.getRowOffset(y), this.rowSize);
   }
 
   getRowBufferClamped(y: number): Uint8ClampedArray {
     return new Uint8ClampedArray(
       this.data.buffer,
-      this.getRowOffset(y),
+      this.data.byteOffset + this.getRowOffset(y),
       this.rowSize
     );
   }

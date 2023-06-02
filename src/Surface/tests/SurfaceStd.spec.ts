@@ -36,4 +36,14 @@ describe("SurfaceStd", () => {
     expect(img.bitsPerPixel).toBe(24);
     expect(img.colorModel).toBe("RGB");
   });
+  it("row access", () => {
+    const img = SurfaceStd.create(3, 3, 8, {
+      colorModel: "Gray",
+    });
+    for (let i = 0; i < 9; i++) img.data[i] = i;
+    const row1 = img.getRowBuffer(1);
+    expect(row1[0]).toBe(3);
+    row1[0] = 255;
+    expect(img.data[3]).toBe(255);
+  });
 });

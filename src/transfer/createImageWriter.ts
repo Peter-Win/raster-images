@@ -17,16 +17,3 @@ export const createImageWriter = (
     dst: String(dstFmt),
   });
 };
-
-export const writeImage = async (
-  srcImage: Surface,
-  dstFmt: PixelFormat,
-  write: (writer: ImageWriter) => Promise<void>
-): Promise<void> => {
-  const writer = createImageWriter(srcImage, dstFmt);
-  await writer.onStart(srcImage.info);
-  await write(writer);
-  if (writer.onFinish) {
-    await writer.onFinish();
-  }
-};

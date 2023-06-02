@@ -4,5 +4,5 @@ export interface ImageReader {
   onStart(info: ImageInfo): Promise<void>;
   onFinish?(): Promise<void>;
   getRowBuffer(y: number): Promise<Uint8Array>;
-  finishRow?(): Promise<void>;
+  finishRow(y: number): Promise<void>;
 }
