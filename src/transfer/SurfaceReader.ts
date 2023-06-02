@@ -27,4 +27,6 @@ export class SurfaceReader implements ImageReader, ImageWriter {
   async getRowBuffer(y: number): Promise<Uint8Array> {
     return this.destination.getRowBuffer(y);
   }
+
+  async finishRow(_: number): Promise<void> {}
 }

@@ -1,7 +1,8 @@
+import { ImageWriter } from "../../transfer/ImageWriter";
 import { ResolutionUnit, resolutionToMeters } from "../../ImageInfo/resolution";
 import { PixelFormat } from "../../PixelFormat";
 import { calcPitch } from "../../ImageInfo/calcPitch";
-import { writeImage } from "../../transfer/createImageWriter";
+import { writeImage } from "../../transfer/writeImage";
 import { Surface } from "../../Surface";
 import { getVarNumber } from "../../ImageInfo/Variables";
 import { calcPaletteSize } from "../../Palette/calcPaletteSize";
@@ -138,7 +139,7 @@ export const saveBmp = async (format: FormatForSave, stream: RAStream) => {
     const delta = bmpLineSize - lineSize;
     const deltaBuf = delta ? new Uint8Array(delta) : undefined;
     const surface: Surface = await frame.getImage();
-    await writeImage(surface, pixFmt, async (writer) => {
+    await writeImage(surface, pixFmt, async (writer: ImageWriter) => {
       const [yBegin, yEnd, yStep] = upDown
         ? [0, size.y, 1]
         : [size.y - 1, -1, -1];

@@ -46,7 +46,7 @@ export const readRleImage = async (params: Params): Promise<void> => {
       }
     }
     if (reader.finishRow) {
-      await reader.finishRow();
+      await reader.finishRow(lineIndex);
     }
     lineIndex += deltaY;
   }

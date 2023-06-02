@@ -1,8 +1,5 @@
 import { CvtDescriptorDirect } from "../CvtDescriptor";
 
-// R5G5B5 -> R8G8B8
-// B5G5R5 -> R8G8B8
-
 export const Cvt15to24Quality: CvtDescriptorDirect = {
   loss: false,
   speed: 50,

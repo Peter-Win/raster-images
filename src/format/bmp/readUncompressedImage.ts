@@ -27,9 +27,7 @@ export const readUncompressedImage = async (params: Params) => {
     if (lineDelta) {
       await stream.skip(lineDelta);
     }
-    if (reader.finishRow) {
-      await reader.finishRow();
-    }
+    await reader.finishRow(y);
     y += deltaY;
   }
 };

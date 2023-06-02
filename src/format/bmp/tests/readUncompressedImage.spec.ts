@@ -33,6 +33,7 @@ describe("readUncompressedImage", () => {
           rows.push({ y, row });
           return row;
         },
+        finishRow: async () => {},
       };
       await stream.seek(fr.offset);
       await readUncompressedImage({ stream, reader, info, isUpDown });
@@ -154,6 +155,7 @@ describe("readUncompressedImage", () => {
           rows.push({ y, row });
           return row;
         },
+        finishRow: async () => {},
       };
       await stream.seek(fr.offset);
       await readUncompressedImage({ stream, reader, info, isUpDown });
