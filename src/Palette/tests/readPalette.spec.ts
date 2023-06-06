@@ -15,6 +15,7 @@ describe("readPaletteFromBuf", () => {
       [255, 255, 255, 255],
     ]);
   });
+
   it("dword", () => {
     // black, blue, green, red, white
     const buf = new Uint8Array([
@@ -30,6 +31,23 @@ describe("readPaletteFromBuf", () => {
       [255, 255, 255, 255],
     ]);
   });
+
+  it("dword opaque", () => {
+    // black, blue, green, red, white
+    const buf = new Uint8Array([
+      0, 0, 0, 0, 255, 0, 0, 128, 0, 255, 0, 128, 0, 0, 255, 128, 255, 255, 255,
+      255,
+    ]);
+    const pal = readPaletteFromBuf(buf, 5, { dword: "opaque" });
+    expect(pal).toEqual([
+      [0, 0, 0, 255],
+      [255, 0, 0, 255],
+      [0, 255, 0, 255],
+      [0, 0, 255, 255],
+      [255, 255, 255, 255],
+    ]);
+  });
+
   it("rgb", () => {
     // black, blue, green, red, white
     const buf = new Uint8Array([
@@ -44,6 +62,7 @@ describe("readPaletteFromBuf", () => {
       [255, 255, 255, 255],
     ]);
   });
+
   it("6 bit", () => {
     // black, blue, green, red, white
     const buf = new Uint8Array([

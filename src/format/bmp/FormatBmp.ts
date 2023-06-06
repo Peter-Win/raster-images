@@ -1,3 +1,4 @@
+import { Variables } from "../../ImageInfo/Variables";
 import { RAStream } from "../../stream";
 import { BitmapFormat } from "../BitmapFormat";
 import { FrameBmp } from "./FrameBmp";
@@ -5,11 +6,13 @@ import { FrameBmp } from "./FrameBmp";
 export class FormatBmp implements BitmapFormat {
   frames: FrameBmp[] = [];
 
-  protected constructor() {}
+  vars: Variables = {};
+
+  protected constructor(readonly stream: RAStream) {}
 
   static async create(stream: RAStream): Promise<FormatBmp> {
-    const inst = new FormatBmp();
-    const frame = await FrameBmp.create(inst, stream);
+    const inst = new FormatBmp(stream);
+    const frame = await FrameBmp.create(inst);
     inst.frames = [frame];
     return inst;
   }

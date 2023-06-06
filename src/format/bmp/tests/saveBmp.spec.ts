@@ -7,7 +7,8 @@ import { SurfaceStd } from "../../../Surface";
 import { bmpOs2 } from "../bmpCommon";
 import { createGrayPalette, createPalette } from "../../../Palette";
 import { getTestFile } from "../../../tests/getTestFile";
-import { NodeJSFile, streamLock } from "../../../stream";
+import { streamLock } from "../../../stream";
+import { NodeJSFile } from "../../../stream/NodeJSFile";
 import {
   bmpFileHeaderSize,
   bmpSignature,

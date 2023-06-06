@@ -16,6 +16,21 @@ export const makePaletteCache32 = (pal: Palette): Uint8Array => {
   return buf;
 };
 
+export const makePaletteCacheRGBA = (pal: Palette): Uint8Array => {
+  const buf = new Uint8Array(pal.length << 2);
+  let srcPos = 0;
+  let dstPos = 0;
+  const srcEnd = srcPos + pal.length;
+  while (srcPos < srcEnd) {
+    const item = pal[srcPos++]!;
+    buf[dstPos++] = item[2]!;
+    buf[dstPos++] = item[1]!;
+    buf[dstPos++] = item[0]!;
+    buf[dstPos++] = item[3]!;
+  }
+  return buf;
+};
+
 export const CvtIndexed8To24: CvtDescriptorIndexed = {
   loss: false,
   speed: 50,
@@ -74,4 +89,9 @@ export const CvtIndexed8To32: CvtDescriptorIndexed = {
       pos++;
     }
   },
+};
+
+export const CvtIndexed8ToRGBA: CvtDescriptorIndexed = {
+  ...CvtIndexed8To32,
+  makePaletteCache: makePaletteCacheRGBA,
 };

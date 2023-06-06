@@ -25,7 +25,11 @@ export const readPaletteFromBuf = (
     item[rgb ? 2 : 0] = buf[srcPos++]!;
     item[1] = buf[srcPos++]!;
     item[rgb ? 0 : 2] = buf[srcPos++]!;
-    if (dword) item[3] = buf[srcPos++]!;
+    if (dword === true) item[3] = buf[srcPos++]!;
+    else if (dword === "opaque") {
+      item[3] = 255;
+      srcPos++;
+    }
     if (bits6) {
       for (let i = 0; i < 3; i++) {
         const b = item[i]!;

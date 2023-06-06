@@ -1,11 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
-    "outDir": "./lib/",
+    "outDir": "./dist/",
     "sourceMap": true,
     "module": "CommonJS",
     "target": "es5",
@@ -18,23 +13,16 @@
     "strictFunctionTypes": true,
     "noImplicitThis": true,
     "strictBindCallApply": true,
-    "noPropertyAccessFromIndexSignature": false,
     "noUncheckedIndexedAccess": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "types": [
-      "node",
-      "jest"
-    ],
     "baseUrl": "./",
     "paths": {
-      "src/*": ["src/*"]
-    },
-    "typeRoots": [
-      "node_modules/@types",
-      "src/types"
-    ]
+      "src/*": ["src/*"],
+      "raster-images/*": ["../../src/*"]
+    }
   },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"],
+  "include": [
+    "./src/**/*"
+  ]
 }

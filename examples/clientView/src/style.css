@@ -1,0 +1,67 @@
+html, body, div, p, h1, h2, h3, h4, ul, li, span,
+form, input, select, button {
+    margin: 0;
+    padding: 0;
+}
+:root {
+    --text-main: #333;
+    --fill-main: #FFF;
+}
+body {
+    color: var(--text-main);
+    background: var(--fill-main);
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+#root {
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.image-frame {
+    flex: 1;
+    background: #CCC;
+}
+
+.left-side {
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.loader-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.error-info {
+    background: rgb(255, 242, 240);
+    border: thin solid rgb(255, 204, 199);
+    padding: 1em 2em;
+    border-radius: 3px;
+}
+
+.frames-info-box {
+    flex: 1;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.frame-info {
+    border: thin solid silver;
+    display: flex;
+    flex-direction: column;
+}
+.frame-info-header {
+    background-color: #CCC;
+    padding: 0.2em 0.6em;
+}

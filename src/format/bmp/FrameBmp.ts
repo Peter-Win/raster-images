@@ -1,7 +1,6 @@
 import { ImageReader } from "../../transfer/ImageReader";
 import { ImageInfo } from "../../ImageInfo";
 import { BitmapFormat, BitmapFrame } from "../BitmapFormat";
-import { RAStream } from "../../stream";
 import {
   bmpFileHeaderSize,
   bmpSignature,
@@ -46,7 +45,8 @@ export class FrameBmp implements BitmapFrame {
     public readonly compression: number
   ) {}
 
-  static create(format: BitmapFormat, stream: RAStream): Promise<FrameBmp> {
+  static create(format: BitmapFormat): Promise<FrameBmp> {
+    const { stream } = format;
     return streamLock<FrameBmp>(stream, async () => {
       await stream.seek(0);
       const vars: Variables = {
@@ -110,7 +110,7 @@ export class FrameBmp implements BitmapFrame {
         if (bpp === 1 || bpp === 4 || bpp === 8) {
           const colorsCount = bi.biClrUsed || 1 << bpp;
           pxDef.palette = await readPalette(stream, colorsCount, {
-            dword: true,
+            dword: "opaque",
           });
           pxDef.colorModel = "Indexed";
         } else if (bpp === 24) {
@@ -191,7 +191,8 @@ export class FrameBmp implements BitmapFrame {
     });
   }
 
-  async read(stream: RAStream, reader: ImageReader): Promise<void> {
+  async read(reader: ImageReader): Promise<void> {
+    const { stream } = this.format;
     return streamLock(stream, async () => {
       const { info, isUpDown } = this;
       await stream.seek(this.offset);

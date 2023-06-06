@@ -1,6 +1,7 @@
 /* eslint "import/no-import-module-exports": "off" */
 import path from "node:path";
-import { streamLock, NodeJSFile } from "../stream";
+import { streamLock } from "../stream";
+import { NodeJSFile } from "../stream/NodeJSFile";
 
 export const streamFromGallery = (shortName: string): NodeJSFile => {
   const fullName = path.normalize(
