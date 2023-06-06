@@ -1,4 +1,5 @@
 import { Palette } from "../../Palette";
+import { CvtDescriptorIndexed } from "./CvtDescriptorIndexed";
 
 export const makePaletteCache32 = (pal: Palette): Uint8Array => {
   const buf = new Uint8Array(pal.length << 2);
@@ -15,7 +16,22 @@ export const makePaletteCache32 = (pal: Palette): Uint8Array => {
   return buf;
 };
 
-export const CvtIndexed8To24 = {
+export const makePaletteCacheRGBA = (pal: Palette): Uint8Array => {
+  const buf = new Uint8Array(pal.length << 2);
+  let srcPos = 0;
+  let dstPos = 0;
+  const srcEnd = srcPos + pal.length;
+  while (srcPos < srcEnd) {
+    const item = pal[srcPos++]!;
+    buf[dstPos++] = item[2]!;
+    buf[dstPos++] = item[1]!;
+    buf[dstPos++] = item[0]!;
+    buf[dstPos++] = item[3]!;
+  }
+  return buf;
+};
+
+export const CvtIndexed8To24: CvtDescriptorIndexed = {
   loss: false,
   speed: 50,
   quality: 100,
@@ -47,7 +63,7 @@ export const CvtIndexed8To24 = {
 // Хотя возможны всякие случаи.
 // Например, некоторые виды оперативной памяти будут работать в 2 раза медленнее,
 // если целевой буфер не выровнен на 4 байта.
-export const CvtIndexed8To32 = {
+export const CvtIndexed8To32: CvtDescriptorIndexed = {
   loss: false,
   speed: 70,
   quality: 100,
@@ -73,4 +89,9 @@ export const CvtIndexed8To32 = {
       pos++;
     }
   },
+};
+
+export const CvtIndexed8ToRGBA: CvtDescriptorIndexed = {
+  ...CvtIndexed8To32,
+  makePaletteCache: makePaletteCacheRGBA,
 };

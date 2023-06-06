@@ -103,7 +103,7 @@ describe("readRleImage", () => {
 
       const surface = new SurfaceStd(frame.info);
       const reader = new SurfaceReader(surface);
-      await frame.read(stream, reader);
+      await frame.read(reader);
       for (let i = 0; i < surface.height; i++) {
         expect(dump8(surface.getRowBuffer(i))).toBe(needImage[i]);
       }
@@ -143,7 +143,7 @@ describe("readRleImage", () => {
 
       const surface = new SurfaceStd(frame.info);
       const reader = new SurfaceReader(surface);
-      await frame.read(stream, reader);
+      await frame.read(reader);
       for (let i = 0; i < surface.height; i++) {
         expect(dump4(surface.getRowBuffer(i))).toBe(needImage[i]);
       }

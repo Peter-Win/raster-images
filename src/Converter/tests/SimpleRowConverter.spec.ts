@@ -1,4 +1,4 @@
-import { RowConverter } from "../RowConverter";
+import { SimpleRowConverter } from "../SimpleRowConverter";
 import { Cvt24to32 } from "../../cvt/rgb/Cvt24to32";
 import { SurfaceStd } from "../../Surface";
 import { SurfaceReader } from "../../transfer/SurfaceReader";
@@ -8,7 +8,7 @@ import { dump, dumpA } from "../../utils";
 
 describe("RowConverter", () => {
   const srcFmt = new PixelFormat("B8G8R8");
-  const rowConverter = new RowConverter(
+  const rowConverter = new SimpleRowConverter(
     srcFmt.signature,
     "B8G8R8A8",
     Cvt24to32

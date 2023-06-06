@@ -23,7 +23,7 @@ describe("load Bmp", () => {
 
     const surface = new SurfaceStd(frame.info);
     const reader = new SurfaceReader(surface);
-    await frame.read(stream, reader);
+    await frame.read(reader);
     const row0 = surface.getRowBuffer(0);
     expect(palette[row0[0]!]!.slice(0, 3)).toEqual([76, 140, 156]);
     const rowL = surface.getRowBuffer(surface.height - 1);
@@ -41,12 +41,12 @@ describe("load Bmp", () => {
     expect(frame.info.vars?.ext).toBe("bmp");
     expect(frame.info.size).toEqual({ x: 141, y: 92 });
     expect(frame.info.fmt.palette).toEqual([
-      [0xff, 0x12, 0, 0],
-      [0, 0xe4, 0xff, 0],
+      [0xff, 0x12, 0, 0xff],
+      [0, 0xe4, 0xff, 0xff],
     ]);
     const surface = new SurfaceStd(frame.info);
     const reader = new SurfaceReader(surface);
-    await frame.read(stream, reader);
+    await frame.read(reader);
 
     const { width } = surface;
     const getPix = (buf: Uint8Array, x: number): number => {
@@ -80,7 +80,7 @@ describe("load Bmp", () => {
 
     const surface = new SurfaceStd(frame.info);
     const reader = new SurfaceReader(surface);
-    await frame.read(stream, reader);
+    await frame.read(reader);
 
     const row1 = surface.getRowBuffer(1);
     expect(Array.from(row1).slice(4, 8)).toEqual([0, 216, 118, 111]);

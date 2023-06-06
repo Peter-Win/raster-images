@@ -58,6 +58,7 @@ export class BufferStream implements RAStream {
     bufOffset?: number
   ): Promise<number> {
     copyBytes(size, this.buffer, this.position, buffer, bufOffset ?? 0);
+    this.position += size;
     return size;
   }
 
