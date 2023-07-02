@@ -15,10 +15,10 @@ export const streamFromGallery = (shortName: string): NodeJSFile => {
  * @param shortName
  * @param onFile
  */
-export const onStreamFromGallery = async (
+export const onStreamFromGallery = <TRes = void>(
   shortName: string,
-  onFile: (stream: NodeJSFile) => Promise<void>
-) => {
+  onFile: (stream: NodeJSFile) => Promise<TRes>
+): Promise<TRes> => {
   const stream = streamFromGallery(shortName);
-  await streamLock(stream, () => onFile(stream));
+  return streamLock(stream, () => onFile(stream));
 };
