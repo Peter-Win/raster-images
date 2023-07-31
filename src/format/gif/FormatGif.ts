@@ -14,9 +14,10 @@ import { FrameGif } from "./FrameGif";
  * https://www.w3.org/Graphics/GIF/spec-gif89a.txt
  */
 
-enum ChunkCode {
+export enum ChunkCode {
   beginOfImage = 0x2c,
   endOfStream = 0x3b,
+  extensionIntroducer = 0x21,
 }
 
 export class FormatGif implements BitmapFormat {

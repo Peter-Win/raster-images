@@ -29,6 +29,14 @@ export class LzwUnpacker {
     this.tableStart = (1 << startCodeSize) + 2;
   }
 
+  async readLine(line: Uint8Array, width: number) {
+    let pos = 0;
+    while (!this.bFinish && pos < width) {
+      // eslint-disable-next-line  no-param-reassign
+      line[pos++] = await this.getNextByte();
+    }
+  }
+
   async getNextByte(): Promise<number> {
     let b: number;
     if (this.strIndex > 0) {
@@ -41,30 +49,30 @@ export class LzwUnpacker {
       return b;
     }
     const nColors = 1 << this.startCodeSize;
-    const ClearCode = 1 << this.startCodeSize;
-    const EoiCode = ClearCode + 1;
-    const TblStart = this.tableStart;
-    const TblEnd = this.tableStart + this.table.length;
+    const clearCode = 1 << this.startCodeSize;
+    const eoiCode = clearCode + 1;
+    const { tableStart } = this;
+    const tableEnd = this.tableStart + this.table.length;
     let code = await this.readCode();
-    if (code === EoiCode) {
+    if (code === eoiCode) {
       // end of image
       return 0;
     }
-    if (code === ClearCode) {
+    if (code === clearCode) {
       this.initTable();
       code = await this.readCode();
-      if (code === EoiCode) {
+      if (code === eoiCode) {
         return 0;
       }
-      if (code >= TblStart) {
+      if (code >= tableStart) {
         this.onCorrupted();
         return 0;
       }
       b = code & 0xff;
-    } else if (code < TblEnd) {
+    } else if (code < tableEnd) {
       if (code < nColors) b = code & 0xff;
       else {
-        this.curStr = code - TblStart;
+        this.curStr = code - tableStart;
         this.strIndex = 1;
         b = this.table[this.curStr]![0]!;
       }
@@ -72,16 +80,16 @@ export class LzwUnpacker {
       if (this.prevCode < nColors) {
         s = [this.prevCode];
       } else {
-        s = this.table[this.prevCode - TblStart]!;
+        s = this.table[this.prevCode - tableStart]!;
       }
       if (code < nColors) {
         s.push(code);
       } else {
-        s.push(this.table[code - TblStart]![0]!);
+        s.push(this.table[code - tableStart]![0]!);
       }
       this.addStrToTbl(s);
     } else {
-      if (code > TblEnd) {
+      if (code > tableEnd) {
         this.onCorrupted();
         return 0;
       }
@@ -90,7 +98,7 @@ export class LzwUnpacker {
       if (this.prevCode < nColors) {
         s = [this.prevCode];
       } else {
-        s = this.table[this.prevCode - TblStart]!;
+        s = this.table[this.prevCode - tableStart]!;
       }
       s.push(s[0]!);
       b = s[0]!;
@@ -100,14 +108,6 @@ export class LzwUnpacker {
     }
     this.prevCode = code;
     return b;
-  }
-
-  async readLine(line: Uint8Array, width: number) {
-    let pos = 0;
-    while (!this.bFinish && pos < width) {
-      // eslint-disable-next-line  no-param-reassign
-      line[pos++] = await this.getNextByte();
-    }
   }
 
   protected onCorrupted() {
