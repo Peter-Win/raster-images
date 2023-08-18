@@ -53,7 +53,7 @@ export class LzwUnpacker {
     const eoiCode = clearCode + 1;
     const { tableStart } = this;
     const tableEnd = this.tableStart + this.table.length;
-    let code = await this.readCode();
+    let code: number = await this.readCode();
     if (code === eoiCode) {
       // end of image
       return 0;
@@ -76,11 +76,11 @@ export class LzwUnpacker {
         this.strIndex = 1;
         b = this.table[this.curStr]![0]!;
       }
-      let s;
+      let s: TableString;
       if (this.prevCode < nColors) {
         s = [this.prevCode];
       } else {
-        s = this.table[this.prevCode - tableStart]!;
+        s = [...this.table[this.prevCode - tableStart]!];
       }
       if (code < nColors) {
         s.push(code);
@@ -98,10 +98,10 @@ export class LzwUnpacker {
       if (this.prevCode < nColors) {
         s = [this.prevCode];
       } else {
-        s = this.table[this.prevCode - tableStart]!;
+        s = [...this.table[this.prevCode - tableStart]!];
       }
-      s.push(s[0]!);
       b = s[0]!;
+      s.push(b);
       this.strIndex = 1;
       this.curStr = this.table.length;
       this.addStrToTbl(s);
@@ -146,8 +146,10 @@ export class LzwUnpacker {
 
   protected addStrToTbl(s: TableString) {
     this.table.push(s);
-    const te = this.table.length + this.tableStart;
-    if (te === calcGifTableSize(this.curCodeSize)) {
+    if (
+      this.curCodeSize < 11 &&
+      this.table.length + this.tableStart === calcGifTableSize(this.curCodeSize)
+    ) {
       this.curCodeSize++;
     }
   }

@@ -9,6 +9,7 @@ import {
   CvtIndexed8ToRGBA,
 } from "../cvt/indexed/CvtIndexedToBGR";
 import { SwapRedBlue24 } from "../cvt/rgb/SwapRedBlue";
+import { CvtGray8toRGB8 } from "../cvt/gray/CvtGray8toRGB8";
 
 export const allConverters: Converter[] = [
   // ------------------
@@ -26,10 +27,19 @@ export const allConverters: Converter[] = [
   new SimpleRowConverter("R8G8B8", "R8G8B8A8", Cvt24to32),
   new SimpleRowConverter("B8G8R8", "R8G8B8A8", Cvt24to32AndSwapRB),
   new SimpleRowConverter("R8G8B8", "B8G8R8A8", Cvt24to32AndSwapRB),
+
+  // -----------------
   // Indexed -> RGB
+  // -----------------
   new IndexedRowConverter("I8", "B8G8R8", CvtIndexed8To24),
   new IndexedRowConverter("I8", "B8G8R8A8", CvtIndexed8To32),
   new IndexedRowConverter("I8", "B8G8R8X8", CvtIndexed8To32),
   new IndexedRowConverter("I8", "R8G8B8A8", CvtIndexed8ToRGBA),
   new IndexedRowConverter("I8", "R8G8B8X8", CvtIndexed8ToRGBA),
+
+  // -------------
+  // Gray -> RGB
+  // -------------
+  new SimpleRowConverter("G8", "B8G8R8", CvtGray8toRGB8),
+  new SimpleRowConverter("G8", "R8G8B8", CvtGray8toRGB8),
 ];

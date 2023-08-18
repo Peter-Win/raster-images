@@ -2,6 +2,9 @@ import { Point } from "../math/Point";
 import { Surface } from "./Surface";
 import { PixelFormat } from "../PixelFormat";
 
+/**
+ * Using standard ImageData from Canvas as Surface
+ */
 export class SurfaceImageData extends Surface {
   constructor(protected imageData: ImageData) {
     super({

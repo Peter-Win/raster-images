@@ -54,6 +54,7 @@ export class FrameGif implements BitmapFrame {
     await stream.skip(1);
     await skipGifData(stream);
 
+    // TODO: Возможно, нет смысла искать конец фрейма. Это потеря производительности. А смысла особого в этом нет.
     const endPos = await stream.getPos();
     return new FrameGif(format, info, startPos, endPos - startPos, descr);
   }

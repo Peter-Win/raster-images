@@ -1,12 +1,57 @@
-import { SurfaceStd } from "../../../Surface";
 import { onStreamFromGallery } from "../../../tests/streamFromGallery";
-import { SurfaceReader } from "../../../transfer/SurfaceReader";
-import { dumpA } from "../../../utils";
 import { FormatGif } from "../FormatGif";
+import { PaletteItem } from "../../../Palette";
+import { loadImageByName, loadImageFromFrame } from "../../../loadImage";
 
 describe("FrameGif", () => {
-  xit("I8", async () => {
-    await onStreamFromGallery("I8.gif", async (stream) => {
+  /**
+   * test for this rule:
+   * 4. The output codes are of variable length, starting at <code size>+1 bits per
+code, up to 12 bits per code. This defines a maximum code value of 4095
+(0xFFF). Whenever the LZW code value would exceed the current code length, the
+code length is increased by one. The packing/unpacking of these codes must then
+be altered to reflect the new code length.
+@see https://www.w3.org/Graphics/GIF/spec-gif89a.txt
+   */
+  it("cheese.gif", async () => {
+    const srcName = "cheese.gif";
+    const cmpName = "cheese.ppm";
+    await onStreamFromGallery(srcName, async (stream) => {
+      const fmt = await FormatGif.create(stream);
+      expect(fmt.frames.length).toBe(1);
+      const frame = fmt.frames[0]!;
+      expect(frame.type).toBe("frame");
+      expect(frame.info.size.toString()).toBe("(604, 518)");
+      expect(frame.info.fmt.signature).toBe("I8");
+      expect(frame.info.fmt.palette?.length).toBe(256);
+      const palette = frame.info.fmt.palette!;
+      const img = await loadImageFromFrame(frame);
+
+      await onStreamFromGallery(cmpName, async (cmpStream) => {
+        const cmpImg = await loadImageByName(cmpStream, 0);
+        const { size } = frame.info;
+        for (let y = 0; y < size.y; y++) {
+          const srcRow = img.getRowBuffer(y);
+          const cmpRow = cmpImg.getRowBuffer(y);
+          for (let x = 0; x < size.x; x++) {
+            const srcIndex: number = srcRow[x]!;
+            const srcColor: PaletteItem = palette[srcIndex]!;
+            const cmpB = cmpRow[3 * x + 2];
+            const cmpG = cmpRow[3 * x + 1];
+            const cmpR = cmpRow[3 * x];
+            expect(`${x},${y}: ${cmpR},${cmpG},${cmpB}`).toBe(
+              `${x},${y}: ${srcColor[2]},${srcColor[1]},${srcColor[0]}`
+            );
+          }
+        }
+      });
+    });
+  }, 90000);
+
+  it("I8.gif", async () => {
+    const srcName = "I8.gif";
+    const cmpName = "I8gif.ppm";
+    await onStreamFromGallery(srcName, async (stream) => {
       const fmt = await FormatGif.create(stream);
       expect(fmt.frames.length).toBe(1);
       const frame = fmt.frames[0]!;
@@ -14,23 +59,27 @@ describe("FrameGif", () => {
       expect(frame.info.size.toString()).toBe("(303, 133)");
       expect(frame.info.fmt.signature).toBe("I8");
       expect(frame.info.fmt.palette?.length).toBe(256);
+      const palette = frame.info.fmt.palette!;
+      const img = await loadImageFromFrame(frame);
 
-      const img = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(img);
-      await frame.read(reader);
-
-      const getPixelHex = (x: number, y: number): string => {
-        const offset = img.getRowOffset(y) + x;
-        const pix = img.data[offset]!;
-        const color = img.info.fmt.palette![pix]!;
-        return dumpA(color);
-      };
-      expect(getPixelHex(0, 0)).toBe("78 A6 04 FF");
-      expect(getPixelHex(302, 0)).toBe("64 C4 04 FF");
-      expect(getPixelHex(0, 132)).toBe("5C AC 04 FF");
-      expect(getPixelHex(302, 132)).toBe("69 8E 04 FF");
-      expect(getPixelHex(60, 110)).toBe("04 04 FC FF"); // red
-      expect(getPixelHex(60, 110)).toBe("0C F4 04 FF"); // green
+      await onStreamFromGallery(cmpName, async (cmpStream) => {
+        const cmpImg = await loadImageByName(cmpStream, 0);
+        const { size } = frame.info;
+        for (let y = 0; y < size.y; y++) {
+          const srcRow = img.getRowBuffer(y);
+          const cmpRow = cmpImg.getRowBuffer(y);
+          for (let x = 0; x < size.x; x++) {
+            const srcIndex: number = srcRow[x]!;
+            const srcColor: PaletteItem = palette[srcIndex]!;
+            const cmpB = cmpRow[3 * x + 2];
+            const cmpG = cmpRow[3 * x + 1];
+            const cmpR = cmpRow[3 * x];
+            expect(`${x},${y}: ${cmpR},${cmpG},${cmpB}`).toBe(
+              `${x},${y}: ${srcColor[2]},${srcColor[1]},${srcColor[0]}`
+            );
+          }
+        }
+      });
     });
-  });
+  }, 90000);
 });
