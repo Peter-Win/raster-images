@@ -7,8 +7,12 @@ import { onInvalidVersion } from "../onInvalidVersion";
 import { GifLogicalScreen } from "./GifLogicalScreen";
 import { Palette } from "../../Palette";
 import { readPalette } from "../../Palette/readPalette";
-import { skipGifData } from "./skipGifData";
+import { readGifDataAsText, skipGifData } from "./skipGifData";
 import { FrameGif } from "./FrameGif";
+import {
+  GraphicControlExtension,
+  readGraphicControlExtension,
+} from "./GraphicControlExtension";
 
 /**
  * https://www.w3.org/Graphics/GIF/spec-gif89a.txt
@@ -18,6 +22,12 @@ export enum ChunkCode {
   beginOfImage = 0x2c,
   endOfStream = 0x3b,
   extensionIntroducer = 0x21,
+}
+
+export enum ExtLabel {
+  graphicControl = 0xf9,
+  comment = 0xfe,
+  application = 0xff,
 }
 
 export class FormatGif implements BitmapFormat {
@@ -54,6 +64,8 @@ export class FormatGif implements BitmapFormat {
       }
 
       const streamSize = await stream.getSize();
+      let graphicControlExtension: GraphicControlExtension | undefined;
+      let comment: string | undefined;
       for (;;) {
         const curPos = await stream.getPos();
         if (curPos >= streamSize) break;
@@ -62,13 +74,27 @@ export class FormatGif implements BitmapFormat {
           break;
         }
         if (code === ChunkCode.beginOfImage) {
-          const frame = await FrameGif.create(inst);
+          const frame = await FrameGif.create(inst, graphicControlExtension);
           inst.frames.push(frame);
+          graphicControlExtension = undefined;
+        } else if (code === ChunkCode.extensionIntroducer) {
+          const label = await readByte(stream);
+          if (label === ExtLabel.graphicControl) {
+            graphicControlExtension = await readGraphicControlExtension(stream);
+          } else if (label === ExtLabel.comment) {
+            const text: string = await readGifDataAsText(stream);
+            comment = comment || text;
+          } else {
+            await skipGifData(stream);
+          }
         } else {
           // skip a label
           await stream.skip(1);
           await skipGifData(stream);
         }
+      }
+      if (comment && inst.frames[0]?.info.vars) {
+        inst.frames[0].info.vars.comment = comment;
       }
 
       return inst;

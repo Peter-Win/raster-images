@@ -6,6 +6,7 @@ import { FormatGif } from "./FormatGif";
 import {
   GifImageDescriptor,
   GifImgDescFlags,
+  gifInterlaced,
   readGifImageDescriptor,
 } from "./GifImageDescriptor";
 import { calcGifTableSize } from "./calcGifTableSize";
@@ -18,9 +19,13 @@ import {
 } from "./rowOrder";
 import { skipGifData } from "./skipGifData";
 import { LzwUnpacker } from "./lzw/LzwUnpacker";
+import { GraphicControlExtension } from "./GraphicControlExtension";
 
 export class FrameGif implements BitmapFrame {
-  static async create(format: FormatGif): Promise<FrameGif> {
+  static async create(
+    format: FormatGif,
+    graphicControlExtension: GraphicControlExtension | undefined
+  ): Promise<FrameGif> {
     const { stream, frames } = format;
     const frameIndex = frames.length;
     const descr = await readGifImageDescriptor(stream);
@@ -50,13 +55,23 @@ export class FrameGif implements BitmapFrame {
       orgX: left,
       orgY: top,
     };
+    if (gifInterlaced(flags)) {
+      info.vars.interlaced = 1;
+    }
 
     await stream.skip(1);
     await skipGifData(stream);
 
     // TODO: Возможно, нет смысла искать конец фрейма. Это потеря производительности. А смысла особого в этом нет.
     const endPos = await stream.getPos();
-    return new FrameGif(format, info, startPos, endPos - startPos, descr);
+    return new FrameGif(
+      format,
+      info,
+      startPos,
+      endPos - startPos,
+      descr,
+      graphicControlExtension
+    );
   }
 
   readonly type = "frame";
@@ -66,13 +81,18 @@ export class FrameGif implements BitmapFrame {
     readonly info: ImageInfo,
     readonly offset: number,
     readonly size: number,
-    readonly descriptor: GifImageDescriptor
+    readonly descriptor: GifImageDescriptor,
+    readonly graphicControlExtension: GraphicControlExtension | undefined
   ) {}
+
+  get interleased(): boolean {
+    return gifInterlaced(this.descriptor.flags);
+  }
 
   async read(reader: ImageReader): Promise<void> {
     await streamLock(this.format.stream, async (stream) => {
-      const { width, height, flags } = this.descriptor;
-      const interleased = (flags & GifImgDescFlags.interlace) !== 0;
+      const { width, height } = this.descriptor;
+      const { interleased } = this;
       const rowOrder: FnRowOrder = interleased
         ? rowOrderInterlaced
         : rowOrderNonInterlaced;

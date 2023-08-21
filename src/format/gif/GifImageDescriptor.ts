@@ -45,3 +45,6 @@ export const readGifImageDescriptor = async (
   stream: RAStream
 ): Promise<GifImageDescriptor> =>
   imageDescriptorFromBuffer(await stream.read(sizeOfImageDescriptor));
+
+export const gifInterlaced = (flags: number): boolean =>
+  (flags & GifImgDescFlags.interlace) !== 0;
