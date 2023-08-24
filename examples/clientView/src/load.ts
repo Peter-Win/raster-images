@@ -51,6 +51,14 @@ export const loadFrame = async (frameIndex: number) => {
         const surface = new SurfaceImageData(imageData);
         const reader = createImageReader(frame.info.fmt, surface);
         await frame.read(reader);
+        if (frame.info.fmt.alpha) {
+            for (let j=0; j<height; j++) {
+                const row = surface.getRowBuffer(j);
+                for (let i=0; i<width; i++) {
+                    row[i*4+3] = 0xFF;
+                }
+            }
+        }
         canvasCtx!.putImageData(imageData, 0, 0);
         globalState.frameStatus = "ready";
     } catch (e) {

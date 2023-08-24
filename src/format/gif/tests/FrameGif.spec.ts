@@ -28,7 +28,7 @@ be altered to reflect the new code length.
       const img = await loadImageFromFrame(frame);
 
       await onStreamFromGallery(cmpName, async (cmpStream) => {
-        const cmpImg = await loadImageByName(cmpStream, 0);
+        const cmpImg = await loadImageByName(cmpStream);
         const { size } = frame.info;
         for (let y = 0; y < size.y; y++) {
           const srcRow = img.getRowBuffer(y);
@@ -63,7 +63,7 @@ be altered to reflect the new code length.
       const img = await loadImageFromFrame(frame);
 
       await onStreamFromGallery(cmpName, async (cmpStream) => {
-        const cmpImg = await loadImageByName(cmpStream, 0);
+        const cmpImg = await loadImageByName(cmpStream);
         const { size } = frame.info;
         for (let y = 0; y < size.y; y++) {
           const srcRow = img.getRowBuffer(y);

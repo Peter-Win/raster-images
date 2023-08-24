@@ -1,3 +1,4 @@
+import { createCrossBlob } from "../../utils/CrossBlob";
 import { RAStream, isEndOfStream, readByte } from "../../stream";
 
 export const skipGifData = async (stream: RAStream): Promise<void> => {
@@ -18,14 +19,6 @@ export const readGifDataAsText = async (stream: RAStream): Promise<string> => {
     if (chunkLength === 0) break;
     chunks.push(await stream.read(chunkLength));
   }
-  let blob;
-  if (process?.release?.name === "node") {
-    // special case of Blob for NodeJS
-    // eslint-disable-next-line global-require
-    const { Blob: NodeBlob } = require("node:buffer");
-    blob = new NodeBlob(chunks);
-  } else {
-    blob = new Blob(chunks);
-  }
+  const blob = createCrossBlob(chunks);
   return blob.text();
 };

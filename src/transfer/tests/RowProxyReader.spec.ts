@@ -53,6 +53,7 @@ describe("RowProxyReader", () => {
       "FF FF FF 7F 7F 7F 3F 3F 3F 1F 1F 1F 0F 0F 0F 07 07 07"
     );
   });
+
   it("2 step RowProxyReader", async () => {
     // reader generate Gray8 image 3x3 = [1,2,3][4,5,6][7,6,9]
     // first converter use *2 => [2,4,6][8,10,12][14,16,18]

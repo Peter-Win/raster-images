@@ -17,6 +17,11 @@ export class SurfaceReader implements ImageReader, ImageWriter {
           dst: size.toString(),
         }
       );
+    // Для случая когда нужно передать палитру от исходного формата в конечное изображение. Пока такой костыль.
+    // Используется например в случае чтения I1 в I8
+    if (info.fmt.palette && !fmt.palette) {
+      fmt.setPalette(info.fmt.palette);
+    }
     if (!info.fmt.equals(fmt))
       throw new ErrorRI("Incompatible pixel formats. Src: <src>, Dst: <dst>", {
         src: info.fmt.signature,

@@ -50,7 +50,9 @@ describe("loadImageByName", () => {
 
   it("RGB with swap", async () => {
     await onStreamFromGallery("plain.ppm", async (stream) => {
-      const img = await loadImageByName(stream, 0, new PixelFormat(24, "RGB"));
+      const img = await loadImageByName(stream, {
+        target: new PixelFormat(24, "RGB"),
+      });
       const { size } = img;
       expect(size.toString()).toBe("(4, 4)");
       expect(img.info.fmt.signature).toBe("B8G8R8");
@@ -71,7 +73,7 @@ describe("loadImageByName", () => {
 
   it("RGB to RGBA", async () => {
     await onStreamFromGallery("plain.ppm", async (stream) => {
-      const img = await loadImageByName(stream, 0, PixelFormat.canvas);
+      const img = await loadImageByName(stream, { target: PixelFormat.canvas });
       const { size } = img;
       expect(size.toString()).toBe("(4, 4)");
       expect(img.info.fmt.signature).toBe("R8G8B8A8");
@@ -99,7 +101,9 @@ describe("loadImageByName", () => {
 
   it("Gray to RGB", async () => {
     await onStreamFromGallery("plain.pgm", async (stream) => {
-      const img = await loadImageByName(stream, 0, new PixelFormat(24));
+      const img = await loadImageByName(stream, {
+        target: new PixelFormat(24),
+      });
       const { size } = img;
       expect(size.toString()).toBe("(24, 7)");
       expect(img.info.fmt.signature).toBe("B8G8R8");
@@ -123,7 +127,7 @@ describe("loadImageByName", () => {
       const img = SurfaceStd.create(24, 7, 24);
       const { size } = img;
       expect(img.info.fmt.signature).toBe("B8G8R8");
-      await loadImageByName(stream, 0, img);
+      await loadImageByName(stream, { target: img });
       const cmpRow = new Uint8Array(3 * size.x);
       for (let y = 0; y < size.y; y++) {
         const row = img.getRowBuffer(y);

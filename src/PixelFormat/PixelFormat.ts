@@ -74,6 +74,10 @@ export class PixelFormat {
     return this.def.palette;
   }
 
+  setPalette(pal?: Palette) {
+    this.def.palette = pal;
+  }
+
   get signature(): string {
     return signatureFromSamples(this.samples);
   }

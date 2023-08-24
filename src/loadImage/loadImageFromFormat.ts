@@ -3,12 +3,17 @@ import { Surface } from "../Surface";
 import { BitmapFormat, FrameType } from "../format";
 import { TargetImageDescriptor } from "./TargetImageDescriptor";
 import { loadImageFromFrame } from "./loadImageFromFrame";
+import { ConverterProps } from "../Converter/ConverterProps";
 
 export const loadImageFromFormat = (
   format: BitmapFormat,
-  frameDef: number | FrameType,
-  targetDef?: TargetImageDescriptor
+  options?: {
+    frameDef?: number | FrameType;
+    target?: TargetImageDescriptor;
+    converterProps?: ConverterProps;
+  }
 ): Promise<Surface> => {
+  const { frameDef = 0, ...restOptions } = options ?? {};
   const [frame, msg] =
     typeof frameDef === "number"
       ? [format.frames[frameDef], "#"]
@@ -18,5 +23,5 @@ export const loadImageFromFormat = (
       msg,
       fr: JSON.stringify(frameDef),
     });
-  return loadImageFromFrame(frame, targetDef);
+  return loadImageFromFrame(frame, restOptions);
 };
