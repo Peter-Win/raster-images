@@ -51,5 +51,8 @@ module.exports = {
       src: path.join(__dirname, "src"),
       "raster-images": path.normalize(path.join(__dirname, "..", "..", "src")),
     },
+    fallback: {
+      "buffer": false,
+    },
   },
 };

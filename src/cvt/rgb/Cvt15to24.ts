@@ -4,9 +4,9 @@ export const Cvt15to24Quality: CvtDescriptorDirect = {
   loss: false,
   speed: 50,
   quality: 100,
-  cvt: (width, srcBuf, srcOffset, dstBuf, dstOffset) => {
-    const src = new Uint16Array(srcBuf, srcOffset);
-    const dst = new Uint8Array(dstBuf, dstOffset);
+  cvt: (width, srcBuf, srcByteOffset, dstBuf, dstByteOffset) => {
+    const src = new Uint16Array(srcBuf, srcByteOffset);
+    const dst = new Uint8Array(dstBuf, dstByteOffset);
     let srcPos = 0;
     let dstPos = 0;
     const srcEnd = srcPos + width;

@@ -3,6 +3,7 @@ export type VarName =
   | "compression" // None, RLE8, LZW ...
   | "bgColor" // special pixel value for background color
   | "ext" // extension: bmp, tga, jpg...
+  | "interlaced" // 1 if yes, 0 or undefined if no
   | "importantColors" // important colors in palette
   | "orgX" // x of original position
   | "orgY"

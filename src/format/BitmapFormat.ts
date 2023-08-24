@@ -10,7 +10,7 @@ export interface BitmapFrame {
   readonly info: ImageInfo;
   readonly type: FrameType;
   readonly offset: number;
-  readonly size: number;
+  readonly size?: number;
   read(reader: ImageReader): Promise<void>;
 }
 

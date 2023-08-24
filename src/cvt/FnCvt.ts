@@ -1,7 +1,7 @@
 export type FnCvt = (
   width: number,
   srcBuf: ArrayBuffer,
-  srcOffset: number,
+  srcByteOffset: number,
   dstBuf: ArrayBuffer,
-  dstOffset: number
+  dstByteOffset: number
 ) => void;
