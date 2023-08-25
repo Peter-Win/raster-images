@@ -1,0 +1,20 @@
+// https://www.w3.org/TR/2003/REC-PNG-20031110/#5ChunkOrdering
+export type PngChunkType =
+  | "IHDR"
+  | "PLTE"
+  | "IDAT"
+  | "IEND"
+  | "cHRM"
+  | "gAMA"
+  | "iCCP"
+  | "sBIT"
+  | "sRGB"
+  | "bKGD"
+  | "hIST"
+  | "tRNS"
+  | "pHYs"
+  | "sPLT"
+  | "tIME"
+  | "iTXt"
+  | "tEXt"
+  | "zTXt";

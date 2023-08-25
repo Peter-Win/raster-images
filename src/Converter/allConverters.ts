@@ -45,6 +45,8 @@ export const allConverters: Converter[] = [
   new IndexedRowConverter("I8", "B8G8R8X8", CvtIndexed8To32),
   new IndexedRowConverter("I8", "R8G8B8A8", CvtIndexed8ToRGBA),
   new IndexedRowConverter("I8", "R8G8B8X8", CvtIndexed8ToRGBA),
+  new IndexedRowConverter("J8", "B8G8R8A8", CvtIndexed8To32),
+  new IndexedRowConverter("J8", "R8G8B8A8", CvtIndexed8ToRGBA),
 
   // Indexed -> Indexed
   new PaletteShareConverter("I1", "I8", CvtI1toI8),
