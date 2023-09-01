@@ -18,6 +18,7 @@ const ofsWidth = 0;
 const ofsHeight = ofsWidth + 4;
 const ofsDepth = ofsHeight + 4;
 const ofsColorType = ofsDepth + 1;
+// compression and filters are ignored. because there are always = 0
 const ofsCompression = ofsColorType + 1;
 const ofsFilter = ofsCompression + 1;
 const ofsInterlace = ofsFilter + 1;
@@ -56,7 +57,6 @@ export const readPngHeader = (buffer: Uint8Array): ImageInfo => {
   const height = dv.getUint32(ofsHeight, false);
   const depth = buffer[ofsDepth]!;
   const colorType = buffer[ofsColorType] as ColorType;
-  const filter = buffer[ofsCompression]!;
   const interlaced = buffer[ofsInterlace]!;
 
   const size = new Point(width, height);
@@ -71,7 +71,6 @@ export const readPngHeader = (buffer: Uint8Array): ImageInfo => {
   const sign = makeSign(depth);
   const fmt = new PixelFormat(sign);
   const vars: Variables = {
-    filter,
     interlaced,
   };
   return {

@@ -11,11 +11,18 @@ import {
   CvtIndexed8ToRGBA,
 } from "../cvt/indexed/CvtIndexedToBGR";
 import { SwapRedBlue24 } from "../cvt/rgb/SwapRedBlue";
-import { CvtGray8toRGB8 } from "../cvt/gray/CvtGray8toRGB8";
+import {
+  CvtGray8toRGB8,
+  CvtGrayAlpha8toRGBA8,
+} from "../cvt/gray/CvtGray8toRGB8";
 import { CvtI1toI8, CvtI4toI8 } from "../cvt/indexed/CvtIndexedToIndexedExt";
 import { PaletteShareConverter } from "./PaletteShareConverter";
-import { CvtGray16toGray8 } from "../cvt/gray/CvtGray16";
+import {
+  CvtGray16toGray8,
+  CvtGrayAlpha16toGrayAlpha8,
+} from "../cvt/gray/CvtGray16";
 import { Cvt48to24 } from "../cvt/rgb/Cvt48to24";
+import { Cvt64to32 } from "../cvt/rgb/Cvt64to32";
 
 export const allConverters: Converter[] = [
   // ------------------
@@ -36,6 +43,9 @@ export const allConverters: Converter[] = [
   // 48
   new SimpleRowConverter("B16G16R16", "B8G8R8", Cvt48to24),
   new SimpleRowConverter("R16G16B16", "R8G8B8", Cvt48to24),
+  // 64
+  new SimpleRowConverter("B16G16R16A16", "B8G8R8A8", Cvt64to32),
+  new SimpleRowConverter("R16G16B16A16", "R8G8B8A8", Cvt64to32),
 
   // -----------------
   // Indexed -> RGB
@@ -61,12 +71,17 @@ export const allConverters: Converter[] = [
   new SimpleRowConverter("G1", "R8G8B8A8", CvtGray1to32),
   new SimpleRowConverter("G1", "B8G8R8X8", CvtGray1to32),
   new SimpleRowConverter("G1", "R8G8B8X8", CvtGray1to32),
+
   new SimpleRowConverter("G8", "B8G8R8", CvtGray8toRGB8),
   new SimpleRowConverter("G8", "R8G8B8", CvtGray8toRGB8),
+
+  new SimpleRowConverter("G8A8", "B8G8R8A8", CvtGrayAlpha8toRGBA8),
+  new SimpleRowConverter("G8A8", "R8G8B8A8", CvtGrayAlpha8toRGBA8),
 
   // -------------
   // Gray -> Gray
   // -------------
   new SimpleRowConverter("G1", "G8", CvtGray1toGray8),
   new SimpleRowConverter("G16", "G8", CvtGray16toGray8),
+  new SimpleRowConverter("G16A16", "G8A8", CvtGrayAlpha16toGrayAlpha8),
 ];

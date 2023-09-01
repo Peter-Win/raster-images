@@ -1,12 +1,12 @@
 import { Variables } from "../../ImageInfo/Variables";
 import { RAStream } from "../../stream";
-import { BitmapFormat, BitmapFrame } from "../BitmapFormat";
+import { BitmapFormat } from "../BitmapFormat";
 import { FramePng } from "./FramePng";
 
 export class FormatPng implements BitmapFormat {
   vars: Variables = {};
 
-  frames: BitmapFrame[] = [];
+  frames: FramePng[] = [];
 
   protected constructor(readonly stream: RAStream) {}
 

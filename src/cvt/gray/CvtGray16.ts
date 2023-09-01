@@ -21,3 +21,23 @@ export const CvtGray16toGray8: CvtDescriptorDirect = {
     }
   },
 };
+
+export const CvtGrayAlpha16toGrayAlpha8: CvtDescriptorDirect = {
+  loss: true,
+  speed: 100,
+  quality: 80,
+  cvt: (
+    width: number,
+    srcBuf: ArrayBuffer,
+    srcByteOffset: number,
+    dstBuf: ArrayBuffer,
+    dstByteOffset: number
+  ) =>
+    CvtGray16toGray8.cvt(
+      width * 2,
+      srcBuf,
+      srcByteOffset,
+      dstBuf,
+      dstByteOffset
+    ),
+};

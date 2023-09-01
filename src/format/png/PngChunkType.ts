@@ -17,4 +17,5 @@ export type PngChunkType =
   | "tIME"
   | "iTXt"
   | "tEXt"
-  | "zTXt";
+  | "zTXt"
+  | "eXIf"; // http://ftp-osl.osuosl.org/pub/libpng/documents/pngext-1.5.0.html#C.eXIf
