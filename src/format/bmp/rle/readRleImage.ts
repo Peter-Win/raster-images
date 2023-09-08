@@ -1,10 +1,11 @@
 import { ImageReader } from "../../../transfer/ImageReader";
 import { ImageInfo } from "../../../ImageInfo";
-import { getSizeAndDepth } from "../../../ImageInfo/getSizeAndDepth";
 import { ErrorRI } from "../../../utils";
 import { FnRleUnpack, RleContext, Res } from "./rleTypes";
 import { unpackRle8 } from "./unpackRle8";
 import { unpackRle4 } from "./unpackRle4";
+import { readLoop } from "../../../transfer/readLoop";
+import { stdRowOrder } from "../../../transfer/rowOrder";
 
 type Params = {
   srcData: Uint8Array;
@@ -20,14 +21,11 @@ const unpackDict: Record<number, FnRleUnpack> = {
 
 export const readRleImage = async (params: Params): Promise<void> => {
   const { srcData, reader, info, isUpDown } = params;
-  const { height, depth } = getSizeAndDepth(info);
+  const { depth } = info.fmt;
   const unpack = unpackDict[depth];
   if (!unpack) {
     throw new ErrorRI("Invalid RLE method for <depth> bit/pixel", { depth });
   }
-
-  const deltaY = isUpDown ? 1 : -1;
-  let lineIndex: number = isUpDown ? 0 : height - 1;
 
   const ctx: RleContext = {
     x: 0,
@@ -35,19 +33,20 @@ export const readRleImage = async (params: Params): Promise<void> => {
     res: Res.endOfLine,
   };
   let srcPos = 0;
-  for (let j = 0; j < height; j++) {
-    const dstBuf = await reader.getRowBuffer(lineIndex);
-    dstBuf.fill(0);
-    if (ctx.res !== Res.endOfImage) {
-      if (ctx.y > 1) {
-        ctx.y--;
-      } else {
-        srcPos = unpack(srcData, srcPos, dstBuf, ctx);
+
+  await readLoop({
+    reader,
+    info,
+    rowOrder: stdRowOrder(isUpDown ? "forward" : "backward"),
+    onRow: async (row) => {
+      row.fill(0);
+      if (ctx.res !== Res.endOfImage) {
+        if (ctx.y > 1) {
+          ctx.y--;
+        } else {
+          srcPos = unpack(srcData, srcPos, row, ctx);
+        }
       }
-    }
-    if (reader.finishRow) {
-      await reader.finishRow(lineIndex);
-    }
-    lineIndex += deltaY;
-  }
+    },
+  });
 };

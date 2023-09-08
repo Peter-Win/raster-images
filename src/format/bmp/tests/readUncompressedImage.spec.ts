@@ -5,6 +5,8 @@ import { bmpFileHeaderSize } from "../BmpFileHeader";
 import { bmpInfoHeaderSize } from "../BmpInfoHeader";
 import { ImageReader } from "../../../transfer/ImageReader";
 import { readUncompressedImage } from "../readUncompressedImage";
+import { testProgress } from "../../../tests/testProgress";
+import { ProgressInfo } from "../../../transfer/ProgressInfo";
 
 describe("readUncompressedImage", () => {
   it("B8G8R8 upToDown", async () => {
@@ -26,6 +28,7 @@ describe("readUncompressedImage", () => {
       };
       const rows: TRow[] = [];
 
+      const progressLog: ProgressInfo[] = [];
       const reader: ImageReader = {
         onStart: async () => {},
         getRowBuffer: async (y: number) => {
@@ -34,6 +37,7 @@ describe("readUncompressedImage", () => {
           return row;
         },
         finishRow: async () => {},
+        progress: testProgress(progressLog),
       };
       await stream.seek(fr.offset);
       await readUncompressedImage({ stream, reader, info, isUpDown });
@@ -127,6 +131,13 @@ describe("readUncompressedImage", () => {
         0,
         0,
       ]);
+      const maxValue = info.size.y;
+      expect(progressLog[0]).toEqual({ step: "read", value: 0, maxValue });
+      expect(progressLog.at(-1)).toEqual({
+        step: "read",
+        value: maxValue,
+        maxValue,
+      });
     });
   });
   it("RGBA 32 down to up", async () => {

@@ -4,6 +4,7 @@ import { BitmapFormat, FrameType } from "../format";
 import { TargetImageDescriptor } from "./TargetImageDescriptor";
 import { loadImageFromFrame } from "./loadImageFromFrame";
 import { ConverterProps } from "../Converter/ConverterProps";
+import { OnProgressInfo } from "../transfer/ProgressInfo";
 
 export const loadImageFromFormat = (
   format: BitmapFormat,
@@ -11,6 +12,7 @@ export const loadImageFromFormat = (
     frameDef?: number | FrameType;
     target?: TargetImageDescriptor;
     converterProps?: ConverterProps;
+    progress?: OnProgressInfo;
   }
 ): Promise<Surface> => {
   const { frameDef = 0, ...restOptions } = options ?? {};

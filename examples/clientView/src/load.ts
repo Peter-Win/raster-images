@@ -1,8 +1,10 @@
 import { globalState } from "./globalState";
 import { BufferStream } from "raster-images/stream";
-import {createFormatByName} from "raster-images/format";
+import { createFormatByName } from "raster-images/format";
 import { createImageReader } from "raster-images/transfer/createImageReader";
 import { SurfaceImageData } from "raster-images/Surface/SurfaceImageData";
+import { delayInterrupter } from "raster-images/interrupter/delayInterrupter";
+import { ProgressInfo } from "raster-images/transfer/ProgressInfo";
 
 export const load = (file: File) => {
     globalState.formatStatus = "loading";
@@ -49,7 +51,18 @@ export const loadFrame = async (frameIndex: number) => {
         const {x: width, y:height} = frame.info.size;
         const imageData = canvasCtx!.createImageData(width, height);
         const surface = new SurfaceImageData(imageData);
-        const reader = createImageReader(frame.info.fmt, surface);
+        // Загрузка графики - тяжелая операция. Она может нарушить нормальную работу браузера.
+        // Существует два способа решения этой проблемы.
+        // 1. Рекомендуется использовать WebWorker. Но это усложнит структуру приложения.
+        // 2. Вариант попроще - использовать прерыватель. Это несколько увеличивает время загрузки. Зато очень просто в реализации.
+        const progress = delayInterrupter(100, 10, async (info: ProgressInfo) => {
+            canvasCtx!.putImageData(imageData, 0, 0);
+            const lp = document.getElementById("loadProgress");
+            if (lp) {
+                lp.innerText = `${info.value} / ${info.maxValue}`;
+            }
+        });
+        const reader = createImageReader(frame.info.fmt, surface, {progress});
         await frame.read(reader);
         if (frame.info.fmt.alpha) {
             for (let j=0; j<height; j++) {

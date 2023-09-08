@@ -12,6 +12,8 @@ import { SurfaceReader } from "../../../../transfer/SurfaceReader";
 import { SurfaceStd } from "../../../../Surface";
 import { Palette } from "../../../../Palette/Palette";
 import { driverBmp } from "../../driverBmp";
+import { testProgress } from "../../../../tests/testProgress";
+import { ProgressInfo } from "../../../../transfer/ProgressInfo";
 
 const needPalette: Palette = [
   [0, 0, 0, 0], // 0 black
@@ -59,13 +61,15 @@ const load = async (stream: RAStream) => {
     }),
   };
   const surface = new SurfaceStd(info);
-  const reader = new SurfaceReader(surface);
+  const progressLog: ProgressInfo[] = [];
+  const reader = new SurfaceReader(surface, testProgress(progressLog));
   return {
     srcData,
     reader,
     surface,
     info,
     isUpDown: bi.biHeight < 0,
+    progressLog,
   };
 };
 
@@ -87,6 +91,7 @@ describe("readRleImage", () => {
       for (let i = 0; i < surface.height; i++) {
         expect(dump8(surface.getRowBuffer(i))).toBe(needImage[i]);
       }
+      expect(params.progressLog.length).toBe(surface.height + 1);
     });
   });
   it("RLE8 Frame", async () => {
@@ -142,11 +147,19 @@ describe("readRleImage", () => {
       expect(frame.size).toBe(38);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
+      const progressLog: ProgressInfo[] = [];
+      const reader = new SurfaceReader(surface, testProgress(progressLog));
       await frame.read(reader);
       for (let i = 0; i < surface.height; i++) {
         expect(dump4(surface.getRowBuffer(i))).toBe(needImage[i]);
       }
+      const maxValue = surface.height;
+      expect(progressLog[0]).toEqual({ step: "read", value: 0, maxValue });
+      expect(progressLog.at(-1)).toEqual({
+        step: "read",
+        value: maxValue,
+        maxValue,
+      });
     });
   });
 });

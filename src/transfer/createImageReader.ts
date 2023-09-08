@@ -10,12 +10,14 @@ import { ErrorRI } from "../utils";
 import { ImageReader } from "./ImageReader";
 import { SurfaceReader } from "./SurfaceReader";
 import { Converter } from "../Converter";
+import { OnProgressInfo } from "./ProgressInfo";
 
 export const createImageReader = (
   srcPixFmt: PixelFormat,
   dstImage: Surface,
   options?: {
     converterProps?: ConverterProps;
+    progress?: OnProgressInfo;
   }
 ): ImageReader => {
   const dstPixFmt = dstImage.info.fmt;
@@ -37,7 +39,7 @@ export const createImageReader = (
   }
   return converters.reduceRight(
     (prevReader: ImageReader, converter: Converter) =>
-      converter.createReader(prevReader),
+      converter.createReader(prevReader, options?.progress),
     new SurfaceReader(dstImage)
   );
 };

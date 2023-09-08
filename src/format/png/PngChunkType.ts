@@ -1,0 +1,21 @@
+// https://www.w3.org/TR/2003/REC-PNG-20031110/#5ChunkOrdering
+export type PngChunkType =
+  | "IHDR"
+  | "PLTE"
+  | "IDAT"
+  | "IEND"
+  | "cHRM"
+  | "gAMA"
+  | "iCCP"
+  | "sBIT"
+  | "sRGB"
+  | "bKGD"
+  | "hIST"
+  | "tRNS"
+  | "pHYs"
+  | "sPLT"
+  | "tIME"
+  | "iTXt"
+  | "tEXt"
+  | "zTXt"
+  | "eXIf"; // http://ftp-osl.osuosl.org/pub/libpng/documents/pngext-1.5.0.html#C.eXIf

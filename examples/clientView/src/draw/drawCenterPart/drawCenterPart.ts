@@ -34,7 +34,7 @@ const drawImage = (parent: HTMLElement) => {
         switch (frameStatus) {
             case "loading":
                 parent.innerHTML = "";
-                loaderBox = newDomItem("div", {parent, text: `Loading...`});
+                loaderBox = newDomItem("div", {parent, html: `Loading <span id="loadProgress"></span>...`});
                 canvas = newDomItem("canvas", {parent}) as HTMLCanvasElement;
                 canvas.width = width;
                 canvas.height = height;
