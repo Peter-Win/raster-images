@@ -3,6 +3,7 @@ import { calcPitch } from "../ImageInfo/calcPitch";
 import { FnCvt } from "../cvt";
 import { ImageReader } from "./ImageReader";
 import { ImageInfo } from "../ImageInfo";
+import { OnProgressInfo } from "./ProgressInfo";
 
 export class RowProxyReader implements ImageReader {
   rowBuffer: Uint8Array;
@@ -12,7 +13,8 @@ export class RowProxyReader implements ImageReader {
   constructor(
     protected cvt: FnCvt,
     protected dstPixFmt: PixelFormat,
-    protected nextReader: ImageReader
+    protected nextReader: ImageReader,
+    public readonly progress?: OnProgressInfo
   ) {
     this.rowBuffer = new Uint8Array();
   }

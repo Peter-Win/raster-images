@@ -3,6 +3,7 @@ import { CvtDescriptor, FnCvt } from "../cvt";
 import { Converter } from "./Converter";
 import { PixelFormat } from "../PixelFormat";
 import { RowProxyReader } from "../transfer/RowProxyReader";
+import { OnProgressInfo } from "../transfer/ProgressInfo";
 
 export class CommonRowConverter implements Converter {
   constructor(
@@ -12,11 +13,15 @@ export class CommonRowConverter implements Converter {
     readonly cvt: FnCvt
   ) {}
 
-  createReader(nextReader: ImageReader): ImageReader {
+  createReader(
+    nextReader: ImageReader,
+    progress?: OnProgressInfo
+  ): ImageReader {
     return new RowProxyReader(
       this.cvt,
       new PixelFormat(this.dstSign),
-      nextReader
+      nextReader,
+      progress
     );
   }
 }

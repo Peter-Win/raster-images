@@ -4,6 +4,7 @@ import { RAStream } from "../stream";
 import { TargetImageDescriptor } from "./TargetImageDescriptor";
 import { loadImageFromFormat } from "./loadImageFromFormat";
 import { ConverterProps } from "../Converter/ConverterProps";
+import { OnProgressInfo } from "../transfer/ProgressInfo";
 
 export const loadImageByName = async (
   stream: RAStream,
@@ -11,6 +12,7 @@ export const loadImageByName = async (
     frameDef?: number | FrameType; // =0
     target?: TargetImageDescriptor;
     converterProps?: ConverterProps;
+    progress?: OnProgressInfo;
   }
 ): Promise<Surface> => {
   const format = await createFormatByName(stream);

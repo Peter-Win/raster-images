@@ -1,12 +1,13 @@
 type ParamsNewDomItem = {
     text?: string;
+    html?: string;
     cls?: string | string[];
     parent?: HTMLElement;
 } | Record<string, string>;
 
 export const newDomItem = (tagName: keyof HTMLElementTagNameMap, params: ParamsNewDomItem): HTMLElement => {
     const item: HTMLElement = document.createElement(tagName);
-    const {parent, text, cls, ...attrs} = params;
+    const {parent, text, html, cls, ...attrs} = params;
     Object.entries(attrs).forEach(([key, value]) => {
         item.setAttribute(key, value);
     })
@@ -16,6 +17,8 @@ export const newDomItem = (tagName: keyof HTMLElementTagNameMap, params: ParamsN
     }
     if (text) {
         item.innerText = text;
+    } else if (html) {
+        item.innerHTML = html;
     }
     if (parent instanceof Node) {
         parent.appendChild(item);

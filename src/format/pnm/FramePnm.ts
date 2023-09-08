@@ -15,6 +15,7 @@ import {
   pnmRowReaderGray,
   pnmRowReaderRgb,
 } from "./PnmRowReader";
+import { readLoop } from "../../transfer/readLoop";
 
 export class FramePnm implements BitmapFrame {
   static async create(format: BitmapFormat): Promise<FramePnm> {
@@ -92,18 +93,15 @@ export class FramePnm implements BitmapFrame {
     return streamLock(stream, async () => {
       const { info, offset, rowReader } = this;
       await stream.seek(offset);
-      await reader.onStart(info);
-      const { x: width, y: height } = info.size;
+      const width = info.size.x;
 
-      for (let y = 0; y < height; y++) {
-        const row = await reader.getRowBuffer(y);
-        await rowReader(width, row);
-        await reader.finishRow(y);
-      }
-
-      if (reader.onFinish) {
-        await reader.onFinish();
-      }
+      await readLoop({
+        info,
+        reader,
+        onRow: async (row: Uint8Array) => {
+          await rowReader(width, row);
+        },
+      });
     });
   }
 }

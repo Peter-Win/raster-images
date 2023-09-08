@@ -197,6 +197,7 @@ export class FrameBmp implements BitmapFrame {
       const { info, isUpDown } = this;
       await stream.seek(this.offset);
       await reader.onStart(info);
+      const params = { reader, info, isUpDown };
       if (
         this.compression === BmpCompression.RLE8 ||
         this.compression === BmpCompression.RLE4
@@ -204,16 +205,12 @@ export class FrameBmp implements BitmapFrame {
         const srcData = await stream.read(this.size);
         await readRleImage({
           srcData,
-          reader,
-          info,
-          isUpDown,
+          ...params,
         });
       } else {
         await readUncompressedImage({
           stream,
-          reader,
-          info,
-          isUpDown,
+          ...params,
         });
       }
       if (reader.onFinish) {

@@ -23,6 +23,7 @@ import { SurfaceStd } from "../../Surface";
 import { copyWordsFromBigEndian } from "../../cvt/copy/copyWordsFromBigEndian";
 import { PngRowFiltrator } from "./PngRowFiltrator";
 import { readPngInternationalText, readPngText } from "./chunks/PngText";
+import { ProgressInfo } from "../../transfer/ProgressInfo";
 
 export class FramePng implements BitmapFrame {
   readonly type: FrameType = "image";
@@ -143,7 +144,12 @@ export class FramePng implements BitmapFrame {
       const filtrator = new PngRowFiltrator(pixelSize, srcPitch);
 
       if (!info.vars?.interlaced) {
+        const pi: ProgressInfo = { step: "read", value: 0, maxValue: height };
         for (let y = 0; y < height; y++) {
+          if (reader.progress) {
+            pi.value = y;
+            await reader.progress(pi);
+          }
           const row = await reader.getRowBuffer(y);
 
           const filterType = unpkData[unpkPos++]!;
@@ -168,8 +174,13 @@ export class FramePng implements BitmapFrame {
           await reader.finishRow(y);
           unpkPos += srcPitch;
         }
+        if (reader.progress) {
+          pi.value = height;
+          await reader.progress(pi);
+        }
       } else {
         const tmpSurface = new SurfaceStd(info);
+        // TODO: пока без прогресса
         for (let pass = 0; pass < 7; pass++) {
           const dx = colIncrement[pass]!;
           const pixCnt = Math.floor((width - startingCol[pass]! + dx - 1) / dx);

@@ -12,14 +12,12 @@ import {
 import { calcGifTableSize } from "./calcGifTableSize";
 import { ErrorRI } from "../../utils";
 import { readByte, streamLock } from "../../stream";
-import {
-  FnRowOrder,
-  rowOrderInterlaced,
-  rowOrderNonInterlaced,
-} from "./rowOrder";
+import { FnRowOrder, rowOrderForward } from "../../transfer/rowOrder";
+import { gifRowOrderInterlaced } from "./gifRowOrderInterlaced";
 import { skipGifData } from "./skipGifData";
 import { LzwUnpacker } from "./lzw/LzwUnpacker";
 import { GraphicControlExtension } from "./GraphicControlExtension";
+import { readLoop } from "../../transfer/readLoop";
 
 export class FrameGif implements BitmapFrame {
   static async create(
@@ -91,25 +89,23 @@ export class FrameGif implements BitmapFrame {
 
   async read(reader: ImageReader): Promise<void> {
     await streamLock(this.format.stream, async (stream) => {
-      const { width, height } = this.descriptor;
+      const { width } = this.descriptor;
       const { interleased } = this;
       const rowOrder: FnRowOrder = interleased
-        ? rowOrderInterlaced
-        : rowOrderNonInterlaced;
-      const gen = rowOrder(height);
+        ? gifRowOrderInterlaced
+        : rowOrderForward;
       await reader.onStart(this.info);
       await stream.seek(this.offset);
       const startCodeSize = await readByte(stream);
       const unpacker = new LzwUnpacker(stream, startCodeSize);
-      for (let i = 0; i < height; i++) {
-        const y = gen.next().value as number;
-        const row = await reader.getRowBuffer(y);
-        await unpacker.readLine(row, width);
-        await reader.finishRow(y);
-      }
-      if (reader.onFinish) {
-        await reader.onFinish();
-      }
+      await readLoop({
+        info: this.info,
+        rowOrder,
+        reader,
+        async onRow(row: Uint8Array) {
+          await unpacker.readLine(row, width);
+        },
+      });
     });
   }
 }

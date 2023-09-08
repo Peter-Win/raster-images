@@ -23,6 +23,7 @@ body {
 .image-frame {
     flex: 1;
     background: #CCC;
+    overflow: auto;
 }
 
 .left-side {
