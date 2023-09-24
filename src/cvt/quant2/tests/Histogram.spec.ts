@@ -173,8 +173,7 @@ describe("Histogram", () => {
       [0x7f, 0xff, 0, 255],
     ];
     h.makePalette(pal);
-    const evens = new Uint16Array(width + 2);
-    const odds = new Uint16Array(width + 2);
+    const [evens, odds] = Histogram.createEvenAndOddRowErrs(width);
     const dst0d = new Uint8Array(width);
     const dst1d = new Uint8Array(width);
     const dst0n = new Uint8Array(width);

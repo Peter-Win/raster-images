@@ -118,15 +118,31 @@ export class Histogram {
     }
   }
 
-  // conversion with Floyd-Steinberg dithering
+  static createEvenAndOddRowErrs(width: number): [Int16Array, Int16Array] {
+    return [new Int16Array((width + 2) * 3), new Int16Array((width + 2) * 3)];
+  }
+
+  /**
+   * conversion with Floyd-Steinberg dithering
+   * можно было бы использовать createFloydSteinberg, т.к. используется тот же самый алгоритм
+   * но такой вариант будет работать быстрее, т.к. он оптимизирован под конкретный случай.
+   * @param count in pixels
+   * @param srcBuf length = count * 3
+   * @param srcByteOffset
+   * @param dstBuf lenfth = count
+   * @param dstByteOffset
+   * @param evenrowerrs length = (count+2)*3
+   * @param oddrowerrs
+   * @param onOddRow false for first row, true for second, etc...
+   */
   cvtDither(
     count: number,
     srcBuf: ArrayBuffer,
     srcByteOffset: number,
     dstBuf: ArrayBuffer,
     dstByteOffset: number,
-    evenrowerrs: Uint16Array,
-    oddrowerrs: Uint16Array,
+    evenrowerrs: Int16Array,
+    oddrowerrs: Int16Array,
     onOddRow: boolean
   ) {
     // This version performs Floyd-Steinberg dithering
