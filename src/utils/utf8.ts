@@ -18,3 +18,18 @@ export const bytesToUtf8 = (bytes: Uint8Array): string => {
   }
   return decoder.decode(bytes);
 };
+
+let encoder: TextEncoder;
+
+export const utf8ToBytes = (text: string): Uint8Array => {
+  if (!encoder) {
+    if (isNode()) {
+      // @ts-ignore
+      const util = require("util");
+      encoder = new util.TextEncoder();
+    } else {
+      encoder = new TextEncoder();
+    }
+  }
+  return encoder.encode(text);
+};

@@ -31,7 +31,8 @@ import {
 export const saveBmp = async (format: FormatForSave, stream: RAStream) => {
   const { frames } = format;
   if (frames.length !== 1) {
-    throw new ErrorRI("Can't write BMP file with <n> frames", {
+    throw new ErrorRI("Can't write <fmt> file with <n> frames", {
+      fmt: "BMP",
       n: frames.length,
     });
   }
