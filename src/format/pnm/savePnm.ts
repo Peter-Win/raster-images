@@ -19,7 +19,7 @@ const detectMapFormat = (fmt: PixelFormat): PnmMapFormat => {
   if (fmt.colorModel === "Gray") {
     return fmt.depth === 1 ? "bitmap" : "graymap";
   }
-  return "bitmap";
+  return "pixmap";
 };
 
 /**

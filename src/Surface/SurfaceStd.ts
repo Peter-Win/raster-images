@@ -80,7 +80,7 @@ export class SurfaceStd extends Surface {
   }
 
   fill(unsignedByte: number) {
-    const buf = new Uint8Array(this.data);
+    const buf = new Uint8Array(this.data.buffer, this.data.byteOffset);
     buf.fill(unsignedByte);
   }
 }
