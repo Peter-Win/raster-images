@@ -1,7 +1,7 @@
 import { Palette } from "../../Palette";
 import { CvtDescriptorIndexed } from "./CvtDescriptorIndexed";
 
-export const makePaletteCache32 = (pal: Palette): Uint8Array => {
+export const makePaletteCache32 = (pal: Readonly<Palette>): Uint8Array => {
   const buf = new Uint8Array(pal.length << 2);
   let srcPos = 0;
   let dstPos = 0;
@@ -16,7 +16,7 @@ export const makePaletteCache32 = (pal: Palette): Uint8Array => {
   return buf;
 };
 
-export const makePaletteCacheRGBA = (pal: Palette): Uint8Array => {
+export const makePaletteCacheRGBA = (pal: Readonly<Palette>): Uint8Array => {
   const buf = new Uint8Array(pal.length << 2);
   let srcPos = 0;
   let dstPos = 0;

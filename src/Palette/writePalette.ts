@@ -3,7 +3,7 @@ import { Palette, PaletteOptions } from "./Palette";
 import { calcPaletteSize } from "./calcPaletteSize";
 
 export const writePaletteToBuf = (
-  palette: Palette,
+  palette: Readonly<Palette>,
   buf: Uint8Array,
   options: PaletteOptions
 ) => {
@@ -21,7 +21,7 @@ export const writePaletteToBuf = (
 };
 
 export const writePalette = async (
-  palette: Palette,
+  palette: Readonly<Palette>,
   stream: RAStream,
   options: PaletteOptions
 ) => {

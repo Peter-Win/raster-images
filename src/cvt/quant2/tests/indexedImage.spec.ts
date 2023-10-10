@@ -6,6 +6,7 @@ import { formatForSaveFromSurface } from "../../../format/FormatForSave";
 import { saveBmp } from "../../../format/bmp/saveBmp";
 import { streamLock } from "../../../stream";
 import { getTestFile } from "../../../tests/getTestFile";
+import { createFloydSteinberg8 } from "../../dithering/FloydSteinberg";
 import { Histogram } from "../Histogram";
 
 const makeGradient = (
@@ -84,7 +85,7 @@ describe("indexedImage", () => {
         colorModel: "Indexed",
         palette: h.pal,
       });
-      const [even, odd] = Histogram.createEvenAndOddRowErrs(width);
+      const ctx = createFloydSteinberg8(width, 3);
       for (let y = 0; y < height; y++) {
         const src = img0.getRowBuffer(y);
         const dst = img.getRowBuffer(y);
@@ -94,9 +95,7 @@ describe("indexedImage", () => {
           src.byteOffset,
           dst.buffer,
           dst.byteOffset,
-          even,
-          odd,
-          !!(y & 1)
+          ctx
         );
       }
       const fmt = formatForSaveFromSurface(img);

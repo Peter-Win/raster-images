@@ -9,7 +9,8 @@ import {
   createHistArray,
 } from "./HistArray";
 import { medianCut } from "./histUtils";
-import { rangeLimit } from "../../utils";
+import { ErrorRI, rangeLimit } from "../../utils";
+import { DitherCtx } from "../dithering/DitherCtx";
 
 const MaxNumColors = 256;
 const Bits = HistParams.bits; // bits of precision
@@ -37,6 +38,30 @@ export class Histogram {
     // increment, check for overflow and undo increment if so.
     // We assume unsigned representation here!
     if (++this.hist[histPos] === 0) this.hist[histPos]--;
+  }
+
+  addRowBGR(width: number, row: Uint8Array) {
+    let pos = 0;
+    const end = width * 3;
+    while (pos < end) {
+      const b = row[pos++]!;
+      const g = row[pos++]!;
+      const r = row[pos++]!;
+      this.addColor(b, g, r);
+    }
+  }
+
+  async addImageBGR(imgBGR: Surface) {
+    const { signature } = imgBGR.info.fmt;
+    if (signature !== "B8G8R8") {
+      throw new ErrorRI("Invalid pixel format <fmt> in addImageBGR", {
+        fmt: signature,
+      });
+    }
+    const { width, height } = imgBGR;
+    for (let y = 0; y < height; y++) {
+      this.addRowBGR(width, imgBGR.getRowBuffer(y));
+    }
   }
 
   // eslint-disable-next-line  @typescript-eslint/no-unused-vars
@@ -118,10 +143,6 @@ export class Histogram {
     }
   }
 
-  static createEvenAndOddRowErrs(width: number): [Int16Array, Int16Array] {
-    return [new Int16Array((width + 2) * 3), new Int16Array((width + 2) * 3)];
-  }
-
   /**
    * conversion with Floyd-Steinberg dithering
    * можно было бы использовать createFloydSteinberg, т.к. используется тот же самый алгоритм
@@ -131,11 +152,53 @@ export class Histogram {
    * @param srcByteOffset
    * @param dstBuf lenfth = count
    * @param dstByteOffset
-   * @param evenrowerrs length = (count+2)*3
-   * @param oddrowerrs
-   * @param onOddRow false for first row, true for second, etc...
+   * @param ctx - the result of createFloydSteinberg8(width, 3)
    */
   cvtDither(
+    count: number,
+    srcBuf: ArrayBuffer,
+    srcByteOffset: number,
+    dstBuf: ArrayBuffer,
+    dstByteOffset: number,
+    ctx: DitherCtx
+  ) {
+    // This version performs Floyd-Steinberg dithering
+    // Convert data to colormap indexes, which we save in output_workspace
+    const src = new Uint8Array(srcBuf, srcByteOffset);
+    const dst = new Uint8Array(dstBuf, dstByteOffset);
+    const { hist } = this;
+    ctx.startLine();
+    for (let col = count; col > 0; col--) {
+      const x = ctx.getX();
+      const srcPos = x * 3;
+      const c0 = ctx.getNew(0, src[srcPos]!);
+      const c1 = ctx.getNew(1, src[srcPos + 1]!);
+      const c2 = ctx.getNew(2, src[srcPos + 2]!);
+      // Index into the cache with adjusted pixel value
+      const cachep = calcHistOffset(c0, c1, c2);
+      // If we have not seen this color before, find nearest colormap entry and update the cache
+      if (hist[cachep] === 0) {
+        this.fillInverseCmap(c0 >> Shift, c1 >> Shift, c2 >> Shift);
+      }
+      // Now emit the colormap index for this cell
+      const pixcode = hist[cachep]! - 1;
+      dst[x] = pixcode;
+      // Compute representation error for this pixel
+      const cc = this.pal[pixcode]!;
+      if (!cc) {
+        throw new ErrorRI("Invalid pallette index <n>. length=<L>", {
+          n: pixcode,
+          L: this.pal.length,
+        });
+      }
+      ctx.setError(0, c0 - cc[0]);
+      ctx.setError(1, c1 - cc[1]);
+      ctx.setError(2, c2 - cc[2]);
+      ctx.nextPixel();
+    }
+  }
+
+  cvtDitherOld(
     count: number,
     srcBuf: ArrayBuffer,
     srcByteOffset: number,

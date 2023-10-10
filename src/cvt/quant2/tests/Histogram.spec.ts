@@ -1,5 +1,6 @@
 import { createFreePalette, paletteEGA, iEGA, Palette } from "../../../Palette";
 import { dump, dumpA } from "../../../utils";
+import { createFloydSteinberg8 } from "../../dithering/FloydSteinberg";
 import { HistParams, calcHistOffset } from "../HistArray";
 import { Histogram } from "../Histogram";
 
@@ -173,7 +174,7 @@ describe("Histogram", () => {
       [0x7f, 0xff, 0, 255],
     ];
     h.makePalette(pal);
-    const [evens, odds] = Histogram.createEvenAndOddRowErrs(width);
+    const ctx = createFloydSteinberg8(width, 3);
     const dst0d = new Uint8Array(width);
     const dst1d = new Uint8Array(width);
     const dst0n = new Uint8Array(width);
@@ -186,9 +187,7 @@ describe("Histogram", () => {
       row0.byteOffset,
       dst0d.buffer,
       dst0d.byteOffset,
-      evens,
-      odds,
-      false
+      ctx
     );
     h.cvtDither(
       width,
@@ -196,15 +195,13 @@ describe("Histogram", () => {
       row1.byteOffset,
       dst1d.buffer,
       dst1d.byteOffset,
-      evens,
-      odds,
-      true
+      ctx
     );
-    // TODO: Пока не очень ясно, почему 5 нулей и 3 четверки. Логичнее было бы всех по 4.
+    // 5 нулей и 3 четверки. Логичнее было бы всех по 4. Но такова особенность алгоритма.
+    // Нужно несколько ошибок, чтобы начал меняться цвет.
     expect(dump(dst0n)).toBe(
       "00 00 00 00 00 01 01 01 01 01 01 01 01 02 02 02 02 02 02 02 02 03 03 03 03 03 03 03 03 04 04 04"
     );
-    // TODO: здесь тоже
     expect(dump(dst1n)).toBe(
       "00 00 00 00 00 05 05 05 05 05 05 05 05 06 06 06 06 06 06 06 06 07 07 07 07 07 07 07 07 08 08 08"
     );

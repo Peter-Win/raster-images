@@ -1,4 +1,4 @@
-import { Converter } from "../Converter";
+import { OldConverter } from "../OldConverter";
 import { ConverterProps } from "../ConverterProps";
 import { calcConverterWeight } from "./calcConverterWeight";
 import { ConverterGraph } from "./ConverterGraph";
@@ -12,7 +12,7 @@ const createNode = (sign: string): ConverterNode => ({
 
 export const buildConverterGraph = (
   props: ConverterProps,
-  converters: Converter[]
+  converters: OldConverter[]
 ): ConverterGraph => {
   const graph: ConverterGraph = {};
 

@@ -1,7 +1,7 @@
-import { Converter } from "../Converter";
+import { OldConverter } from "../OldConverter";
 
 export interface ConverterEdge {
-  converter: Converter;
+  converter: OldConverter;
 }
 
 export interface ConverterNode {

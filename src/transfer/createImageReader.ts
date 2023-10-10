@@ -9,7 +9,7 @@ import { Surface } from "../Surface";
 import { ErrorRI } from "../utils";
 import { ImageReader } from "./ImageReader";
 import { SurfaceReader } from "./SurfaceReader";
-import { Converter } from "../Converter";
+import { OldConverter } from "../Converter";
 import { OnProgressInfo } from "./ProgressInfo";
 
 export const createImageReader = (
@@ -38,7 +38,7 @@ export const createImageReader = (
     });
   }
   return converters.reduceRight(
-    (prevReader: ImageReader, converter: Converter) =>
+    (prevReader: ImageReader, converter: OldConverter) =>
       converter.createReader(prevReader, options?.progress),
     new SurfaceReader(dstImage)
   );

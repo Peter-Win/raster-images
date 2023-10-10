@@ -70,11 +70,11 @@ export class PixelFormat {
     return this.def.colorModel;
   }
 
-  get palette(): Palette | undefined {
+  get palette(): Readonly<Palette> | undefined {
     return this.def.palette;
   }
 
-  setPalette(pal?: Palette) {
+  setPalette(pal?: Readonly<Palette>) {
     this.def.palette = pal;
   }
 

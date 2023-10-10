@@ -1,6 +1,6 @@
 import { createFloydSteinberg8 } from "../cvt/dithering/FloydSteinberg";
 import { CvtDescriptorDither } from "../cvt/CvtDescriptorDither";
-import { Converter } from "./Converter";
+import { OldConverter } from "./OldConverter";
 import { ImageReader } from "../transfer/ImageReader";
 import { RowProxyReader } from "../transfer/RowProxyReader";
 import { PixelFormat } from "../PixelFormat";
@@ -41,7 +41,7 @@ class DitherRowProxyReader extends RowProxyReader {
   }
 }
 
-export class DitherRowConverter implements Converter {
+export class DitherRowConverter implements OldConverter {
   constructor(
     readonly srcSign: string,
     readonly dstSign: string,

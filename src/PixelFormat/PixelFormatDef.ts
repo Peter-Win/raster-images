@@ -5,6 +5,6 @@ import { Palette } from "../Palette/Palette";
 export interface PixelFormatDef {
   colorModel: ColorModel;
   depth: PixelDepth;
-  palette?: Palette;
+  palette?: Readonly<Palette>;
   alpha?: boolean;
 }

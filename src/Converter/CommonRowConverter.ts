@@ -1,11 +1,11 @@
 import { ImageReader } from "../transfer/ImageReader";
 import { CvtDescriptor, FnCvt } from "../cvt";
-import { Converter } from "./Converter";
+import { OldConverter } from "./OldConverter";
 import { PixelFormat } from "../PixelFormat";
 import { RowProxyReader } from "../transfer/RowProxyReader";
 import { OnProgressInfo } from "../transfer/ProgressInfo";
 
-export class CommonRowConverter implements Converter {
+export class CommonRowConverter implements OldConverter {
   constructor(
     readonly srcSign: string,
     readonly dstSign: string,

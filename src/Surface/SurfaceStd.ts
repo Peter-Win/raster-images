@@ -28,7 +28,7 @@ export class SurfaceStd extends Surface {
     params?: {
       colorModel?: ColorModel;
       alpha?: boolean;
-      palette?: Palette;
+      palette?: Readonly<Palette>;
       vars?: Variables;
       data?: Uint8Array;
     }
@@ -55,7 +55,7 @@ export class SurfaceStd extends Surface {
     params?: {
       colorModel?: ColorModel;
       alpha?: boolean;
-      palette?: Palette;
+      palette?: Readonly<Palette>;
       vars?: Variables;
       data?: Uint8Array;
     }

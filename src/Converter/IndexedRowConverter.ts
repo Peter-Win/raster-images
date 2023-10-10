@@ -5,7 +5,7 @@ import { ImageReader } from "../transfer/ImageReader";
 import { RowProxyReader } from "../transfer/RowProxyReader";
 import { FnCvt } from "../cvt";
 import { PixelFormat } from "../PixelFormat";
-import { Converter } from "./Converter";
+import { OldConverter } from "./OldConverter";
 
 /* eslint "max-classes-per-file": "off" */
 
@@ -40,7 +40,7 @@ class IndexedRowProxyReader extends RowProxyReader {
   }
 }
 
-export class IndexedRowConverter implements Converter {
+export class IndexedRowConverter implements OldConverter {
   constructor(
     readonly srcSign: string,
     readonly dstSign: string,

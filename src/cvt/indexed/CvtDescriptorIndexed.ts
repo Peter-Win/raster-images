@@ -10,7 +10,7 @@ export type FnCvtIndexed = (
   paletteCache: Uint8Array
 ) => void;
 
-export type FnMakePaletteCache = (pal: Palette) => Uint8Array;
+export type FnMakePaletteCache = (pal: Readonly<Palette>) => Uint8Array;
 
 export interface CvtDescriptorIndexed extends CvtDescriptor {
   cvt: FnCvtIndexed;

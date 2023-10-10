@@ -1,5 +1,5 @@
 import { CvtGray8to1Dither, CvtGray8to1Fast } from "../cvt/gray/CvtGray8to1";
-import { Converter } from "./Converter";
+import { OldConverter } from "./OldConverter";
 import { SimpleRowConverter } from "./SimpleRowConverter";
 import { Cvt15to24Fast, Cvt15to24Quality } from "../cvt/rgb/Cvt15to24";
 import { Cvt24to32, Cvt24to32AndSwapRB } from "../cvt/rgb/Cvt24to32";
@@ -28,7 +28,7 @@ import { DitherRowConverter } from "./DitherRowConverter";
 import { Cvt24to15Dither, Cvt24to15Fast } from "../cvt/rgb/Cvt24to15";
 import { CvtBGRtoG8, CvtRGBtoG8 } from "../cvt/rgb/Cvt24toG8";
 
-export const allConverters: Converter[] = [
+export const allConverters: OldConverter[] = [
   // ------------------
   // RGB -> RGB
   //-------------------

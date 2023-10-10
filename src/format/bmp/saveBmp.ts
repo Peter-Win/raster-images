@@ -37,7 +37,12 @@ export const saveBmp = async (format: FormatForSave, stream: RAStream) => {
     });
   }
   const frame = frames[0]!;
-  const { info } = frame;
+  const surface: Surface = await frame.getImage();
+  return saveBmpImage(surface, stream);
+};
+
+export const saveBmpImage = async (surface: Surface, stream: RAStream) => {
+  const { info } = surface;
   const { size, vars, fmt: pixFmt } = info;
   const { colorModel, depth, palette } = pixFmt;
 
@@ -139,7 +144,6 @@ export const saveBmp = async (format: FormatForSave, stream: RAStream) => {
     const bmpLineSize = calcPitch(size.x, depth, 4);
     const delta = bmpLineSize - lineSize;
     const deltaBuf = delta ? new Uint8Array(delta) : undefined;
-    const surface: Surface = await frame.getImage();
     await writeImage(surface, pixFmt, async (writer: ImageWriter) => {
       const [yBegin, yEnd, yStep] = upDown
         ? [0, size.y, 1]

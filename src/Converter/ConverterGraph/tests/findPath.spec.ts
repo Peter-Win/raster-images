@@ -1,4 +1,4 @@
-import { Converter } from "../../Converter";
+import { OldConverter as Converter } from "../../OldConverter";
 import { CvtGray8toRGB8 } from "../../../cvt/gray/CvtGray8toRGB8";
 import { Cvt24to32AndSwapRB } from "../../../cvt/rgb/Cvt24to32";
 import { SimpleRowConverter } from "../../SimpleRowConverter";

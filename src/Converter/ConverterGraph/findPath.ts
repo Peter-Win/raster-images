@@ -1,4 +1,4 @@
-import { Converter } from "../Converter";
+import { OldConverter } from "../OldConverter";
 import { ConverterGraph } from "./ConverterGraph";
 import { ConverterNode } from "./ConverterNode";
 
@@ -6,9 +6,9 @@ export const findPath = (
   srcSign: string,
   dstSign: string,
   graph: ConverterGraph
-): Converter[] => {
+): OldConverter[] => {
   const first = graph[srcSign];
-  const path: Converter[] = [];
+  const path: OldConverter[] = [];
   if (first) {
     Object.keys(graph).forEach((key) => {
       const node = graph[key];
