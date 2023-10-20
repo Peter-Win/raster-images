@@ -1,6 +1,6 @@
+import { surfaceConverter } from "../../../Converter/surfaceConverter";
 import { SurfaceStd } from "../../../Surface";
 import { streamFromGallery } from "../../../tests/streamFromGallery";
-import { SurfaceReader } from "../../../transfer/SurfaceReader";
 import { FormatBmp } from "../FormatBmp";
 
 describe("load Bmp", () => {
@@ -22,8 +22,7 @@ describe("load Bmp", () => {
     expect(frame.info.vars?.ext).toBe("bmp");
 
     const surface = new SurfaceStd(frame.info);
-    const reader = new SurfaceReader(surface);
-    await frame.read(reader);
+    await frame.read(surfaceConverter(surface));
     const row0 = surface.getRowBuffer(0);
     expect(palette[row0[0]!]!.slice(0, 3)).toEqual([76, 140, 156]);
     const rowL = surface.getRowBuffer(surface.height - 1);
@@ -45,8 +44,7 @@ describe("load Bmp", () => {
       [0, 0xe4, 0xff, 0xff],
     ]);
     const surface = new SurfaceStd(frame.info);
-    const reader = new SurfaceReader(surface);
-    await frame.read(reader);
+    await frame.read(surfaceConverter(surface));
 
     const { width } = surface;
     const getPix = (buf: Uint8Array, x: number): number => {
@@ -79,8 +77,7 @@ describe("load Bmp", () => {
     expect(frame.info.size).toEqual({ x: 333, y: 127 });
 
     const surface = new SurfaceStd(frame.info);
-    const reader = new SurfaceReader(surface);
-    await frame.read(reader);
+    await frame.read(surfaceConverter(surface));
 
     const row1 = surface.getRowBuffer(1);
     expect(Array.from(row1).slice(4, 8)).toEqual([0, 216, 118, 111]);

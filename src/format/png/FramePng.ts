@@ -1,8 +1,8 @@
 import pako from "pako";
+import { Converter, readImage } from "../../Converter";
 import { BitmapFormat, BitmapFrame, FrameType } from "../BitmapFormat";
 import { isEndOfStream, streamLock } from "../../stream";
 import { ImageInfo } from "../../ImageInfo";
-import { ImageReader } from "../../transfer/ImageReader";
 import {
   PngChunkRef,
   readPngChunkDataOnly,
@@ -14,16 +14,16 @@ import { PngChunkType } from "./PngChunkType";
 import { readPngHeader } from "./chunks/PngHeader";
 import { readPaletteFromBuf } from "../../Palette/readPalette";
 import { PixelFormat } from "../../PixelFormat";
-import { PixelFormatDef } from "../../PixelFormat/PixelFormatDef";
 import { calcPitch } from "../../ImageInfo/calcPitch";
-import { copyBytes } from "../../cvt/copy/copyBytes";
+import { copyBytes } from "../../Converter/rowOps/copy/copyBytes";
 import { PixelFillerCtx } from "../../draw/PixelFiller/PixelFiller";
 import { createPixelFiller } from "../../draw/PixelFiller/createPixelFiller";
 import { SurfaceStd } from "../../Surface";
-import { copyWordsFromBigEndian } from "../../cvt/copy/copyWordsFromBigEndian";
+import { copyWordsFromBigEndian } from "../../Converter/rowOps/copy/copyWordsFromBigEndian";
 import { PngRowFiltrator } from "./PngRowFiltrator";
 import { readPngInternationalText, readPngText } from "./chunks/PngText";
-import { ProgressInfo } from "../../transfer/ProgressInfo";
+import { buildTransparentPalette } from "./chunks/PngTransparency";
+import { analyzePaletteTransparency } from "../../Palette/analyzePaletteTransparency";
 
 export class FramePng implements BitmapFrame {
   readonly type: FrameType = "image";
@@ -60,12 +60,18 @@ export class FramePng implements BitmapFrame {
             def?.palette?.length === data.length &&
             def.colorModel === "Indexed"
           ) {
-            const newDef: PixelFormatDef = {
-              ...def,
-              alpha: true,
-              palette: def.palette.map(([b, g, r], i) => [b, g, r, data[i]!]),
-            };
-            info!.fmt = new PixelFormat(newDef);
+            const newPalette = buildTransparentPalette(def.palette, data);
+            const res = analyzePaletteTransparency(newPalette);
+            if (res.type === "alpha") {
+              info!.fmt = new PixelFormat({
+                ...def,
+                alpha: true,
+                palette: newPalette,
+              });
+            } else if (res.type === "transparency") {
+              info!.vars!.transparency = res.index;
+              info!.fmt.setPalette(newPalette);
+            }
           }
         },
         IDAT: async (chunk) => {
@@ -115,7 +121,7 @@ export class FramePng implements BitmapFrame {
     public readonly chunks: PngChunkRef[]
   ) {}
 
-  async read(reader: ImageReader): Promise<void> {
+  async read(converter: Converter): Promise<void> {
     await streamLock(this.format.stream, async (stream) => {
       const { info } = this;
       const is16bit = info.fmt.samples[0]?.length === 16;
@@ -136,7 +142,6 @@ export class FramePng implements BitmapFrame {
       }
       let unpkPos = 0;
 
-      await reader.onStart(info);
       const { x: width, y: height } = info.size;
 
       const srcPitch = calcPitch(width, info.fmt.depth);
@@ -144,14 +149,7 @@ export class FramePng implements BitmapFrame {
       const filtrator = new PngRowFiltrator(pixelSize, srcPitch);
 
       if (!info.vars?.interlaced) {
-        const pi: ProgressInfo = { step: "read", value: 0, maxValue: height };
-        for (let y = 0; y < height; y++) {
-          if (reader.progress) {
-            pi.value = y;
-            await reader.progress(pi);
-          }
-          const row = await reader.getRowBuffer(y);
-
+        await readImage(converter, info, async (row) => {
           const filterType = unpkData[unpkPos++]!;
           const [curLine, curLineOffs] = filtrator.unfilterRow(
             filterType,
@@ -171,13 +169,8 @@ export class FramePng implements BitmapFrame {
             copyBytes(srcPitch, curLine, curLineOffs, row, 0);
           }
           filtrator.next();
-          await reader.finishRow(y);
           unpkPos += srcPitch;
-        }
-        if (reader.progress) {
-          pi.value = height;
-          await reader.progress(pi);
-        }
+        });
       } else {
         const tmpSurface = new SurfaceStd(info);
         // TODO: пока без прогресса
@@ -215,27 +208,20 @@ export class FramePng implements BitmapFrame {
             filtrator.next();
           }
         }
-        for (let y = 0; y < height; y++) {
-          const src = tmpSurface.getRowBuffer(y);
-          const dst = await reader.getRowBuffer(y);
+        await readImage(converter, info, async (dstRow, y) => {
+          const srcRow = tmpSurface.getRowBuffer(y);
           if (is16bit) {
             copyWordsFromBigEndian(
               tmpSurface.rowSize / 2,
-              src.buffer,
-              src.byteOffset,
-              dst.buffer,
-              dst.byteOffset
+              srcRow.buffer,
+              srcRow.byteOffset,
+              dstRow.buffer,
+              dstRow.byteOffset
             );
           } else {
-            copyBytes(tmpSurface.rowSize, src, 0, dst, 0);
+            copyBytes(tmpSurface.rowSize, srcRow, 0, dstRow, 0);
           }
-          if (reader.finishRow) {
-            await reader.finishRow(y);
-          }
-        }
-      }
-      if (reader.onFinish) {
-        await reader.onFinish();
+        });
       }
     });
   }

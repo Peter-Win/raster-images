@@ -4,7 +4,7 @@ import { formatForSaveFromSurface } from "../../FormatForSave";
 import { SurfaceStd } from "../../../Surface";
 import { streamLock } from "../../../stream";
 import { bytesToUtf8, dump, dumpA } from "../../../utils";
-import { copyWordsToBigEndian } from "../../../cvt/copy/copyWordsToBigEndian";
+import { copyWordsToBigEndian } from "../../../Converter/rowOps/copy/copyWordsToBigEndian";
 import { PixelFormat } from "../../../PixelFormat";
 
 const bwSrc: string[] = [

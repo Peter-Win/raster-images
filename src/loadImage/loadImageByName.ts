@@ -3,15 +3,15 @@ import { Surface } from "../Surface";
 import { RAStream } from "../stream";
 import { TargetImageDescriptor } from "./TargetImageDescriptor";
 import { loadImageFromFormat } from "./loadImageFromFormat";
-import { ConverterProps } from "../Converter/ConverterProps";
-import { OnProgressInfo } from "../transfer/ProgressInfo";
+import { ConverterSearchProps } from "../Converter/search";
+import { OnProgressInfo } from "../Converter/ProgressInfo";
 
 export const loadImageByName = async (
   stream: RAStream,
   options?: {
     frameDef?: number | FrameType; // =0
     target?: TargetImageDescriptor;
-    converterProps?: ConverterProps;
+    converterSearchProps?: ConverterSearchProps;
     progress?: OnProgressInfo;
   }
 ): Promise<Surface> => {

@@ -8,12 +8,12 @@ import { PixelDepth } from "../../../../types";
 import { bmpFileHeaderSize, readBmpFileHeader } from "../../BmpFileHeader";
 import { bmpInfoHeaderSize, readBmpInfoHeader } from "../../BmpInfoHeader";
 import { readRleImage } from "../readRleImage";
-import { SurfaceReader } from "../../../../transfer/SurfaceReader";
 import { SurfaceStd } from "../../../../Surface";
 import { Palette } from "../../../../Palette/Palette";
 import { driverBmp } from "../../driverBmp";
 import { testProgress } from "../../../../tests/testProgress";
-import { ProgressInfo } from "../../../../transfer/ProgressInfo";
+import { ProgressInfo } from "../../../../Converter/ProgressInfo";
+import { surfaceConverter } from "../../../../Converter/surfaceConverter";
 
 const needPalette: Palette = [
   [0, 0, 0, 0], // 0 black
@@ -62,10 +62,10 @@ const load = async (stream: RAStream) => {
   };
   const surface = new SurfaceStd(info);
   const progressLog: ProgressInfo[] = [];
-  const reader = new SurfaceReader(surface, testProgress(progressLog));
+  const converter = surfaceConverter(surface, testProgress(progressLog));
   return {
     srcData,
-    reader,
+    converter,
     surface,
     info,
     isUpDown: bi.biHeight < 0,
@@ -91,7 +91,7 @@ describe("readRleImage", () => {
       for (let i = 0; i < surface.height; i++) {
         expect(dump8(surface.getRowBuffer(i))).toBe(needImage[i]);
       }
-      expect(params.progressLog.length).toBe(surface.height + 1);
+      expect(params.progressLog.length).toBe(surface.height + 2);
     });
   });
   it("RLE8 Frame", async () => {
@@ -107,8 +107,8 @@ describe("readRleImage", () => {
       expect(frame.size).toBe(46);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      const converter = surfaceConverter(surface);
+      await frame.read(converter);
       for (let i = 0; i < surface.height; i++) {
         expect(dump8(surface.getRowBuffer(i))).toBe(needImage[i]);
       }
@@ -148,16 +148,23 @@ describe("readRleImage", () => {
 
       const surface = new SurfaceStd(frame.info);
       const progressLog: ProgressInfo[] = [];
-      const reader = new SurfaceReader(surface, testProgress(progressLog));
-      await frame.read(reader);
+      const converter = surfaceConverter(surface, testProgress(progressLog));
+      await frame.read(converter);
       for (let i = 0; i < surface.height; i++) {
         expect(dump4(surface.getRowBuffer(i))).toBe(needImage[i]);
       }
       const maxValue = surface.height;
-      expect(progressLog[0]).toEqual({ step: "read", value: 0, maxValue });
+      expect(progressLog[0]).toEqual({
+        step: "read",
+        value: 0,
+        y: 0,
+        maxValue,
+        init: true,
+      });
       expect(progressLog.at(-1)).toEqual({
         step: "read",
         value: maxValue,
+        y: maxValue,
         maxValue,
       });
     });

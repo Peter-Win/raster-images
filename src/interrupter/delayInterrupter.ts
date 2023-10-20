@@ -1,4 +1,4 @@
-import { OnProgressInfo, ProgressInfo } from "../transfer/ProgressInfo";
+import { OnProgressInfo, ProgressInfo } from "../Converter/ProgressInfo";
 import { delay } from "../utils";
 
 export const delayInterrupter = (

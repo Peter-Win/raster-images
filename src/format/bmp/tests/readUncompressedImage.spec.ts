@@ -3,10 +3,10 @@ import { FormatBmp } from "../FormatBmp";
 import { FrameBmp } from "../FrameBmp";
 import { bmpFileHeaderSize } from "../BmpFileHeader";
 import { bmpInfoHeaderSize } from "../BmpInfoHeader";
-import { ImageReader } from "../../../transfer/ImageReader";
 import { readUncompressedImage } from "../readUncompressedImage";
 import { testProgress } from "../../../tests/testProgress";
-import { ProgressInfo } from "../../../transfer/ProgressInfo";
+import { ProgressInfo } from "../../../Converter/ProgressInfo";
+import { Converter } from "../../../Converter";
 
 describe("readUncompressedImage", () => {
   it("B8G8R8 upToDown", async () => {
@@ -29,18 +29,28 @@ describe("readUncompressedImage", () => {
       const rows: TRow[] = [];
 
       const progressLog: ProgressInfo[] = [];
-      const reader: ImageReader = {
-        onStart: async () => {},
-        getRowBuffer: async (y: number) => {
-          const row = new Uint8Array(9 * 3);
-          rows.push({ y, row });
-          return row;
+      const converter: Converter = {
+        async getRowsWriter() {
+          return {
+            getBuffer: async (y: number) => {
+              const row = new Uint8Array(9 * 3);
+              rows.push({ y, row });
+              return row;
+            },
+            flushBuffer: async () => {},
+            finish: async () => {},
+          };
         },
-        finishRow: async () => {},
+        async getRowsReader() {
+          throw Error("Not implemented");
+        },
+        async getSurface() {
+          throw Error("Not implemented");
+        },
         progress: testProgress(progressLog),
       };
       await stream.seek(fr.offset);
-      await readUncompressedImage({ stream, reader, info, isUpDown });
+      await readUncompressedImage({ stream, converter, info, isUpDown });
       expect(rows.length).toBe(7);
       expect(rows[0]!.y).toBe(0);
       expect(rows[1]!.y).toBe(1);
@@ -132,14 +142,22 @@ describe("readUncompressedImage", () => {
         0,
       ]);
       const maxValue = info.size.y;
-      expect(progressLog[0]).toEqual({ step: "read", value: 0, maxValue });
+      expect(progressLog[0]).toEqual({
+        step: "read",
+        value: 0,
+        y: 0,
+        maxValue,
+        init: true,
+      });
       expect(progressLog.at(-1)).toEqual({
         step: "read",
         value: maxValue,
+        y: maxValue,
         maxValue,
       });
     });
   });
+
   it("RGBA 32 down to up", async () => {
     await onStreamFromGallery("B8G8R8A8.bmp", async (stream) => {
       const fmt: FormatBmp = await FormatBmp.create(stream);
@@ -159,17 +177,27 @@ describe("readUncompressedImage", () => {
       };
       const rows: TRow[] = [];
 
-      const reader: ImageReader = {
-        onStart: async () => {},
-        getRowBuffer: async (y: number) => {
-          const row = new Uint8Array(9 * 4);
-          rows.push({ y, row });
-          return row;
+      const converter: Converter = {
+        async getRowsWriter() {
+          return {
+            getBuffer: async (y: number) => {
+              const row = new Uint8Array(9 * 4);
+              rows.push({ y, row });
+              return row;
+            },
+            flushBuffer: async () => {},
+            finish: async () => {},
+          };
         },
-        finishRow: async () => {},
+        async getRowsReader() {
+          throw Error("Not implemented");
+        },
+        async getSurface() {
+          throw Error("Not implemented");
+        },
       };
       await stream.seek(fr.offset);
-      await readUncompressedImage({ stream, reader, info, isUpDown });
+      await readUncompressedImage({ stream, converter, info, isUpDown });
       expect(rows.length).toBe(7);
       expect(rows[0]!.y).toBe(6);
       expect(rows[1]!.y).toBe(5);

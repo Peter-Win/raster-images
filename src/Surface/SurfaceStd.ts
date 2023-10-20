@@ -3,7 +3,7 @@ import { PixelDepth } from "../types";
 import { PixelFormat } from "../PixelFormat";
 import { Palette } from "../Palette/Palette";
 import { Variables } from "../ImageInfo/Variables";
-import { ImageInfo, getImageLineSize } from "../ImageInfo";
+import { ImageInfo, createInfoSign, getImageLineSize } from "../ImageInfo";
 import { Point } from "../math/Point";
 import { ColorModel } from "../ColorModel";
 import { Surface } from "./Surface";
@@ -61,6 +61,20 @@ export class SurfaceStd extends Surface {
     }
   ): SurfaceStd {
     return SurfaceStd.createSize(new Point(width, height), depth, params);
+  }
+
+  static createSign(
+    width: number,
+    height: number,
+    signature: string,
+    options?: {
+      palette?: Palette;
+      data?: Uint8Array;
+    }
+  ): SurfaceStd {
+    const imgInfo: ImageInfo = createInfoSign(width, height, signature);
+    if (options?.palette) imgInfo.fmt.setPalette(options?.palette);
+    return new SurfaceStd(imgInfo, options?.data);
   }
 
   createDataView(): DataView {

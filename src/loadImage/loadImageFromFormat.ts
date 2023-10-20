@@ -3,15 +3,15 @@ import { Surface } from "../Surface";
 import { BitmapFormat, FrameType } from "../format";
 import { TargetImageDescriptor } from "./TargetImageDescriptor";
 import { loadImageFromFrame } from "./loadImageFromFrame";
-import { ConverterProps } from "../Converter/ConverterProps";
-import { OnProgressInfo } from "../transfer/ProgressInfo";
+import { ConverterSearchProps } from "../Converter/search";
+import { OnProgressInfo } from "../Converter/ProgressInfo";
 
-export const loadImageFromFormat = (
+export const loadImageFromFormat = async (
   format: BitmapFormat,
   options?: {
     frameDef?: number | FrameType;
     target?: TargetImageDescriptor;
-    converterProps?: ConverterProps;
+    converterSearchProps?: ConverterSearchProps;
     progress?: OnProgressInfo;
   }
 ): Promise<Surface> => {

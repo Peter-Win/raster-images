@@ -34,7 +34,7 @@ export class NodeJSFile implements RAStream {
   }
 
   protected onNonLocked(): never {
-    throw new ErrorRI("Fileis not open: <f>", { f: this.name });
+    throw new ErrorRI("File is not open: <f>", { f: this.name });
   }
 
   async lock(): Promise<void> {

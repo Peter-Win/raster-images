@@ -1,18 +1,23 @@
+import { OnProgressInfo } from "../../Converter/ProgressInfo";
 import { RAStream, streamLock } from "../../stream";
 import { FormatForSave } from "../FormatForSave";
 import { ErrorRI, utf8ToBytes } from "../../utils";
 import { PnmDataType, PnmMapFormat, pnmDescriptions } from "./pnmCommon";
 import { PixelFormat } from "../../PixelFormat";
-import { createImageWriter } from "../../transfer/createImageWriter";
-import { ImageWriter } from "../../transfer/ImageWriter";
 import { RowWriter, getRowWriter } from "./getRowWriter";
+import {
+  Converter,
+  createConverterForWrite,
+  writeImage,
+} from "../../Converter";
 
 export interface PnmSaveOptions {
   dataType?: PnmDataType; // default = raw
   mapFormat?: PnmMapFormat;
   comment?: string;
   maxRowLength?: number; // default = 70
-  writer?: ImageWriter;
+  converter?: Converter;
+  progress?: OnProgressInfo; // Only use with empty converter!
 }
 
 const detectMapFormat = (fmt: PixelFormat): PnmMapFormat => {
@@ -50,6 +55,8 @@ export const savePnm = async (
     dataType = "raw",
     comment,
     maxRowLength = 70,
+    converter,
+    progress,
   } = options;
   const desc = pnmDescriptions.find(
     ({ type, fmt }) => fmt === mapFormat && type === dataType
@@ -88,18 +95,23 @@ export const savePnm = async (
   const dstPixFmt = new PixelFormat(dstSign);
   const srcImage = await frame.getImage();
 
-  const writer = createImageWriter(srcImage, dstPixFmt);
+  const realConverter: Converter =
+    converter ?? createConverterForWrite(srcImage, dstPixFmt, { progress });
+  const reader = await realConverter.getRowsReader();
 
   await streamLock(stream, async () => {
     await stream.seek(0);
     await stream.write(header);
 
-    await writer.onStart(srcImage.info);
-    for (let y = 0; y < height; y++) {
-      const srcRow = await writer.getRowBuffer(y);
-      const dstRow = makeRowForWrite(srcRow);
-      await stream.write(dstRow);
-    }
-    if (writer.onFinish) await writer.onFinish();
+    await writeImage(
+      reader,
+      async (srcRow) => {
+        const dstRow = makeRowForWrite(srcRow);
+        await stream.write(dstRow);
+      },
+      {
+        progress: realConverter.progress,
+      }
+    );
   });
 };

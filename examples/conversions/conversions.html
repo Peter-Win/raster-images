@@ -3,543 +3,545 @@
 <head>
   <title>Possible conversions</title>
   <style>
+  body { font-family: sans-serif; color: #333; }
+  th {font-family: serif; font-size: 90%; }
+  td {font-family: courier; font-weight: bold; }
   .table { border-collapse: collapse; }
   .table td, .table th { padding: 0.2em 0.5em; border: thin solid silver; text-align: center; }
   .yes { background: #DFD; }
   .no { background: #FDD; }
+  .hover, tr:not(.thead):hover { background: #DDD; }
+  .hover.yes, tr:hover .yes { background: #BFB; }
+  .hover.no, tr:hover .no { background: #FBB; }
   </style>
 </head>
 <body>
   <h1>Possible conversions</h1>
   <table class="table">
-  <tr>
+  <tr class="thead">
     <th></th>
-  <th>B5G5R5</th>
-  <th>R5G5B5</th>
-  <th>B8G8R8</th>
-  <th>R8G8B8</th>
-  <th>B16G16R16</th>
-  <th>R16G16B16</th>
-  <th>B16G16R16A16</th>
-  <th>R16G16B16A16</th>
-  <th>I8</th>
-  <th>J8</th>
-  <th>I1</th>
-  <th>I4</th>
-  <th>G1</th>
-  <th>G8</th>
-  <th>G8A8</th>
-  <th>G16</th>
-  <th>G16A16</th>
-  <th>B8G8R8A8</th>
-  <th>R8G8B8A8</th>
-  <th>B8G8R8X8</th>
-  <th>R8G8B8X8</th>
+  <th data-col="0">B5G5R5</th>
+  <th data-col="1">B8G8R8</th>
+  <th data-col="2">R8G8B8</th>
+  <th data-col="3">B8G8R8A8</th>
+  <th data-col="4">R8G8B8A8</th>
+  <th data-col="5">R16G16B16</th>
+  <th data-col="6">B16G16R16</th>
+  <th data-col="7">R16G16B16A16</th>
+  <th data-col="8">B16G16R16A16</th>
+  <th data-col="9">G1</th>
+  <th data-col="10">G8</th>
+  <th data-col="11">G8A8</th>
+  <th data-col="12">G16</th>
+  <th data-col="13">G16A16</th>
+  <th data-col="14">I8</th>
+  <th data-col="15">J8</th>
+  <th data-col="16">I1</th>
+  <th data-col="17">I4</th>
   </tr>
   <tr>
     <th>B5G5R5</th>
-    <td class="" title="B5G5R5 -x-&gt; B5G5R5"></td>
-    <td class="no" title="B5G5R5 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="B5G5R5 - B8G8R8">x1</td>
-    <td class="yes" title="B5G5R5 - B8G8R8 - R8G8B8">x2</td>
-    <td class="no" title="B5G5R5 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; I8">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; J8">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; I1">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; I4">-</td>
-    <td class="yes" title="B5G5R5 - B8G8R8 - G8 - G1">x3</td>
-    <td class="yes" title="B5G5R5 - B8G8R8 - G8">x2</td>
-    <td class="no" title="B5G5R5 -x-&gt; G8A8">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; G16">-</td>
-    <td class="no" title="B5G5R5 -x-&gt; G16A16">-</td>
-    <td class="yes" title="B5G5R5 - B8G8R8 - B8G8R8A8">x2</td>
-    <td class="yes" title="B5G5R5 - B8G8R8 - R8G8B8A8">x2</td>
-    <td class="yes" title="B5G5R5 - B8G8R8 - G8 - G1 - B8G8R8X8">x4</td>
-    <td class="yes" title="B5G5R5 - B8G8R8 - G8 - G1 - R8G8B8X8">x4</td>
-  </tr>
-  <tr>
-    <th>R5G5B5</th>
-    <td class="yes" title="R5G5B5 - R8G8B8 - B8G8R8 - B5G5R5">x3</td>
-    <td class="" title="R5G5B5 -x-&gt; R5G5B5"></td>
-    <td class="yes" title="R5G5B5 - R8G8B8 - B8G8R8">x2</td>
-    <td class="yes" title="R5G5B5 - R8G8B8">x1</td>
-    <td class="no" title="R5G5B5 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; I8">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; J8">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; I1">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; I4">-</td>
-    <td class="yes" title="R5G5B5 - R8G8B8 - G8 - G1">x3</td>
-    <td class="yes" title="R5G5B5 - R8G8B8 - G8">x2</td>
-    <td class="no" title="R5G5B5 -x-&gt; G8A8">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; G16">-</td>
-    <td class="no" title="R5G5B5 -x-&gt; G16A16">-</td>
-    <td class="yes" title="R5G5B5 - R8G8B8 - B8G8R8A8">x2</td>
-    <td class="yes" title="R5G5B5 - R8G8B8 - R8G8B8A8">x2</td>
-    <td class="yes" title="R5G5B5 - R8G8B8 - G8 - G1 - B8G8R8X8">x4</td>
-    <td class="yes" title="R5G5B5 - R8G8B8 - G8 - G1 - R8G8B8X8">x4</td>
+    <td class="" data-col="0" title="B5G5R5 -x-&gt; B5G5R5"></td>
+    <td class="yes" data-col="1" title="B5G5R5 => B8G8R8, quality">×1</td>
+    <td class="yes" data-col="2" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => R8G8B8">×2</td>
+    <td class="yes" data-col="3" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => B8G8R8A8">×2</td>
+    <td class="yes" data-col="4" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => R8G8B8A8">×2</td>
+    <td class="no" data-col="5" title="B5G5R5 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="B5G5R5 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="B5G5R5 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="B5G5R5 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => G8
+G8 => G1, dither">×3</td>
+    <td class="yes" data-col="10" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => G8">×2</td>
+    <td class="no" data-col="11" title="B5G5R5 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="B5G5R5 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="B5G5R5 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => I8, dither">×2</td>
+    <td class="no" data-col="15" title="B5G5R5 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="17" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => I8, dither
+I8 => I4">×3</td>
   </tr>
   <tr>
     <th>B8G8R8</th>
-    <td class="yes" title="B8G8R8 - B5G5R5">x1</td>
-    <td class="no" title="B8G8R8 -x-&gt; R5G5B5">-</td>
-    <td class="" title="B8G8R8 -x-&gt; B8G8R8"></td>
-    <td class="yes" title="B8G8R8 - R8G8B8">x1</td>
-    <td class="no" title="B8G8R8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; I8">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; J8">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; I1">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; I4">-</td>
-    <td class="yes" title="B8G8R8 - G8 - G1">x2</td>
-    <td class="yes" title="B8G8R8 - G8">x1</td>
-    <td class="no" title="B8G8R8 -x-&gt; G8A8">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; G16">-</td>
-    <td class="no" title="B8G8R8 -x-&gt; G16A16">-</td>
-    <td class="yes" title="B8G8R8 - B8G8R8A8">x1</td>
-    <td class="yes" title="B8G8R8 - R8G8B8A8">x1</td>
-    <td class="yes" title="B8G8R8 - G8 - G1 - B8G8R8X8">x3</td>
-    <td class="yes" title="B8G8R8 - G8 - G1 - R8G8B8X8">x3</td>
+    <td class="yes" data-col="0" title="B8G8R8 => B5G5R5, dither">×1</td>
+    <td class="" data-col="1" title="B8G8R8 -x-&gt; B8G8R8"></td>
+    <td class="yes" data-col="2" title="B8G8R8 => R8G8B8">×1</td>
+    <td class="yes" data-col="3" title="B8G8R8 => B8G8R8A8">×1</td>
+    <td class="yes" data-col="4" title="B8G8R8 => R8G8B8A8">×1</td>
+    <td class="no" data-col="5" title="B8G8R8 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="B8G8R8 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="B8G8R8 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="B8G8R8 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="B8G8R8 => G8
+G8 => G1, dither">×2</td>
+    <td class="yes" data-col="10" title="B8G8R8 => G8">×1</td>
+    <td class="no" data-col="11" title="B8G8R8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="B8G8R8 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="B8G8R8 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="B8G8R8 => I8, dither">×1</td>
+    <td class="no" data-col="15" title="B8G8R8 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="B8G8R8 => I8, dither
+I8 => I1">×2</td>
+    <td class="yes" data-col="17" title="B8G8R8 => I8, dither
+I8 => I4">×2</td>
   </tr>
   <tr>
     <th>R8G8B8</th>
-    <td class="yes" title="R8G8B8 - B8G8R8 - B5G5R5">x2</td>
-    <td class="no" title="R8G8B8 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="R8G8B8 - B8G8R8">x1</td>
-    <td class="" title="R8G8B8 -x-&gt; R8G8B8"></td>
-    <td class="no" title="R8G8B8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; I8">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; J8">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; I1">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; I4">-</td>
-    <td class="yes" title="R8G8B8 - G8 - G1">x2</td>
-    <td class="yes" title="R8G8B8 - G8">x1</td>
-    <td class="no" title="R8G8B8 -x-&gt; G8A8">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; G16">-</td>
-    <td class="no" title="R8G8B8 -x-&gt; G16A16">-</td>
-    <td class="yes" title="R8G8B8 - B8G8R8A8">x1</td>
-    <td class="yes" title="R8G8B8 - R8G8B8A8">x1</td>
-    <td class="yes" title="R8G8B8 - G8 - G1 - B8G8R8X8">x3</td>
-    <td class="yes" title="R8G8B8 - G8 - G1 - R8G8B8X8">x3</td>
-  </tr>
-  <tr>
-    <th>B16G16R16</th>
-    <td class="yes" title="B16G16R16 - B8G8R8 - B5G5R5">x2</td>
-    <td class="no" title="B16G16R16 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="B16G16R16 - B8G8R8">x1</td>
-    <td class="yes" title="B16G16R16 - B8G8R8 - R8G8B8">x2</td>
-    <td class="" title="B16G16R16 -x-&gt; B16G16R16"></td>
-    <td class="no" title="B16G16R16 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="B16G16R16 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="B16G16R16 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="B16G16R16 -x-&gt; I8">-</td>
-    <td class="no" title="B16G16R16 -x-&gt; J8">-</td>
-    <td class="no" title="B16G16R16 -x-&gt; I1">-</td>
-    <td class="no" title="B16G16R16 -x-&gt; I4">-</td>
-    <td class="yes" title="B16G16R16 - B8G8R8 - G8 - G1">x3</td>
-    <td class="yes" title="B16G16R16 - B8G8R8 - G8">x2</td>
-    <td class="no" title="B16G16R16 -x-&gt; G8A8">-</td>
-    <td class="no" title="B16G16R16 -x-&gt; G16">-</td>
-    <td class="no" title="B16G16R16 -x-&gt; G16A16">-</td>
-    <td class="yes" title="B16G16R16 - B8G8R8 - B8G8R8A8">x2</td>
-    <td class="yes" title="B16G16R16 - B8G8R8 - R8G8B8A8">x2</td>
-    <td class="yes" title="B16G16R16 - B8G8R8 - G8 - G1 - B8G8R8X8">x4</td>
-    <td class="yes" title="B16G16R16 - B8G8R8 - G8 - G1 - R8G8B8X8">x4</td>
-  </tr>
-  <tr>
-    <th>R16G16B16</th>
-    <td class="yes" title="R16G16B16 - R8G8B8 - B8G8R8 - B5G5R5">x3</td>
-    <td class="no" title="R16G16B16 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="R16G16B16 - R8G8B8 - B8G8R8">x2</td>
-    <td class="yes" title="R16G16B16 - R8G8B8">x1</td>
-    <td class="no" title="R16G16B16 -x-&gt; B16G16R16">-</td>
-    <td class="" title="R16G16B16 -x-&gt; R16G16B16"></td>
-    <td class="no" title="R16G16B16 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="R16G16B16 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="R16G16B16 -x-&gt; I8">-</td>
-    <td class="no" title="R16G16B16 -x-&gt; J8">-</td>
-    <td class="no" title="R16G16B16 -x-&gt; I1">-</td>
-    <td class="no" title="R16G16B16 -x-&gt; I4">-</td>
-    <td class="yes" title="R16G16B16 - R8G8B8 - G8 - G1">x3</td>
-    <td class="yes" title="R16G16B16 - R8G8B8 - G8">x2</td>
-    <td class="no" title="R16G16B16 -x-&gt; G8A8">-</td>
-    <td class="no" title="R16G16B16 -x-&gt; G16">-</td>
-    <td class="no" title="R16G16B16 -x-&gt; G16A16">-</td>
-    <td class="yes" title="R16G16B16 - R8G8B8 - B8G8R8A8">x2</td>
-    <td class="yes" title="R16G16B16 - R8G8B8 - R8G8B8A8">x2</td>
-    <td class="yes" title="R16G16B16 - R8G8B8 - G8 - G1 - B8G8R8X8">x4</td>
-    <td class="yes" title="R16G16B16 - R8G8B8 - G8 - G1 - R8G8B8X8">x4</td>
-  </tr>
-  <tr>
-    <th>B16G16R16A16</th>
-    <td class="no" title="B16G16R16A16 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; R16G16B16">-</td>
-    <td class="" title="B16G16R16A16 -x-&gt; B16G16R16A16"></td>
-    <td class="no" title="B16G16R16A16 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; I8">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; J8">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; I1">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; I4">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; G1">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; G8">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; G8A8">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; G16">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; G16A16">-</td>
-    <td class="yes" title="B16G16R16A16 - B8G8R8A8">x1</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; R8G8B8A8">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; B8G8R8X8">-</td>
-    <td class="no" title="B16G16R16A16 -x-&gt; R8G8B8X8">-</td>
-  </tr>
-  <tr>
-    <th>R16G16B16A16</th>
-    <td class="no" title="R16G16B16A16 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; B16G16R16A16">-</td>
-    <td class="" title="R16G16B16A16 -x-&gt; R16G16B16A16"></td>
-    <td class="no" title="R16G16B16A16 -x-&gt; I8">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; J8">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; I1">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; I4">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; G1">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; G8">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; G8A8">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; G16">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; G16A16">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; B8G8R8A8">-</td>
-    <td class="yes" title="R16G16B16A16 - R8G8B8A8">x1</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; B8G8R8X8">-</td>
-    <td class="no" title="R16G16B16A16 -x-&gt; R8G8B8X8">-</td>
-  </tr>
-  <tr>
-    <th>I8</th>
-    <td class="yes" title="I8 - B8G8R8 - B5G5R5">x2</td>
-    <td class="no" title="I8 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="I8 - B8G8R8">x1</td>
-    <td class="yes" title="I8 - B8G8R8 - R8G8B8">x2</td>
-    <td class="no" title="I8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="I8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="I8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="I8 -x-&gt; R16G16B16A16">-</td>
-    <td class="" title="I8 -x-&gt; I8"></td>
-    <td class="no" title="I8 -x-&gt; J8">-</td>
-    <td class="no" title="I8 -x-&gt; I1">-</td>
-    <td class="no" title="I8 -x-&gt; I4">-</td>
-    <td class="yes" title="I8 - B8G8R8 - G8 - G1">x3</td>
-    <td class="yes" title="I8 - B8G8R8 - G8">x2</td>
-    <td class="no" title="I8 -x-&gt; G8A8">-</td>
-    <td class="no" title="I8 -x-&gt; G16">-</td>
-    <td class="no" title="I8 -x-&gt; G16A16">-</td>
-    <td class="yes" title="I8 - B8G8R8A8">x1</td>
-    <td class="yes" title="I8 - R8G8B8A8">x1</td>
-    <td class="yes" title="I8 - B8G8R8X8">x1</td>
-    <td class="yes" title="I8 - R8G8B8X8">x1</td>
-  </tr>
-  <tr>
-    <th>J8</th>
-    <td class="no" title="J8 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="J8 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="J8 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="J8 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="J8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="J8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="J8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="J8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="J8 -x-&gt; I8">-</td>
-    <td class="" title="J8 -x-&gt; J8"></td>
-    <td class="no" title="J8 -x-&gt; I1">-</td>
-    <td class="no" title="J8 -x-&gt; I4">-</td>
-    <td class="no" title="J8 -x-&gt; G1">-</td>
-    <td class="no" title="J8 -x-&gt; G8">-</td>
-    <td class="no" title="J8 -x-&gt; G8A8">-</td>
-    <td class="no" title="J8 -x-&gt; G16">-</td>
-    <td class="no" title="J8 -x-&gt; G16A16">-</td>
-    <td class="yes" title="J8 - B8G8R8A8">x1</td>
-    <td class="yes" title="J8 - R8G8B8A8">x1</td>
-    <td class="no" title="J8 -x-&gt; B8G8R8X8">-</td>
-    <td class="no" title="J8 -x-&gt; R8G8B8X8">-</td>
-  </tr>
-  <tr>
-    <th>I1</th>
-    <td class="yes" title="I1 - I8 - B8G8R8 - B5G5R5">x3</td>
-    <td class="no" title="I1 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="I1 - I8 - B8G8R8">x2</td>
-    <td class="yes" title="I1 - I8 - B8G8R8 - R8G8B8">x3</td>
-    <td class="no" title="I1 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="I1 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="I1 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="I1 -x-&gt; R16G16B16A16">-</td>
-    <td class="yes" title="I1 - I8">x1</td>
-    <td class="no" title="I1 -x-&gt; J8">-</td>
-    <td class="" title="I1 -x-&gt; I1"></td>
-    <td class="no" title="I1 -x-&gt; I4">-</td>
-    <td class="yes" title="I1 - I8 - B8G8R8 - G8 - G1">x4</td>
-    <td class="yes" title="I1 - I8 - B8G8R8 - G8">x3</td>
-    <td class="no" title="I1 -x-&gt; G8A8">-</td>
-    <td class="no" title="I1 -x-&gt; G16">-</td>
-    <td class="no" title="I1 -x-&gt; G16A16">-</td>
-    <td class="yes" title="I1 - I8 - B8G8R8A8">x2</td>
-    <td class="yes" title="I1 - I8 - R8G8B8A8">x2</td>
-    <td class="yes" title="I1 - I8 - B8G8R8X8">x2</td>
-    <td class="yes" title="I1 - I8 - R8G8B8X8">x2</td>
-  </tr>
-  <tr>
-    <th>I4</th>
-    <td class="yes" title="I4 - I8 - B8G8R8 - B5G5R5">x3</td>
-    <td class="no" title="I4 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="I4 - I8 - B8G8R8">x2</td>
-    <td class="yes" title="I4 - I8 - B8G8R8 - R8G8B8">x3</td>
-    <td class="no" title="I4 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="I4 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="I4 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="I4 -x-&gt; R16G16B16A16">-</td>
-    <td class="yes" title="I4 - I8">x1</td>
-    <td class="no" title="I4 -x-&gt; J8">-</td>
-    <td class="no" title="I4 -x-&gt; I1">-</td>
-    <td class="" title="I4 -x-&gt; I4"></td>
-    <td class="yes" title="I4 - I8 - B8G8R8 - G8 - G1">x4</td>
-    <td class="yes" title="I4 - I8 - B8G8R8 - G8">x3</td>
-    <td class="no" title="I4 -x-&gt; G8A8">-</td>
-    <td class="no" title="I4 -x-&gt; G16">-</td>
-    <td class="no" title="I4 -x-&gt; G16A16">-</td>
-    <td class="yes" title="I4 - I8 - B8G8R8A8">x2</td>
-    <td class="yes" title="I4 - I8 - R8G8B8A8">x2</td>
-    <td class="yes" title="I4 - I8 - B8G8R8X8">x2</td>
-    <td class="yes" title="I4 - I8 - R8G8B8X8">x2</td>
-  </tr>
-  <tr>
-    <th>G1</th>
-    <td class="yes" title="G1 - B8G8R8 - B5G5R5">x2</td>
-    <td class="no" title="G1 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="G1 - B8G8R8">x1</td>
-    <td class="yes" title="G1 - R8G8B8">x1</td>
-    <td class="no" title="G1 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="G1 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="G1 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="G1 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="G1 -x-&gt; I8">-</td>
-    <td class="no" title="G1 -x-&gt; J8">-</td>
-    <td class="no" title="G1 -x-&gt; I1">-</td>
-    <td class="no" title="G1 -x-&gt; I4">-</td>
-    <td class="" title="G1 -x-&gt; G1"></td>
-    <td class="yes" title="G1 - G8">x1</td>
-    <td class="no" title="G1 -x-&gt; G8A8">-</td>
-    <td class="no" title="G1 -x-&gt; G16">-</td>
-    <td class="no" title="G1 -x-&gt; G16A16">-</td>
-    <td class="yes" title="G1 - B8G8R8A8">x1</td>
-    <td class="yes" title="G1 - R8G8B8A8">x1</td>
-    <td class="yes" title="G1 - B8G8R8X8">x1</td>
-    <td class="yes" title="G1 - R8G8B8X8">x1</td>
-  </tr>
-  <tr>
-    <th>G8</th>
-    <td class="yes" title="G8 - B8G8R8 - B5G5R5">x2</td>
-    <td class="no" title="G8 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="G8 - B8G8R8">x1</td>
-    <td class="yes" title="G8 - R8G8B8">x1</td>
-    <td class="no" title="G8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="G8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="G8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="G8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="G8 -x-&gt; I8">-</td>
-    <td class="no" title="G8 -x-&gt; J8">-</td>
-    <td class="no" title="G8 -x-&gt; I1">-</td>
-    <td class="no" title="G8 -x-&gt; I4">-</td>
-    <td class="yes" title="G8 - G1">x1</td>
-    <td class="" title="G8 -x-&gt; G8"></td>
-    <td class="no" title="G8 -x-&gt; G8A8">-</td>
-    <td class="no" title="G8 -x-&gt; G16">-</td>
-    <td class="no" title="G8 -x-&gt; G16A16">-</td>
-    <td class="yes" title="G8 - B8G8R8 - B8G8R8A8">x2</td>
-    <td class="yes" title="G8 - B8G8R8 - R8G8B8A8">x2</td>
-    <td class="yes" title="G8 - G1 - B8G8R8X8">x2</td>
-    <td class="yes" title="G8 - G1 - R8G8B8X8">x2</td>
-  </tr>
-  <tr>
-    <th>G8A8</th>
-    <td class="no" title="G8A8 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="G8A8 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="G8A8 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="G8A8 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="G8A8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="G8A8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="G8A8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="G8A8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="G8A8 -x-&gt; I8">-</td>
-    <td class="no" title="G8A8 -x-&gt; J8">-</td>
-    <td class="no" title="G8A8 -x-&gt; I1">-</td>
-    <td class="no" title="G8A8 -x-&gt; I4">-</td>
-    <td class="no" title="G8A8 -x-&gt; G1">-</td>
-    <td class="no" title="G8A8 -x-&gt; G8">-</td>
-    <td class="" title="G8A8 -x-&gt; G8A8"></td>
-    <td class="no" title="G8A8 -x-&gt; G16">-</td>
-    <td class="no" title="G8A8 -x-&gt; G16A16">-</td>
-    <td class="yes" title="G8A8 - B8G8R8A8">x1</td>
-    <td class="yes" title="G8A8 - R8G8B8A8">x1</td>
-    <td class="no" title="G8A8 -x-&gt; B8G8R8X8">-</td>
-    <td class="no" title="G8A8 -x-&gt; R8G8B8X8">-</td>
-  </tr>
-  <tr>
-    <th>G16</th>
-    <td class="yes" title="G16 - G8 - B8G8R8 - B5G5R5">x3</td>
-    <td class="no" title="G16 -x-&gt; R5G5B5">-</td>
-    <td class="yes" title="G16 - G8 - B8G8R8">x2</td>
-    <td class="yes" title="G16 - G8 - R8G8B8">x2</td>
-    <td class="no" title="G16 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="G16 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="G16 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="G16 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="G16 -x-&gt; I8">-</td>
-    <td class="no" title="G16 -x-&gt; J8">-</td>
-    <td class="no" title="G16 -x-&gt; I1">-</td>
-    <td class="no" title="G16 -x-&gt; I4">-</td>
-    <td class="yes" title="G16 - G8 - G1">x2</td>
-    <td class="yes" title="G16 - G8">x1</td>
-    <td class="no" title="G16 -x-&gt; G8A8">-</td>
-    <td class="" title="G16 -x-&gt; G16"></td>
-    <td class="no" title="G16 -x-&gt; G16A16">-</td>
-    <td class="yes" title="G16 - G8 - B8G8R8 - B8G8R8A8">x3</td>
-    <td class="yes" title="G16 - G8 - B8G8R8 - R8G8B8A8">x3</td>
-    <td class="yes" title="G16 - G8 - G1 - B8G8R8X8">x3</td>
-    <td class="yes" title="G16 - G8 - G1 - R8G8B8X8">x3</td>
-  </tr>
-  <tr>
-    <th>G16A16</th>
-    <td class="no" title="G16A16 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="G16A16 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="G16A16 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="G16A16 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="G16A16 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="G16A16 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="G16A16 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="G16A16 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="G16A16 -x-&gt; I8">-</td>
-    <td class="no" title="G16A16 -x-&gt; J8">-</td>
-    <td class="no" title="G16A16 -x-&gt; I1">-</td>
-    <td class="no" title="G16A16 -x-&gt; I4">-</td>
-    <td class="no" title="G16A16 -x-&gt; G1">-</td>
-    <td class="no" title="G16A16 -x-&gt; G8">-</td>
-    <td class="yes" title="G16A16 - G8A8">x1</td>
-    <td class="no" title="G16A16 -x-&gt; G16">-</td>
-    <td class="" title="G16A16 -x-&gt; G16A16"></td>
-    <td class="yes" title="G16A16 - G8A8 - B8G8R8A8">x2</td>
-    <td class="yes" title="G16A16 - G8A8 - R8G8B8A8">x2</td>
-    <td class="no" title="G16A16 -x-&gt; B8G8R8X8">-</td>
-    <td class="no" title="G16A16 -x-&gt; R8G8B8X8">-</td>
+    <td class="yes" data-col="0" title="R8G8B8 => B8G8R8
+B8G8R8 => B5G5R5, dither">×2</td>
+    <td class="yes" data-col="1" title="R8G8B8 => B8G8R8">×1</td>
+    <td class="" data-col="2" title="R8G8B8 -x-&gt; R8G8B8"></td>
+    <td class="yes" data-col="3" title="R8G8B8 => B8G8R8A8">×1</td>
+    <td class="yes" data-col="4" title="R8G8B8 => R8G8B8A8">×1</td>
+    <td class="no" data-col="5" title="R8G8B8 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="R8G8B8 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="R8G8B8 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="R8G8B8 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="R8G8B8 => G8
+G8 => G1, dither">×2</td>
+    <td class="yes" data-col="10" title="R8G8B8 => G8">×1</td>
+    <td class="no" data-col="11" title="R8G8B8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="R8G8B8 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="R8G8B8 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="R8G8B8 => B8G8R8
+B8G8R8 => I8, dither">×2</td>
+    <td class="no" data-col="15" title="R8G8B8 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="17" title="R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I4">×3</td>
   </tr>
   <tr>
     <th>B8G8R8A8</th>
-    <td class="no" title="B8G8R8A8 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; I8">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; J8">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; I1">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; I4">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; G1">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; G8">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; G8A8">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; G16">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; G16A16">-</td>
-    <td class="" title="B8G8R8A8 -x-&gt; B8G8R8A8"></td>
-    <td class="no" title="B8G8R8A8 -x-&gt; R8G8B8A8">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; B8G8R8X8">-</td>
-    <td class="no" title="B8G8R8A8 -x-&gt; R8G8B8X8">-</td>
+    <td class="no" data-col="0" title="B8G8R8A8 -x-&gt; B5G5R5">-</td>
+    <td class="no" data-col="1" title="B8G8R8A8 -x-&gt; B8G8R8">-</td>
+    <td class="no" data-col="2" title="B8G8R8A8 -x-&gt; R8G8B8">-</td>
+    <td class="" data-col="3" title="B8G8R8A8 -x-&gt; B8G8R8A8"></td>
+    <td class="yes" data-col="4" title="B8G8R8A8 => R8G8B8A8">×1</td>
+    <td class="no" data-col="5" title="B8G8R8A8 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="B8G8R8A8 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="B8G8R8A8 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="B8G8R8A8 -x-&gt; B16G16R16A16">-</td>
+    <td class="no" data-col="9" title="B8G8R8A8 -x-&gt; G1">-</td>
+    <td class="no" data-col="10" title="B8G8R8A8 -x-&gt; G8">-</td>
+    <td class="no" data-col="11" title="B8G8R8A8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="B8G8R8A8 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="B8G8R8A8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="14" title="B8G8R8A8 -x-&gt; I8">-</td>
+    <td class="no" data-col="15" title="B8G8R8A8 -x-&gt; J8">-</td>
+    <td class="no" data-col="16" title="B8G8R8A8 -x-&gt; I1">-</td>
+    <td class="no" data-col="17" title="B8G8R8A8 -x-&gt; I4">-</td>
   </tr>
   <tr>
     <th>R8G8B8A8</th>
-    <td class="no" title="R8G8B8A8 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; I8">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; J8">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; I1">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; I4">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; G1">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; G8">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; G8A8">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; G16">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; G16A16">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; B8G8R8A8">-</td>
-    <td class="" title="R8G8B8A8 -x-&gt; R8G8B8A8"></td>
-    <td class="no" title="R8G8B8A8 -x-&gt; B8G8R8X8">-</td>
-    <td class="no" title="R8G8B8A8 -x-&gt; R8G8B8X8">-</td>
+    <td class="no" data-col="0" title="R8G8B8A8 -x-&gt; B5G5R5">-</td>
+    <td class="no" data-col="1" title="R8G8B8A8 -x-&gt; B8G8R8">-</td>
+    <td class="no" data-col="2" title="R8G8B8A8 -x-&gt; R8G8B8">-</td>
+    <td class="yes" data-col="3" title="R8G8B8A8 => B8G8R8A8">×1</td>
+    <td class="" data-col="4" title="R8G8B8A8 -x-&gt; R8G8B8A8"></td>
+    <td class="no" data-col="5" title="R8G8B8A8 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="R8G8B8A8 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="R8G8B8A8 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="R8G8B8A8 -x-&gt; B16G16R16A16">-</td>
+    <td class="no" data-col="9" title="R8G8B8A8 -x-&gt; G1">-</td>
+    <td class="no" data-col="10" title="R8G8B8A8 -x-&gt; G8">-</td>
+    <td class="no" data-col="11" title="R8G8B8A8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="R8G8B8A8 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="R8G8B8A8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="14" title="R8G8B8A8 -x-&gt; I8">-</td>
+    <td class="no" data-col="15" title="R8G8B8A8 -x-&gt; J8">-</td>
+    <td class="no" data-col="16" title="R8G8B8A8 -x-&gt; I1">-</td>
+    <td class="no" data-col="17" title="R8G8B8A8 -x-&gt; I4">-</td>
   </tr>
   <tr>
-    <th>B8G8R8X8</th>
-    <td class="no" title="B8G8R8X8 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; I8">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; J8">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; I1">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; I4">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; G1">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; G8">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; G8A8">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; G16">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; G16A16">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; B8G8R8A8">-</td>
-    <td class="no" title="B8G8R8X8 -x-&gt; R8G8B8A8">-</td>
-    <td class="" title="B8G8R8X8 -x-&gt; B8G8R8X8"></td>
-    <td class="no" title="B8G8R8X8 -x-&gt; R8G8B8X8">-</td>
+    <th>R16G16B16</th>
+    <td class="yes" data-col="0" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => B5G5R5, dither">×3</td>
+    <td class="yes" data-col="1" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8">×2</td>
+    <td class="yes" data-col="2" title="R16G16B16 => R8G8B8, fast">×1</td>
+    <td class="yes" data-col="3" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8A8">×2</td>
+    <td class="yes" data-col="4" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => R8G8B8A8">×2</td>
+    <td class="" data-col="5" title="R16G16B16 -x-&gt; R16G16B16"></td>
+    <td class="no" data-col="6" title="R16G16B16 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="R16G16B16 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="R16G16B16 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => G8
+G8 => G1, dither">×3</td>
+    <td class="yes" data-col="10" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => G8">×2</td>
+    <td class="no" data-col="11" title="R16G16B16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="R16G16B16 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="R16G16B16 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither">×3</td>
+    <td class="no" data-col="15" title="R16G16B16 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I1">×4</td>
+    <td class="yes" data-col="17" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I4">×4</td>
   </tr>
   <tr>
-    <th>R8G8B8X8</th>
-    <td class="no" title="R8G8B8X8 -x-&gt; B5G5R5">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; R5G5B5">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; B8G8R8">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; R8G8B8">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; B16G16R16">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; R16G16B16">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; B16G16R16A16">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; R16G16B16A16">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; I8">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; J8">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; I1">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; I4">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; G1">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; G8">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; G8A8">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; G16">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; G16A16">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; B8G8R8A8">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; R8G8B8A8">-</td>
-    <td class="no" title="R8G8B8X8 -x-&gt; B8G8R8X8">-</td>
-    <td class="" title="R8G8B8X8 -x-&gt; R8G8B8X8"></td>
+    <th>B16G16R16</th>
+    <td class="yes" data-col="0" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => B5G5R5, dither">×2</td>
+    <td class="yes" data-col="1" title="B16G16R16 => B8G8R8, fast">×1</td>
+    <td class="yes" data-col="2" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => R8G8B8">×2</td>
+    <td class="yes" data-col="3" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => B8G8R8A8">×2</td>
+    <td class="yes" data-col="4" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => R8G8B8A8">×2</td>
+    <td class="no" data-col="5" title="B16G16R16 -x-&gt; R16G16B16">-</td>
+    <td class="" data-col="6" title="B16G16R16 -x-&gt; B16G16R16"></td>
+    <td class="no" data-col="7" title="B16G16R16 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="B16G16R16 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => G8
+G8 => G1, dither">×3</td>
+    <td class="yes" data-col="10" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => G8">×2</td>
+    <td class="no" data-col="11" title="B16G16R16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="B16G16R16 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="B16G16R16 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => I8, dither">×2</td>
+    <td class="no" data-col="15" title="B16G16R16 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="17" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => I8, dither
+I8 => I4">×3</td>
+  </tr>
+  <tr>
+    <th>R16G16B16A16</th>
+    <td class="no" data-col="0" title="R16G16B16A16 -x-&gt; B5G5R5">-</td>
+    <td class="no" data-col="1" title="R16G16B16A16 -x-&gt; B8G8R8">-</td>
+    <td class="no" data-col="2" title="R16G16B16A16 -x-&gt; R8G8B8">-</td>
+    <td class="yes" data-col="3" title="R16G16B16A16 => R8G8B8A8, fast
+R8G8B8A8 => B8G8R8A8">×2</td>
+    <td class="yes" data-col="4" title="R16G16B16A16 => R8G8B8A8, fast">×1</td>
+    <td class="no" data-col="5" title="R16G16B16A16 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="R16G16B16A16 -x-&gt; B16G16R16">-</td>
+    <td class="" data-col="7" title="R16G16B16A16 -x-&gt; R16G16B16A16"></td>
+    <td class="no" data-col="8" title="R16G16B16A16 -x-&gt; B16G16R16A16">-</td>
+    <td class="no" data-col="9" title="R16G16B16A16 -x-&gt; G1">-</td>
+    <td class="no" data-col="10" title="R16G16B16A16 -x-&gt; G8">-</td>
+    <td class="no" data-col="11" title="R16G16B16A16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="R16G16B16A16 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="R16G16B16A16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="14" title="R16G16B16A16 -x-&gt; I8">-</td>
+    <td class="no" data-col="15" title="R16G16B16A16 -x-&gt; J8">-</td>
+    <td class="no" data-col="16" title="R16G16B16A16 -x-&gt; I1">-</td>
+    <td class="no" data-col="17" title="R16G16B16A16 -x-&gt; I4">-</td>
+  </tr>
+  <tr>
+    <th>B16G16R16A16</th>
+    <td class="no" data-col="0" title="B16G16R16A16 -x-&gt; B5G5R5">-</td>
+    <td class="no" data-col="1" title="B16G16R16A16 -x-&gt; B8G8R8">-</td>
+    <td class="no" data-col="2" title="B16G16R16A16 -x-&gt; R8G8B8">-</td>
+    <td class="yes" data-col="3" title="B16G16R16A16 => B8G8R8A8, fast">×1</td>
+    <td class="yes" data-col="4" title="B16G16R16A16 => B8G8R8A8, fast
+B8G8R8A8 => R8G8B8A8">×2</td>
+    <td class="no" data-col="5" title="B16G16R16A16 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="B16G16R16A16 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="B16G16R16A16 -x-&gt; R16G16B16A16">-</td>
+    <td class="" data-col="8" title="B16G16R16A16 -x-&gt; B16G16R16A16"></td>
+    <td class="no" data-col="9" title="B16G16R16A16 -x-&gt; G1">-</td>
+    <td class="no" data-col="10" title="B16G16R16A16 -x-&gt; G8">-</td>
+    <td class="no" data-col="11" title="B16G16R16A16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="B16G16R16A16 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="B16G16R16A16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="14" title="B16G16R16A16 -x-&gt; I8">-</td>
+    <td class="no" data-col="15" title="B16G16R16A16 -x-&gt; J8">-</td>
+    <td class="no" data-col="16" title="B16G16R16A16 -x-&gt; I1">-</td>
+    <td class="no" data-col="17" title="B16G16R16A16 -x-&gt; I4">-</td>
+  </tr>
+  <tr>
+    <th>G1</th>
+    <td class="yes" data-col="0" title="G1 => B8G8R8
+B8G8R8 => B5G5R5, dither">×2</td>
+    <td class="yes" data-col="1" title="G1 => B8G8R8">×1</td>
+    <td class="yes" data-col="2" title="G1 => R8G8B8">×1</td>
+    <td class="yes" data-col="3" title="G1 => B8G8R8A8">×1</td>
+    <td class="yes" data-col="4" title="G1 => R8G8B8A8">×1</td>
+    <td class="no" data-col="5" title="G1 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="G1 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="G1 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="G1 -x-&gt; B16G16R16A16">-</td>
+    <td class="" data-col="9" title="G1 -x-&gt; G1"></td>
+    <td class="yes" data-col="10" title="G1 => G8">×1</td>
+    <td class="no" data-col="11" title="G1 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="G1 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="G1 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="G1 => B8G8R8
+B8G8R8 => I8, dither">×2</td>
+    <td class="no" data-col="15" title="G1 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="G1 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="17" title="G1 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I4">×3</td>
+  </tr>
+  <tr>
+    <th>G8</th>
+    <td class="yes" data-col="0" title="G8 => B8G8R8
+B8G8R8 => B5G5R5, dither">×2</td>
+    <td class="yes" data-col="1" title="G8 => B8G8R8">×1</td>
+    <td class="yes" data-col="2" title="G8 => R8G8B8">×1</td>
+    <td class="yes" data-col="3" title="G8 => B8G8R8A8">×1</td>
+    <td class="yes" data-col="4" title="G8 => R8G8B8A8">×1</td>
+    <td class="no" data-col="5" title="G8 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="G8 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="G8 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="G8 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="G8 => G1, dither">×1</td>
+    <td class="" data-col="10" title="G8 -x-&gt; G8"></td>
+    <td class="no" data-col="11" title="G8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="G8 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="G8 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="G8 => B8G8R8
+B8G8R8 => I8, dither">×2</td>
+    <td class="no" data-col="15" title="G8 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="G8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="17" title="G8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I4">×3</td>
+  </tr>
+  <tr>
+    <th>G8A8</th>
+    <td class="no" data-col="0" title="G8A8 -x-&gt; B5G5R5">-</td>
+    <td class="no" data-col="1" title="G8A8 -x-&gt; B8G8R8">-</td>
+    <td class="no" data-col="2" title="G8A8 -x-&gt; R8G8B8">-</td>
+    <td class="yes" data-col="3" title="G8A8 => B8G8R8A8">×1</td>
+    <td class="yes" data-col="4" title="G8A8 => R8G8B8A8">×1</td>
+    <td class="no" data-col="5" title="G8A8 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="G8A8 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="G8A8 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="G8A8 -x-&gt; B16G16R16A16">-</td>
+    <td class="no" data-col="9" title="G8A8 -x-&gt; G1">-</td>
+    <td class="no" data-col="10" title="G8A8 -x-&gt; G8">-</td>
+    <td class="" data-col="11" title="G8A8 -x-&gt; G8A8"></td>
+    <td class="no" data-col="12" title="G8A8 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="G8A8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="14" title="G8A8 -x-&gt; I8">-</td>
+    <td class="no" data-col="15" title="G8A8 -x-&gt; J8">-</td>
+    <td class="no" data-col="16" title="G8A8 -x-&gt; I1">-</td>
+    <td class="no" data-col="17" title="G8A8 -x-&gt; I4">-</td>
+  </tr>
+  <tr>
+    <th>G16</th>
+    <td class="yes" data-col="0" title="G16 => G8
+G8 => B8G8R8
+B8G8R8 => B5G5R5, dither">×3</td>
+    <td class="yes" data-col="1" title="G16 => G8
+G8 => B8G8R8">×2</td>
+    <td class="yes" data-col="2" title="G16 => G8
+G8 => R8G8B8">×2</td>
+    <td class="yes" data-col="3" title="G16 => G8
+G8 => B8G8R8A8">×2</td>
+    <td class="yes" data-col="4" title="G16 => G8
+G8 => R8G8B8A8">×2</td>
+    <td class="no" data-col="5" title="G16 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="G16 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="G16 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="G16 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="G16 => G8
+G8 => G1, dither">×2</td>
+    <td class="yes" data-col="10" title="G16 => G8">×1</td>
+    <td class="no" data-col="11" title="G16 -x-&gt; G8A8">-</td>
+    <td class="" data-col="12" title="G16 -x-&gt; G16"></td>
+    <td class="no" data-col="13" title="G16 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="G16 => G8
+G8 => B8G8R8
+B8G8R8 => I8, dither">×3</td>
+    <td class="no" data-col="15" title="G16 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="G16 => G8
+G8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I1">×4</td>
+    <td class="yes" data-col="17" title="G16 => G8
+G8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I4">×4</td>
+  </tr>
+  <tr>
+    <th>G16A16</th>
+    <td class="no" data-col="0" title="G16A16 -x-&gt; B5G5R5">-</td>
+    <td class="no" data-col="1" title="G16A16 -x-&gt; B8G8R8">-</td>
+    <td class="no" data-col="2" title="G16A16 -x-&gt; R8G8B8">-</td>
+    <td class="yes" data-col="3" title="G16A16 => G8A8
+G8A8 => B8G8R8A8">×2</td>
+    <td class="yes" data-col="4" title="G16A16 => G8A8
+G8A8 => R8G8B8A8">×2</td>
+    <td class="no" data-col="5" title="G16A16 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="G16A16 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="G16A16 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="G16A16 -x-&gt; B16G16R16A16">-</td>
+    <td class="no" data-col="9" title="G16A16 -x-&gt; G1">-</td>
+    <td class="no" data-col="10" title="G16A16 -x-&gt; G8">-</td>
+    <td class="yes" data-col="11" title="G16A16 => G8A8">×1</td>
+    <td class="no" data-col="12" title="G16A16 -x-&gt; G16">-</td>
+    <td class="" data-col="13" title="G16A16 -x-&gt; G16A16"></td>
+    <td class="no" data-col="14" title="G16A16 -x-&gt; I8">-</td>
+    <td class="no" data-col="15" title="G16A16 -x-&gt; J8">-</td>
+    <td class="no" data-col="16" title="G16A16 -x-&gt; I1">-</td>
+    <td class="no" data-col="17" title="G16A16 -x-&gt; I4">-</td>
+  </tr>
+  <tr>
+    <th>I8</th>
+    <td class="yes" data-col="0" title="I8 => B8G8R8
+B8G8R8 => B5G5R5, dither">×2</td>
+    <td class="yes" data-col="1" title="I8 => B8G8R8">×1</td>
+    <td class="yes" data-col="2" title="I8 => R8G8B8">×1</td>
+    <td class="yes" data-col="3" title="I8 => B8G8R8A8">×1</td>
+    <td class="yes" data-col="4" title="I8 => R8G8B8A8">×1</td>
+    <td class="no" data-col="5" title="I8 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="I8 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="I8 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="I8 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="I8 => B8G8R8
+B8G8R8 => G8
+G8 => G1, dither">×3</td>
+    <td class="yes" data-col="10" title="I8 => B8G8R8
+B8G8R8 => G8">×2</td>
+    <td class="no" data-col="11" title="I8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="I8 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="I8 -x-&gt; G16A16">-</td>
+    <td class="" data-col="14" title="I8 -x-&gt; I8"></td>
+    <td class="no" data-col="15" title="I8 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="I8 => I1">×1</td>
+    <td class="yes" data-col="17" title="I8 => I4">×1</td>
+  </tr>
+  <tr>
+    <th>J8</th>
+    <td class="no" data-col="0" title="J8 -x-&gt; B5G5R5">-</td>
+    <td class="no" data-col="1" title="J8 -x-&gt; B8G8R8">-</td>
+    <td class="no" data-col="2" title="J8 -x-&gt; R8G8B8">-</td>
+    <td class="yes" data-col="3" title="J8 => B8G8R8A8">×1</td>
+    <td class="yes" data-col="4" title="J8 => R8G8B8A8">×1</td>
+    <td class="no" data-col="5" title="J8 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="J8 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="J8 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="J8 -x-&gt; B16G16R16A16">-</td>
+    <td class="no" data-col="9" title="J8 -x-&gt; G1">-</td>
+    <td class="no" data-col="10" title="J8 -x-&gt; G8">-</td>
+    <td class="no" data-col="11" title="J8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="J8 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="J8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="14" title="J8 -x-&gt; I8">-</td>
+    <td class="" data-col="15" title="J8 -x-&gt; J8"></td>
+    <td class="no" data-col="16" title="J8 -x-&gt; I1">-</td>
+    <td class="no" data-col="17" title="J8 -x-&gt; I4">-</td>
+  </tr>
+  <tr>
+    <th>I1</th>
+    <td class="yes" data-col="0" title="I1 => I8
+I8 => B8G8R8
+B8G8R8 => B5G5R5, dither">×3</td>
+    <td class="yes" data-col="1" title="I1 => I8
+I8 => B8G8R8">×2</td>
+    <td class="yes" data-col="2" title="I1 => I8
+I8 => R8G8B8">×2</td>
+    <td class="yes" data-col="3" title="I1 => I8
+I8 => B8G8R8A8">×2</td>
+    <td class="yes" data-col="4" title="I1 => I8
+I8 => R8G8B8A8">×2</td>
+    <td class="no" data-col="5" title="I1 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="I1 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="I1 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="I1 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="I1 => I8
+I8 => B8G8R8
+B8G8R8 => G8
+G8 => G1, dither">×4</td>
+    <td class="yes" data-col="10" title="I1 => I8
+I8 => B8G8R8
+B8G8R8 => G8">×3</td>
+    <td class="no" data-col="11" title="I1 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="I1 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="I1 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="I1 => I8">×1</td>
+    <td class="no" data-col="15" title="I1 -x-&gt; J8">-</td>
+    <td class="" data-col="16" title="I1 -x-&gt; I1"></td>
+    <td class="yes" data-col="17" title="I1 => I8
+I8 => I4">×2</td>
+  </tr>
+  <tr>
+    <th>I4</th>
+    <td class="yes" data-col="0" title="I4 => I8
+I8 => B8G8R8
+B8G8R8 => B5G5R5, dither">×3</td>
+    <td class="yes" data-col="1" title="I4 => I8
+I8 => B8G8R8">×2</td>
+    <td class="yes" data-col="2" title="I4 => I8
+I8 => R8G8B8">×2</td>
+    <td class="yes" data-col="3" title="I4 => I8
+I8 => B8G8R8A8">×2</td>
+    <td class="yes" data-col="4" title="I4 => I8
+I8 => R8G8B8A8">×2</td>
+    <td class="no" data-col="5" title="I4 -x-&gt; R16G16B16">-</td>
+    <td class="no" data-col="6" title="I4 -x-&gt; B16G16R16">-</td>
+    <td class="no" data-col="7" title="I4 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="8" title="I4 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="9" title="I4 => I8
+I8 => B8G8R8
+B8G8R8 => G8
+G8 => G1, dither">×4</td>
+    <td class="yes" data-col="10" title="I4 => I8
+I8 => B8G8R8
+B8G8R8 => G8">×3</td>
+    <td class="no" data-col="11" title="I4 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="12" title="I4 -x-&gt; G16">-</td>
+    <td class="no" data-col="13" title="I4 -x-&gt; G16A16">-</td>
+    <td class="yes" data-col="14" title="I4 => I8">×1</td>
+    <td class="no" data-col="15" title="I4 -x-&gt; J8">-</td>
+    <td class="yes" data-col="16" title="I4 => I8
+I8 => I1">×2</td>
+    <td class="" data-col="17" title="I4 -x-&gt; I4"></td>
   </tr>
   </table>
+  <script>
+  window.addEventListener("load", function(){
+    var cols = document.querySelectorAll('[data-col]');
+    cols.forEach(function(el){
+      el.addEventListener("mouseout", function() {
+        cols.forEach(function(colEl){
+            colEl.classList.remove("hover");
+        })
+      });
+      el.addEventListener("mouseenter", function(){
+        document.querySelectorAll('[data-col = "'+el.getAttribute('data-col')+'"]').forEach(function(colEl){
+          colEl.classList.add("hover");
+        })
+      });  
+    });
+  })
+  </script>
 </body>
 </html>

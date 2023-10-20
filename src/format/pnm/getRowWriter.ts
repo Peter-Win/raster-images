@@ -1,5 +1,5 @@
 import { utf8ToBytes } from "../../utils";
-import { copyWordsToBigEndian } from "../../cvt/copy/copyWordsToBigEndian";
+import { copyWordsToBigEndian } from "../../Converter/rowOps/copy/copyWordsToBigEndian";
 import { PnmDataType, PnmMapFormat } from "./pnmCommon";
 
 export type RowWriter = (srcRow: Uint8Array) => Uint8Array;

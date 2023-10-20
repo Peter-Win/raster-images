@@ -1,4 +1,4 @@
-import { OnProgressInfo, ProgressInfo } from "../transfer/ProgressInfo";
+import { OnProgressInfo, ProgressInfo } from "../Converter/ProgressInfo";
 
 export const testProgress =
   (log: ProgressInfo[]): OnProgressInfo =>
