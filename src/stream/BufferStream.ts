@@ -6,7 +6,7 @@
  */
 
 import { RAStream } from "./RAStream";
-import { copyBytes } from "../cvt/copy/copyBytes";
+import { copyBytes } from "../Converter/rowOps/copy/copyBytes";
 
 export class BufferStream implements RAStream {
   readonly name: string;

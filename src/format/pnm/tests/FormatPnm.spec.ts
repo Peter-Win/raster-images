@@ -1,6 +1,6 @@
+import { surfaceConverter } from "../../../Converter/surfaceConverter";
 import { SurfaceStd } from "../../../Surface";
 import { onStreamFromGallery } from "../../../tests/streamFromGallery";
-import { SurfaceReader } from "../../../transfer/SurfaceReader";
 import { dump } from "../../../utils";
 import { FormatPnm } from "../FormatPnm";
 
@@ -20,8 +20,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(15);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       const row1 = surface.getRowBuffer(1);
       expect(dump(row1)).toBe(
@@ -44,8 +43,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(255);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       const row1 = surface.getRowBuffer(1);
       expect(dump(row1)).toBe(
@@ -68,8 +66,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(0xffff);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       const row1 = surface.getRowBuffer(1);
       const row1u = new Uint16Array(row1.buffer, row1.byteOffset, 4);
@@ -91,8 +88,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(0xffff);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       const row1 = surface.getRowBuffer(1);
       const row1u = new Uint16Array(row1.buffer, row1.byteOffset, 4);
@@ -116,8 +112,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(255);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       expect(dump(surface.getRowBuffer(0))).toBe("0A 0A 0A");
       expect(dump(surface.getRowBuffer(1))).toBe("EF 6F 00");
@@ -140,8 +135,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(15);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       const row1 = surface.getRowBuffer(1);
       expect(dump(row1)).toBe("00 00 00 00 FF 77 00 00 00 00 00 00");
@@ -161,8 +155,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(255);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       const row1 = surface.getRowBuffer(1);
       expect(dump(row1)).toBe("00 00 00 00 FF 77 00 00 00 00 00 00");
@@ -183,8 +176,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(0xffff);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       const row1 = surface.getRowBuffer(1);
       const wRow1 = new Uint16Array(row1.buffer, row1.byteOffset, 4 * 3);
@@ -208,8 +200,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(0xffff);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       const row0 = surface.getRowBuffer(0);
       const wRow0 = new Uint16Array(row0.buffer, row0.byteOffset, 4 * 3);
@@ -246,8 +237,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(1);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       expect(dump(surface.getRowBuffer(0))).toBe("FF FF FF");
       expect(dump(surface.getRowBuffer(1))).toBe("86 18 61");
@@ -267,8 +257,7 @@ describe("FormatPnm", () => {
       expect(frame.info.vars?.maxVal).toBe(1);
 
       const surface = new SurfaceStd(frame.info);
-      const reader = new SurfaceReader(surface);
-      await frame.read(reader);
+      await frame.read(surfaceConverter(surface));
 
       expect(dump(surface.getRowBuffer(0))).toBe("FF FF FF");
       expect(dump(surface.getRowBuffer(1))).toBe("86 18 61");

@@ -8,6 +8,14 @@ export const createPalette = (count: number): Palette => {
   return pal;
 };
 
+export const createFreePalette = (count: number): Palette => {
+  const pal = new Array<PaletteItem>(count);
+  for (let i = 0; i < count; i++) {
+    pal[i] = [0, 0, 0, 0];
+  }
+  return pal;
+};
+
 export const createGrayPalette = (count: number): Palette => {
   const pal = new Array<PaletteItem>(count);
   const k = 255 / (count - 1);

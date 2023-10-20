@@ -1,4 +1,4 @@
-import { ImageReader } from "../../transfer/ImageReader";
+import { Converter } from "../../Converter";
 import { ImageInfo } from "../../ImageInfo";
 import { BitmapFormat, BitmapFrame } from "../BitmapFormat";
 import {
@@ -191,13 +191,12 @@ export class FrameBmp implements BitmapFrame {
     });
   }
 
-  async read(reader: ImageReader): Promise<void> {
+  async read(converter: Converter): Promise<void> {
     const { stream } = this.format;
     return streamLock(stream, async () => {
       const { info, isUpDown } = this;
       await stream.seek(this.offset);
-      await reader.onStart(info);
-      const params = { reader, info, isUpDown };
+      const params = { converter, info, isUpDown };
       if (
         this.compression === BmpCompression.RLE8 ||
         this.compression === BmpCompression.RLE4
@@ -212,9 +211,6 @@ export class FrameBmp implements BitmapFrame {
           stream,
           ...params,
         });
-      }
-      if (reader.onFinish) {
-        await reader.onFinish();
       }
     });
   }

@@ -7,19 +7,39 @@ const A = 255; // alpha
 
 export const paletteEGA: Readonly<Palette> = Object.freeze([
   [0, 0, 0, A], // 0:Black
-  [0, 0, N, A], // 1:Blue
+  [N, 0, 0, A], // 1:Blue
   [0, N, 0, A], // 2:Green
-  [0, N, N, A], // 3:Cyan
-  [N, 0, 0, A], // 4: Red
+  [N, N, 0, A], // 3:Cyan
+  [0, 0, N, A], // 4: Red
   [N, 0, N, A], // 5:Magenta
-  [N, D, 0, A], // 6:Yellow
+  [0, D, N, A], // 6:Brown
   [N, N, N, A], // 7:light gray
   [D, D, D, A], // 8: dark gray
-  [D, D, H, A], // 9: light blue
+  [H, D, D, A], // 9: light blue
   [D, H, D, A], // 10: light green
-  [D, H, H, A], // 11: light cyan
-  [H, D, D, A], // 12: light red
+  [H, H, D, A], // 11: light cyan
+  [D, D, H, A], // 12: light red
   [H, D, H, A], // 13: light magenta
-  [H, H, D, A], // 14: yellow
+  [D, H, H, A], // 14: yellow
   [H, H, H, A], // 15: white
 ]);
+
+// indices of the EGA palette
+export enum iEGA {
+  black,
+  blue,
+  green,
+  cyan,
+  red,
+  magenta,
+  brown,
+  lightGray,
+  darkGray,
+  lightBlue,
+  lightGreen,
+  lightCyan,
+  lightRed,
+  lightMagenta,
+  yellow,
+  white,
+}

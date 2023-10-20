@@ -1,6 +1,5 @@
 import { streamLock } from "../../stream";
 import { ImageInfo } from "../../ImageInfo";
-import { ImageReader } from "../../transfer/ImageReader";
 import { BitmapFormat, BitmapFrame } from "../BitmapFormat";
 import { PnmReader } from "./PnmReader";
 import { pnmDescriptions } from "./pnmCommon";
@@ -15,7 +14,7 @@ import {
   pnmRowReaderGray,
   pnmRowReaderRgb,
 } from "./PnmRowReader";
-import { readLoop } from "../../transfer/readLoop";
+import { Converter, readImage } from "../../Converter";
 
 export class FramePnm implements BitmapFrame {
   static async create(format: BitmapFormat): Promise<FramePnm> {
@@ -88,20 +87,16 @@ export class FramePnm implements BitmapFrame {
     public readonly rowReader: PnmRowReader
   ) {}
 
-  read(reader: ImageReader): Promise<void> {
+  read(converter: Converter): Promise<void> {
     const { stream } = this.format;
     return streamLock(stream, async () => {
       const { info, offset, rowReader } = this;
       await stream.seek(offset);
       const width = info.size.x;
-
-      await readLoop({
-        info,
-        reader,
-        onRow: async (row: Uint8Array) => {
-          await rowReader(width, row);
-        },
-      });
+      const onRow = async (row: Uint8Array) => {
+        await rowReader(width, row);
+      };
+      await readImage(converter, info, onRow);
     });
   }
 }

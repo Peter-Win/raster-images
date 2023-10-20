@@ -1,8 +1,14 @@
-import { ImageWriter } from "../../transfer/ImageWriter";
+import { stdRowOrder } from "../../Converter/rowOrder";
+import { createFreePalette } from "../../Palette";
+import { PixelDepth } from "../../types";
 import { ResolutionUnit, resolutionToMeters } from "../../ImageInfo/resolution";
 import { PixelFormat } from "../../PixelFormat";
 import { calcPitch } from "../../ImageInfo/calcPitch";
-import { writeImage } from "../../transfer/writeImage";
+import {
+  Converter,
+  createConverterForWrite,
+  writeImage,
+} from "../../Converter";
 import { Surface } from "../../Surface";
 import { getVarNumber } from "../../ImageInfo/Variables";
 import { calcPaletteSize } from "../../Palette/calcPaletteSize";
@@ -31,12 +37,60 @@ import {
 export const saveBmp = async (format: FormatForSave, stream: RAStream) => {
   const { frames } = format;
   if (frames.length !== 1) {
-    throw new ErrorRI("Can't write BMP file with <n> frames", {
+    throw new ErrorRI("Can't write <fmt> file with <n> frames", {
+      fmt: "BMP",
       n: frames.length,
     });
   }
   const frame = frames[0]!;
-  const { info } = frame;
+  const surface: Surface = await frame.getImage();
+  return saveBmpImage(surface, stream);
+};
+
+type OptionsSaveBmp = {
+  converter?: Converter;
+  dstPixFmt?: PixelFormat; // only if converter is empty
+};
+
+const findBestPixelFormat = (
+  srcPixFmt: PixelFormat,
+  dstPixFmt?: PixelFormat
+): PixelFormat => {
+  if (dstPixFmt) return dstPixFmt;
+  if (srcPixFmt.colorModel === "Indexed") {
+    return srcPixFmt;
+  }
+  if (srcPixFmt.colorModel === "Gray") {
+    const depth = Math.max(srcPixFmt.depth, 8) as PixelDepth;
+    return new PixelFormat({
+      colorModel: "Indexed",
+      depth,
+      palette: createFreePalette(1 << depth),
+    });
+  }
+  if (srcPixFmt.colorModel !== "RGB") {
+    return new PixelFormat(24);
+  }
+  const depth = Math.min(srcPixFmt.depth, 32) as PixelDepth;
+  return new PixelFormat(depth);
+};
+
+export const saveBmpImage = async (
+  surface: Surface,
+  stream: RAStream,
+  options?: OptionsSaveBmp
+) => {
+  const { converter, dstPixFmt } = options || {};
+  let finalConverter: Converter;
+  if (converter) {
+    finalConverter = converter;
+  } else {
+    const pixFmt = findBestPixelFormat(surface.info.fmt, dstPixFmt);
+    finalConverter = createConverterForWrite(surface, pixFmt);
+  }
+
+  const reader = await finalConverter.getRowsReader();
+  const info = reader.dstInfo;
   const { size, vars, fmt: pixFmt } = info;
   const { colorModel, depth, palette } = pixFmt;
 
@@ -138,16 +192,21 @@ export const saveBmp = async (format: FormatForSave, stream: RAStream) => {
     const bmpLineSize = calcPitch(size.x, depth, 4);
     const delta = bmpLineSize - lineSize;
     const deltaBuf = delta ? new Uint8Array(delta) : undefined;
-    const surface: Surface = await frame.getImage();
-    await writeImage(surface, pixFmt, async (writer: ImageWriter) => {
-      const [yBegin, yEnd, yStep] = upDown
-        ? [0, size.y, 1]
-        : [size.y - 1, -1, -1];
-      for (let y = yBegin; y !== yEnd; y += yStep) {
-        const pixels = await writer.getRowBuffer(y);
-        await stream.write(pixels, lineSize);
-        if (deltaBuf) await stream.write(deltaBuf);
-      }
+    // await writeImage(surface, pixFmt, async (writer: ImageWriter) => {
+    //   const [yBegin, yEnd, yStep] = upDown
+    //     ? [0, size.y, 1]
+    //     : [size.y - 1, -1, -1];
+    //   for (let y = yBegin; y !== yEnd; y += yStep) {
+    //     const pixels = await writer.getRowBuffer(y);
+    //   }
+    // });
+    const writeRow = async (pixels: Uint8Array) => {
+      await stream.write(pixels, lineSize);
+      if (deltaBuf) await stream.write(deltaBuf);
+    };
+    await writeImage(reader, writeRow, {
+      progress: finalConverter.progress,
+      rowOrder: stdRowOrder(upDown ? "forward" : "backward"),
     });
     hdr.bfSize = await stream.getPos();
     stream.seek(0);

@@ -2,9 +2,9 @@ import { loadImageByName } from "../loadImageByName";
 import { onStreamFromGallery } from "../../tests/streamFromGallery";
 import { dump, dumpA } from "../../utils";
 import { PixelFormat } from "../../PixelFormat";
-import { SwapRedBlue24 } from "../../cvt/rgb/SwapRedBlue";
-import { Cvt24to32 } from "../../cvt/rgb/Cvt24to32";
-import { CvtGray8toRGB8 } from "../../cvt/gray/CvtGray8toRGB8";
+import { swapRedBlue24 } from "../../Converter/rowOps/rgb/swapRedBlue";
+import { rgb24toRgba32 } from "../../Converter/rowOps/rgb/rgb24toRgba32";
+import { gray8toRgb8 } from "../../Converter/rowOps/gray/gray8toRgb8";
 import { SurfaceStd } from "../../Surface";
 
 const cvtStrSrcToMatrix = (src: string): number[][] =>
@@ -59,13 +59,7 @@ describe("loadImageByName", () => {
       const dstRow = new Uint8Array(3 * 4);
       for (let y = 0; y < size.y; y++) {
         const row = img.getRowBuffer(y);
-        SwapRedBlue24.cvt(
-          4,
-          new Uint8Array(pixelsRGB[y]!),
-          0,
-          dstRow.buffer,
-          0
-        );
+        swapRedBlue24(4, new Uint8Array(pixelsRGB[y]!), dstRow);
         expect(`${y}: ${dump(row)}`).toBe(`${y}: ${dump(dstRow)}`);
       }
     });
@@ -80,7 +74,7 @@ describe("loadImageByName", () => {
       const cmpRow = new Uint8Array(4 * 4);
       for (let y = 0; y < size.y; y++) {
         const row = img.getRowBuffer(y);
-        Cvt24to32.cvt(4, new Uint8Array(pixelsRGB[y]!), 0, cmpRow.buffer, 0);
+        rgb24toRgba32(4, new Uint8Array(pixelsRGB[y]!), cmpRow);
         expect(`${y}: ${dump(row)}`).toBe(`${y}: ${dump(cmpRow)}`);
       }
     });
@@ -110,13 +104,7 @@ describe("loadImageByName", () => {
       const cmpRow = new Uint8Array(3 * 24);
       for (let y = 0; y < size.y; y++) {
         const row = img.getRowBuffer(y);
-        CvtGray8toRGB8.cvt(
-          24,
-          new Uint8Array(pixelsGray[y]!),
-          0,
-          cmpRow.buffer,
-          0
-        );
+        gray8toRgb8(24, new Uint8Array(pixelsGray[y]!), cmpRow);
         expect(`${y}: ${dump(row)}`).toBe(`${y}: ${dump(cmpRow)}`);
       }
     });
@@ -131,13 +119,7 @@ describe("loadImageByName", () => {
       const cmpRow = new Uint8Array(3 * size.x);
       for (let y = 0; y < size.y; y++) {
         const row = img.getRowBuffer(y);
-        CvtGray8toRGB8.cvt(
-          24,
-          new Uint8Array(pixelsGray[y]!),
-          0,
-          cmpRow.buffer,
-          0
-        );
+        gray8toRgb8(24, new Uint8Array(pixelsGray[y]!), cmpRow);
         expect(`${y}: ${dump(row)}`).toBe(`${y}: ${dump(cmpRow)}`);
       }
     });

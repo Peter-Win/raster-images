@@ -1,6 +1,6 @@
 import { RAStream } from "../stream/RAStream";
 import { ImageInfo } from "../ImageInfo";
-import { ImageReader } from "../transfer/ImageReader";
+import { Converter } from "../Converter";
 import { Variables } from "../ImageInfo/Variables";
 
 export type FrameType = "image" | "frame" | "preview" | "alpha" | "layer";
@@ -11,7 +11,7 @@ export interface BitmapFrame {
   readonly type: FrameType;
   readonly offset: number;
   readonly size?: number;
-  read(reader: ImageReader): Promise<void>;
+  read(converter: Converter): Promise<void>;
 }
 
 export interface BitmapFormat {

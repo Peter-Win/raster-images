@@ -1,6 +1,6 @@
 // https://learn.microsoft.com/en-us/windows/win32/gdi/bitmap-compression
 
-import { copyBytes } from "../../../cvt/copy/copyBytes";
+import { copyBytes } from "../../../Converter/rowOps/copy/copyBytes";
 import { FnRleUnpack, RleContext, Res } from "./rleTypes";
 
 export const unpackRle8: FnRleUnpack = (

@@ -1,4 +1,4 @@
-import { copyBytes } from "../../cvt/copy/copyBytes";
+import { copyBytes } from "../../Converter/rowOps/copy/copyBytes";
 import { getPngFilterByValue } from "./PngFilter";
 
 export class PngRowFiltrator {

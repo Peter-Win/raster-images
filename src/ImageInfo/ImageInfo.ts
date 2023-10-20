@@ -25,6 +25,7 @@ export const createInfoSize = (
   size,
   fmt: new PixelFormat({ depth, colorModel, alpha, palette }),
 });
+
 export const createInfo = (
   width: number,
   height: number,
@@ -34,6 +35,15 @@ export const createInfo = (
   palette?: Palette
 ): ImageInfo =>
   createInfoSize(new Point(width, height), depth, colorModel, alpha, palette);
+
+export const createInfoSign = (
+  width: number,
+  height: number,
+  signature: string
+): ImageInfo => ({
+  size: new Point(width, height),
+  fmt: new PixelFormat(signature),
+});
 
 export const getImageLineSize = ({ pitch, size, fmt }: ImageInfo): number =>
   pitch ?? calcPitch(size.x, fmt.depth);

@@ -1,5 +1,6 @@
 import { RAStream } from "../stream/RAStream";
 import { BitmapFormat } from "./BitmapFormat";
+import { FormatForSave } from "./FormatForSave";
 import { FormatProps } from "./FormatProps";
 
 export interface Driver {
@@ -12,5 +13,5 @@ export interface Driver {
   createFormat(stream: RAStream): Promise<BitmapFormat>;
 
   // Saving
-  // save(format: FormatForSave): Promise<void>;
+  save?(format: FormatForSave, stream: RAStream): Promise<void>;
 }

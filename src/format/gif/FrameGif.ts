@@ -1,6 +1,5 @@
 import { readPalette } from "../../Palette/readPalette";
 import { ImageInfo, createInfo } from "../../ImageInfo";
-import { ImageReader } from "../../transfer/ImageReader";
 import { BitmapFrame } from "../BitmapFormat";
 import { FormatGif } from "./FormatGif";
 import {
@@ -12,12 +11,12 @@ import {
 import { calcGifTableSize } from "./calcGifTableSize";
 import { ErrorRI } from "../../utils";
 import { readByte, streamLock } from "../../stream";
-import { FnRowOrder, rowOrderForward } from "../../transfer/rowOrder";
+import { FnRowOrder, rowOrderForward } from "../../Converter/rowOrder";
 import { gifRowOrderInterlaced } from "./gifRowOrderInterlaced";
 import { skipGifData } from "./skipGifData";
 import { LzwUnpacker } from "./lzw/LzwUnpacker";
 import { GraphicControlExtension } from "./GraphicControlExtension";
-import { readLoop } from "../../transfer/readLoop";
+import { Converter, readImage } from "../../Converter";
 
 export class FrameGif implements BitmapFrame {
   static async create(
@@ -87,25 +86,22 @@ export class FrameGif implements BitmapFrame {
     return gifInterlaced(this.descriptor.flags);
   }
 
-  async read(reader: ImageReader): Promise<void> {
+  async read(converter: Converter): Promise<void> {
     await streamLock(this.format.stream, async (stream) => {
       const { width } = this.descriptor;
       const { interleased } = this;
       const rowOrder: FnRowOrder = interleased
         ? gifRowOrderInterlaced
         : rowOrderForward;
-      await reader.onStart(this.info);
       await stream.seek(this.offset);
       const startCodeSize = await readByte(stream);
       const unpacker = new LzwUnpacker(stream, startCodeSize);
-      await readLoop({
-        info: this.info,
-        rowOrder,
-        reader,
-        async onRow(row: Uint8Array) {
-          await unpacker.readLine(row, width);
-        },
-      });
+      await readImage(
+        converter,
+        this.info,
+        (row) => unpacker.readLine(row, width),
+        rowOrder
+      );
     });
   }
 }

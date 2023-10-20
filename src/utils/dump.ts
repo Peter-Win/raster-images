@@ -3,6 +3,11 @@ export const dump = (buf: Uint8Array, begin?: number, end?: number): string =>
     .map((n: number) => n.toString(16).toUpperCase().padStart(2, "0"))
     .join(" ");
 
+export const dumpW = (buf: Uint16Array, begin?: number, end?: number): string =>
+  Array.from(buf.slice(begin ?? 0, end ?? buf.byteLength))
+    .map((n: number) => n.toString(16).toUpperCase().padStart(4, "0"))
+    .join(" ");
+
 export const dumpA = (arr: (number | BigInt)[]): string =>
   arr
     .map((n) => n.toString(16).toUpperCase())

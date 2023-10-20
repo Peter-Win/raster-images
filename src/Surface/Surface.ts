@@ -1,6 +1,7 @@
 import { ImageInfo, getImageLineSize } from "../ImageInfo";
 import { Point } from "../math/Point";
 import { ColorModel } from "../ColorModel";
+import { Palette } from "../Palette";
 
 /**
  * Surface = raster image
@@ -21,6 +22,14 @@ export abstract class Surface {
 
   get colorModel(): ColorModel {
     return this.info.fmt.colorModel;
+  }
+
+  get palette(): Readonly<Palette> | undefined {
+    return this.info.fmt.palette;
+  }
+
+  setPalette(newPalette: Readonly<Palette> | undefined) {
+    this.info.fmt.setPalette(newPalette);
   }
 
   get bitsPerPixel() {
