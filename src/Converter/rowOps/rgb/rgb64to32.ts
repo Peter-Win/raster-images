@@ -2,10 +2,6 @@
 
 import { FnRowOp } from "../FnRowOp";
 
-// loss: true,
-// speed: 100,
-// quality: 80,
-
 export const rgb64to32Fast: FnRowOp = (width, bsrc, dst) => {
   const wsrc = new Uint16Array(bsrc.buffer, bsrc.byteOffset);
   let srcPos = 0;

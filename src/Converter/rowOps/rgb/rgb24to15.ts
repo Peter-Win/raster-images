@@ -7,10 +7,6 @@ import { FnRowOp } from "../FnRowOp";
 // Но с другой стороны, 15-битовая упаковка практически всегда используется только для BGR.
 // Видимо потому что такой формат поддерживается SVGA-видеокартами.
 
-// loss: true,
-// speed: 90,
-// quality: 30,
-
 /**
  * Самый быстрый способ. Но худшее качество.
  * На градиентах будут заметны "ступеньки".
@@ -27,10 +23,6 @@ export const rgb24to15Fast: FnRowOp = (width, src, bdst) => {
     wdst[dstPos++] = c0 | (c1 << 5) | (c2 << 10);
   }
 };
-
-// loss: true,
-// speed: 60,
-// quality: 80,
 
 export const rgb24to15Dither: FnRowOpDithering = (width, src, bdst, ctx) => {
   const wdst = new Uint16Array(bdst.buffer, bdst.byteOffset);
