@@ -7,7 +7,7 @@ import { Converter } from "../Converter";
 import { surfaceConverter } from "../surfaceConverter";
 import { getTestFile } from "../../tests/getTestFile";
 import { dot24, drawSphere } from "../../tests/drawSphere";
-import { saveBmpImage } from "../../format/bmp/saveBmp";
+import { saveBmpImage } from "../../format/bmp";
 import { createFloydSteinberg } from "../dithering/FloydSteinberg";
 import { Point } from "../../math/Point";
 import { DitherCtx } from "../dithering/DitherCtx";

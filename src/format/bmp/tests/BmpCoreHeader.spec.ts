@@ -1,7 +1,7 @@
 import {
   BmpCoreHeader,
   readBmpCoreHeader,
-  sizeBmpCoreHeader,
+  bmpCoreHeaderSize,
   writeBmpCoreHeader,
 } from "../BmpCoreHeader";
 
@@ -27,7 +27,7 @@ test("writeBmpCoreHeader", () => {
     bcPlanes: 1,
     bcBitCount: 8,
   };
-  const buf = new Uint8Array(sizeBmpCoreHeader);
+  const buf = new Uint8Array(bmpCoreHeaderSize);
   writeBmpCoreHeader(hd, buf.buffer, buf.byteOffset);
   expect(Array.from(buf)).toEqual(example);
 });

@@ -173,7 +173,7 @@ export class FrameBmp implements BitmapFrame {
         if (bi.biXPelsPerMeter) vars.resX = bi.biXPelsPerMeter;
         if (bi.biYPelsPerMeter) vars.resY = bi.biYPelsPerMeter;
         if (bi.biClrImportant) vars.importantColors = bi.biClrImportant;
-        if (upDown) vars.rowOrder = "UpToDown";
+        if (upDown) vars.rowOrder = "forward";
       }
       const imgInfo: ImageInfo = {
         size,

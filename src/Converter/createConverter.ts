@@ -14,7 +14,7 @@ export const createConverterFromList = (
   surface: Surface,
   progress?: OnProgressInfo
 ): Converter =>
-  list.reduceRight(
+  list.reduce(
     (nextConverter: Converter, descr) =>
       descr.create({
         nextConverter,

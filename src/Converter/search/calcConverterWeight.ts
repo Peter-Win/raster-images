@@ -5,8 +5,9 @@ import { ConverterSearchProps } from "./ConverterSearchProps";
 // чем больше вес, тем конвертер лучше.
 // Если 0, значит конвертер не соответствует требованиям и не будет использован.
 export const calcConverterWeight = (
-  _descriptor: ConverterFactoryDescr,
-  _props: ConverterSearchProps
-): number =>
-  // TODO: пока заглушка
-  100;
+  { props }: ConverterFactoryDescr,
+  searchProps: ConverterSearchProps
+): number => {
+  if (props.dithering && searchProps.dithering === false) return 0;
+  return props[searchProps.prefer];
+};

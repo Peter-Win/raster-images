@@ -1,7 +1,7 @@
 import { Surface, SurfaceStd } from "../../../Surface";
 import { getTestFile } from "../../../tests/getTestFile";
 import { drawSphere, dotG8, dotRGB16 } from "../../../tests/drawSphere";
-import { saveBmpImage } from "../../../format/bmp/saveBmp";
+import { saveBmpImage } from "../../../format/bmp";
 import { bmpInfoHeaderSize } from "../../../format/bmp/BmpInfoHeader";
 import { bmpFileHeaderSize } from "../../../format/bmp/BmpFileHeader";
 import { formatForSaveFromSurface } from "../../../format/FormatForSave";

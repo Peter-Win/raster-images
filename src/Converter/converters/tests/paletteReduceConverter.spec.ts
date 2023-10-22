@@ -1,6 +1,6 @@
 import { paletteEGA } from "../../../Palette";
 import { Surface, SurfaceStd } from "../../../Surface";
-import { saveBmpImage } from "../../../format/bmp/saveBmp";
+import { saveBmp } from "../../../format/bmp";
 import { getTestFile } from "../../../tests/getTestFile";
 import { dump } from "../../../utils";
 import { copyBytes } from "../../rowOps/copy/copyBytes";
@@ -11,7 +11,7 @@ import { pack8to4bits } from "../../rowOps/indexed/indexedToIndexedDown";
 
 const saveTestImage = async (surface: Surface, shortName: string) => {
   const stream = await getTestFile(__dirname, shortName, "w");
-  await saveBmpImage(surface, stream, { converter: surfaceConverter(surface) });
+  await saveBmp(surfaceConverter(surface), stream);
 };
 
 describe("paletteReduceConverter", () => {

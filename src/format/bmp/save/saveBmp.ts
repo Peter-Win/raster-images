@@ -1,97 +1,44 @@
-import { stdRowOrder } from "../../Converter/rowOrder";
-import { createFreePalette } from "../../Palette";
-import { PixelDepth } from "../../types";
-import { ResolutionUnit, resolutionToMeters } from "../../ImageInfo/resolution";
-import { PixelFormat } from "../../PixelFormat";
-import { calcPitch } from "../../ImageInfo/calcPitch";
+import { Converter, writeImage } from "../../../Converter";
+import { stdRowOrder } from "../../../Converter/rowOrder";
+import { calcPitch } from "../../../ImageInfo/calcPitch";
+import { resolutionToMeters } from "../../../ImageInfo/resolution";
+import { writePaletteToBuf, writePalette } from "../../../Palette";
+import { calcPaletteSize } from "../../../Palette/calcPaletteSize";
+import { PixelFormat } from "../../../PixelFormat";
+import { RAStream, streamLock } from "../../../stream";
+import { ErrorRI } from "../../../utils";
 import {
-  Converter,
-  createConverterForWrite,
-  writeImage,
-} from "../../Converter";
-import { Surface } from "../../Surface";
-import { getVarNumber } from "../../ImageInfo/Variables";
-import { calcPaletteSize } from "../../Palette/calcPaletteSize";
-import { writePalette, writePaletteToBuf } from "../../Palette/writePalette";
-import { ErrorRI } from "../../utils";
-import { RAStream, streamLock } from "../../stream";
-import { FormatForSave } from "../FormatForSave";
-import { bmpOs2 } from "./bmpCommon";
-import {
-  BmpFileHeader,
-  bmpFileHeaderSize,
-  writeBmpFileHeader,
-} from "./BmpFileHeader";
-import {
+  bmpCoreHeaderSize,
   BmpCoreHeader,
-  sizeBmpCoreHeader,
   writeBmpCoreHeader,
-} from "./BmpCoreHeader";
+} from "../BmpCoreHeader";
 import {
-  BmpCompression,
-  BmpInfoHeader,
+  bmpFileHeaderSize,
+  BmpFileHeader,
+  writeBmpFileHeader,
+} from "../BmpFileHeader";
+import {
   bmpInfoHeaderSize,
+  BmpInfoHeader,
+  BmpCompression,
   writeBmpInfoHeader,
-} from "./BmpInfoHeader";
+} from "../BmpInfoHeader";
+import { OptionsSaveBmp } from "./OptionsSaveBmp";
 
-export const saveBmp = async (format: FormatForSave, stream: RAStream) => {
-  const { frames } = format;
-  if (frames.length !== 1) {
-    throw new ErrorRI("Can't write <fmt> file with <n> frames", {
-      fmt: "BMP",
-      n: frames.length,
-    });
-  }
-  const frame = frames[0]!;
-  const surface: Surface = await frame.getImage();
-  return saveBmpImage(surface, stream);
-};
-
-type OptionsSaveBmp = {
-  converter?: Converter;
-  dstPixFmt?: PixelFormat; // only if converter is empty
-};
-
-const findBestPixelFormat = (
-  srcPixFmt: PixelFormat,
-  dstPixFmt?: PixelFormat
-): PixelFormat => {
-  if (dstPixFmt) return dstPixFmt;
-  if (srcPixFmt.colorModel === "Indexed") {
-    return srcPixFmt;
-  }
-  if (srcPixFmt.colorModel === "Gray") {
-    const depth = Math.max(srcPixFmt.depth, 8) as PixelDepth;
-    return new PixelFormat({
-      colorModel: "Indexed",
-      depth,
-      palette: createFreePalette(1 << depth),
-    });
-  }
-  if (srcPixFmt.colorModel !== "RGB") {
-    return new PixelFormat(24);
-  }
-  const depth = Math.min(srcPixFmt.depth, 32) as PixelDepth;
-  return new PixelFormat(depth);
-};
-
-export const saveBmpImage = async (
-  surface: Surface,
+/**
+ * Low-level final function
+ * @param converter
+ * @param stream
+ * @param options все опции передаются явно через параметры. Переменные из ImageInfo игнорируются.
+ */
+export const saveBmp = async (
+  converter: Converter,
   stream: RAStream,
   options?: OptionsSaveBmp
 ) => {
-  const { converter, dstPixFmt } = options || {};
-  let finalConverter: Converter;
-  if (converter) {
-    finalConverter = converter;
-  } else {
-    const pixFmt = findBestPixelFormat(surface.info.fmt, dstPixFmt);
-    finalConverter = createConverterForWrite(surface, pixFmt);
-  }
-
-  const reader = await finalConverter.getRowsReader();
+  const reader = await converter.getRowsReader();
   const info = reader.dstInfo;
-  const { size, vars, fmt: pixFmt } = info;
+  const { size, fmt: pixFmt } = info;
   const { colorModel, depth, palette } = pixFmt;
 
   if (colorModel !== "RGB" && colorModel !== "Indexed") {
@@ -101,7 +48,7 @@ export const saveBmpImage = async (
   }
   const onEmptyPal = () => new ErrorRI("Indexed image without a palette");
 
-  const os2 = vars?.format === bmpOs2;
+  const os2 = options?.os2;
 
   await streamLock(stream, async () => {
     // reserve space for file header
@@ -122,7 +69,7 @@ export const saveBmpImage = async (
           { depth }
         );
       }
-      const bcBuf = new Uint8Array(sizeBmpCoreHeader);
+      const bcBuf = new Uint8Array(bmpCoreHeaderSize);
       const coreHeader: BmpCoreHeader = {
         bcSize: bcBuf.byteLength,
         bcWidth: size.x,
@@ -152,7 +99,7 @@ export const saveBmpImage = async (
       const biBuf = new Uint8Array(bmpInfoHeaderSize);
       const bitCount = pixFmt.depthAligned;
       const colors = palette?.length || 0;
-      upDown = vars?.rowOrder === "UpToDown";
+      upDown = options?.rowOrder === "forward";
       const bi: BmpInfoHeader = {
         biSize: biBuf.byteLength,
         biPlanes: 1,
@@ -166,15 +113,15 @@ export const saveBmpImage = async (
             ? BmpCompression.BITFIELDS
             : BmpCompression.RGB,
         biClrUsed: colors,
-        biClrImportant: getVarNumber(vars?.importantColors, 0),
+        biClrImportant: options?.importantColors ?? 0,
         biSizeImage: 0,
         biXPelsPerMeter: 0,
         biYPelsPerMeter: 0,
       };
-      const resX = getVarNumber(vars?.resX, 0);
-      const resY = getVarNumber(vars?.resY, 0);
+      const resX = options?.resX ?? 0;
+      const resY = options?.resY ?? 0;
       if (resX && resY) {
-        const resUnit = (vars?.resUnit ?? "meter") as ResolutionUnit;
+        const resUnit = options?.resUnit ?? "meter";
         bi.biXPelsPerMeter = Math.round(resolutionToMeters(resX, resUnit));
         bi.biYPelsPerMeter = Math.round(resolutionToMeters(resY, resUnit));
       }
@@ -192,20 +139,12 @@ export const saveBmpImage = async (
     const bmpLineSize = calcPitch(size.x, depth, 4);
     const delta = bmpLineSize - lineSize;
     const deltaBuf = delta ? new Uint8Array(delta) : undefined;
-    // await writeImage(surface, pixFmt, async (writer: ImageWriter) => {
-    //   const [yBegin, yEnd, yStep] = upDown
-    //     ? [0, size.y, 1]
-    //     : [size.y - 1, -1, -1];
-    //   for (let y = yBegin; y !== yEnd; y += yStep) {
-    //     const pixels = await writer.getRowBuffer(y);
-    //   }
-    // });
     const writeRow = async (pixels: Uint8Array) => {
       await stream.write(pixels, lineSize);
       if (deltaBuf) await stream.write(deltaBuf);
     };
     await writeImage(reader, writeRow, {
-      progress: finalConverter.progress,
+      progress: converter.progress,
       rowOrder: stdRowOrder(upDown ? "forward" : "backward"),
     });
     hdr.bfSize = await stream.getPos();

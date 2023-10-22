@@ -1,6 +1,6 @@
 import { rgb24to15Dither, rgb24to15Fast } from "../rgb24to15";
 import { Surface, SurfaceStd } from "../../../../Surface";
-import { saveBmpImage } from "../../../../format/bmp/saveBmp";
+import { saveBmpImage } from "../../../../format/bmp";
 import { getTestFile } from "../../../../tests/getTestFile";
 import { dot24, drawSphere } from "../../../../tests/drawSphere";
 import { createFloydSteinberg8 } from "../../../dithering/FloydSteinberg";
