@@ -1,4 +1,5 @@
-import { Converter, writeImage } from "../../../Converter";
+import { OnProgressInfo } from "../../../Converter/ProgressInfo";
+import { RowsReader, writeImage } from "../../../Converter";
 import { stdRowOrder } from "../../../Converter/rowOrder";
 import { calcPitch } from "../../../ImageInfo/calcPitch";
 import { resolutionToMeters } from "../../../ImageInfo/resolution";
@@ -32,11 +33,11 @@ import { OptionsSaveBmp } from "./OptionsSaveBmp";
  * @param options все опции передаются явно через параметры. Переменные из ImageInfo игнорируются.
  */
 export const saveBmp = async (
-  converter: Converter,
+  reader: RowsReader,
   stream: RAStream,
-  options?: OptionsSaveBmp
+  options?: OptionsSaveBmp,
+  progress?: OnProgressInfo
 ) => {
-  const reader = await converter.getRowsReader();
   const info = reader.dstInfo;
   const { size, fmt: pixFmt } = info;
   const { colorModel, depth, palette } = pixFmt;
@@ -144,7 +145,7 @@ export const saveBmp = async (
       if (deltaBuf) await stream.write(deltaBuf);
     };
     await writeImage(reader, writeRow, {
-      progress: converter.progress,
+      progress,
       rowOrder: stdRowOrder(upDown ? "forward" : "backward"),
     });
     hdr.bfSize = await stream.getPos();

@@ -1,7 +1,7 @@
 import { Surface } from "../Surface";
 import { PixelFormat } from "..";
 import { OnProgressInfo } from "./ProgressInfo";
-import { Converter } from "./Converter";
+import { Converter, RowsReader } from "./Converter";
 import { ConverterFactoryDescr } from "./ConverterFactory";
 import { surfaceConverter } from "./surfaceConverter";
 import { ConverterSearchProps, defaultConverterSearchProps } from "./search";
@@ -51,6 +51,16 @@ export const createConverterForWrite = (
     graph
   );
   return createConverterFromList(path, srcImage, options?.progress);
+};
+
+export const createRowsReader = (
+  srcImage: Surface,
+  dstPixFmt: PixelFormat,
+  options?: OptionsCreateConverter
+): Promise<RowsReader> => {
+  const converter = createConverterForWrite(srcImage, dstPixFmt, options);
+  const { palette } = dstPixFmt;
+  return converter.getRowsReader({ palette });
 };
 
 export const createConverterForRead = (

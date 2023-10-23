@@ -16,6 +16,8 @@ import { bmpFileHeaderSize } from "../../BmpFileHeader";
 import { bmpInfoHeaderSize, readBmpInfoHeader } from "../../BmpInfoHeader";
 import { bmpOs2 } from "../../bmpCommon";
 import { saveBmpFormat } from "../saveBmpFormat";
+import { testProgress } from "../../../../tests/testProgress";
+import { ProgressInfo } from "../../../../Converter/ProgressInfo";
 
 describe("saveBmpFormat", () => {
   it("invalid frames count", async () => {
@@ -112,5 +114,16 @@ describe("saveBmpFormat", () => {
       expect(bc.bcSize).toBe(bmpCoreHeaderSize); // OS/2
       expect(bc.bcBitCount).toBe(8);
     });
+  });
+
+  it("saveBmpFormat progress", async () => {
+    const buf = new Uint8Array(2000);
+    const stream = new BufferStream(buf);
+    const img = SurfaceStd.create(4, 3, 24);
+    const log: ProgressInfo[] = [];
+    const progress = testProgress(log);
+    const fmt = formatForSaveFromSurface(img);
+    await saveBmpFormat(fmt, stream, undefined, { progress });
+    expect(log.length).toBe(img.height + 2);
   });
 });

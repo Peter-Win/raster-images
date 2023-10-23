@@ -1,10 +1,12 @@
+import { ProgressInfo } from "../../../../Converter/ProgressInfo";
 import { createFreePalette } from "../../../../Palette";
 import { PixelFormat } from "../../../../PixelFormat";
 import { SurfaceStd } from "../../../../Surface";
-import { streamLock } from "../../../../stream";
+import { BufferStream, streamLock } from "../../../../stream";
 import { NodeJSFile } from "../../../../stream/NodeJSFile";
 import { dot24, dotG8, drawSphere } from "../../../../tests/drawSphere";
 import { getTestFile } from "../../../../tests/getTestFile";
+import { testProgress } from "../../../../tests/testProgress";
 import { bmpFileHeaderSize } from "../../BmpFileHeader";
 import { bmpInfoHeaderSize, readBmpInfoHeader } from "../../BmpInfoHeader";
 import { saveBmpImage } from "../saveBmpImage";
@@ -34,7 +36,7 @@ describe("saveBmpImage", () => {
     });
   });
 
-  xit("change dst pixel format", async () => {
+  it("change dst pixel format", async () => {
     // RGB Image save as I8 with limited colors
     const width = 400;
     const height = 300;
@@ -67,5 +69,15 @@ describe("saveBmpImage", () => {
       expect(bi.biBitCount).toBe(8);
       expect(bi.biClrUsed).toBe(128);
     });
+  });
+
+  it("saveBmpImage progress", async () => {
+    const buf = new Uint8Array(2000);
+    const stream = new BufferStream(buf);
+    const img = SurfaceStd.create(4, 3, 24);
+    const log: ProgressInfo[] = [];
+    const progress = testProgress(log);
+    await saveBmpImage(img, stream, {}, { progress });
+    expect(log.length).toBe(img.height + 2);
   });
 });

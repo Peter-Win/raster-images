@@ -2,7 +2,7 @@ import { saveBmp } from "../saveBmp";
 import { BufferStream } from "../../../../stream/BufferStream";
 import { ColorModel } from "../../../../ColorModel";
 import { PixelDepth } from "../../../../types";
-import { SurfaceStd } from "../../../../Surface";
+import { Surface, SurfaceStd } from "../../../../Surface";
 import { createGrayPalette, createPalette } from "../../../../Palette";
 import { getTestFile } from "../../../../tests/getTestFile";
 import { streamLock } from "../../../../stream";
@@ -19,15 +19,18 @@ import {
   bmpInfoHeaderSize,
   readBmpInfoHeader,
 } from "../../BmpInfoHeader";
-import { surfaceConverter } from "../../../../Converter/surfaceConverter";
 import { OptionsSaveBmp } from "../OptionsSaveBmp";
+import { RowsReader, createRowsReader } from "../../../../Converter";
+
+const getReader = (surface: Surface): Promise<RowsReader> =>
+  createRowsReader(surface, surface.info.fmt);
 
 describe("saveBmp", () => {
   it("invalid color models", async () => {
     const save = async (depth: PixelDepth, colorModel: ColorModel) => {
       const surface = SurfaceStd.create(2, 2, depth, { colorModel });
       const dstStream = new BufferStream(new Uint8Array(100), { size: 0 });
-      await saveBmp(surfaceConverter(surface), dstStream);
+      await saveBmp(await getReader(surface), dstStream);
     };
     await expect(() => save(8, "Gray")).rejects.toThrowError(
       "Wrong BMP image color model: Gray"
@@ -41,7 +44,7 @@ describe("saveBmp", () => {
     const save = async (depth: PixelDepth) => {
       const surface = SurfaceStd.create(2, 2, depth);
       const dstStream = new BufferStream(new Uint8Array(100), { size: 0 });
-      await saveBmp(surfaceConverter(surface), dstStream, { os2: true });
+      await saveBmp(await getReader(surface), dstStream, { os2: true });
     };
     await expect(() => save(15)).rejects.toThrowError(
       "Unsupported OS/2 bitmap color depth: 15 bit/pixel"
@@ -60,7 +63,7 @@ describe("saveBmp", () => {
         palette: createPalette(20),
       });
       const dstStream = new BufferStream(new Uint8Array(100), { size: 0 });
-      await saveBmp(surfaceConverter(surface), dstStream, { os2: true });
+      await saveBmp(await getReader(surface), dstStream, { os2: true });
     };
     await expect(() => save()).rejects.toThrowError(
       "The number of colors in the palette (20) exceeds the limit (16)"
@@ -78,7 +81,7 @@ describe("saveBmp", () => {
     // format
     const stream = await getTestFile(__dirname, "os2.bmp", "w");
     // save
-    await saveBmp(surfaceConverter(img), stream, { os2: true });
+    await saveBmp(await getReader(img), stream, { os2: true });
     // test
     const rs = new NodeJSFile(stream.name, "r");
     await streamLock(rs, async () => {
@@ -138,7 +141,7 @@ describe("saveBmp", () => {
     // format
     const stream = await getTestFile(__dirname, "bilevel.bmp", "w");
     // save
-    await saveBmp(surfaceConverter(img), stream);
+    await saveBmp(await getReader(img), stream);
 
     const rs = new NodeJSFile(stream.name, "r");
     await streamLock(rs, async () => {
@@ -209,7 +212,7 @@ describe("saveBmp", () => {
     });
     const stream = await getTestFile(__dirname, "4bpp.bmp", "w");
     // save
-    await saveBmp(surfaceConverter(img), stream);
+    await saveBmp(await getReader(img), stream);
     const rs = new NodeJSFile(stream.name, "r");
     await streamLock(rs, async () => {
       // bmp file header
@@ -293,7 +296,7 @@ describe("saveBmp", () => {
     // format
     const stream = await getTestFile(__dirname, "8bpp.bmp", "w");
     // save
-    await saveBmp(surfaceConverter(img), stream, options);
+    await saveBmp(await getReader(img), stream, options);
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
@@ -389,7 +392,7 @@ describe("saveBmp", () => {
       pos = dash(pos, h, 0, h); // magenta
     }
     const stream = await getTestFile(__dirname, "15bpp.bmp", "w");
-    await saveBmp(surfaceConverter(img), stream, options);
+    await saveBmp(await getReader(img), stream, options);
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
@@ -462,7 +465,7 @@ describe("saveBmp", () => {
       pos = dash(pos, h, 0, h); // magenta
     }
     const stream = await getTestFile(__dirname, "16bpp.bmp", "w");
-    await saveBmp(surfaceConverter(img), stream, options);
+    await saveBmp(await getReader(img), stream, options);
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
@@ -530,7 +533,7 @@ describe("saveBmp", () => {
     pix([250, 250, 250], 4);
     const img = SurfaceStd.create(5, 4, 24, { data });
     const stream = await getTestFile(__dirname, "24bpp.bmp", "w");
-    await saveBmp(surfaceConverter(img), stream);
+    await saveBmp(await getReader(img), stream);
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
@@ -603,7 +606,7 @@ describe("saveBmp", () => {
 
     const img = SurfaceStd.create(5, 5, 32, { data });
     const stream = await getTestFile(__dirname, "32bpp.bmp", "w");
-    await saveBmp(surfaceConverter(img), stream);
+    await saveBmp(await getReader(img), stream);
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header

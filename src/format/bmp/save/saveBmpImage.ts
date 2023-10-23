@@ -1,7 +1,4 @@
-import {
-  OptionsCreateConverter,
-  createConverterForWrite,
-} from "../../../Converter";
+import { OptionsCreateConverter, createRowsReader } from "../../../Converter";
 import { PixelFormat } from "../../../PixelFormat";
 import { Surface } from "../../../Surface";
 import { RAStream } from "../../../stream";
@@ -28,10 +25,6 @@ export const saveBmpImage = async (
 ) => {
   const { dstPixFmt, ...restOptions } = bmpOptions || {};
   const bmpPixFmt = compatibleBmpPixelFormat(dstPixFmt ?? surface.info.fmt);
-  const converter = createConverterForWrite(
-    surface,
-    bmpPixFmt,
-    converterOptions
-  );
-  await saveBmp(converter, stream, restOptions);
+  const reader = await createRowsReader(surface, bmpPixFmt, converterOptions);
+  await saveBmp(reader, stream, restOptions, converterOptions?.progress);
 };

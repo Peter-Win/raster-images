@@ -14,25 +14,18 @@ import {
   bmpInfoHeaderSize,
   readBmpInfoHeader,
 } from "../../../format/bmp/BmpInfoHeader";
-import { saveBmp } from "../../../format/bmp";
+import { saveBmpImage } from "../../../format/bmp";
 import { streamLock } from "../../../stream";
 import { dot24, drawSphere } from "../../../tests/drawSphere";
 import { getTestFile } from "../../../tests/getTestFile";
 import { dumpA } from "../../../utils";
-import { Converter, RowsReaderOptions } from "../../Converter";
+import { RowsReaderOptions } from "../../Converter";
 import { surfaceConverter } from "../../surfaceConverter";
 import { quant2Converter } from "../quant2Converter";
 
-const saveTestFile = async (
-  shortName: string,
-  imageOrConverter: Surface | Converter
-) => {
+const saveTestFile = async (shortName: string, image: Surface) => {
   const wstream = await getTestFile(__dirname, shortName, "w");
-  const converter =
-    imageOrConverter instanceof Surface
-      ? surfaceConverter(imageOrConverter)
-      : imageOrConverter;
-  await saveBmp(converter, wstream);
+  await saveBmpImage(image, wstream);
   return streamLock(
     await getTestFile(__dirname, shortName, "r"),
     async (rstream) => {
