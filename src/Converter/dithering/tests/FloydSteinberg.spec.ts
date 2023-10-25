@@ -4,19 +4,17 @@ import { drawSphere, dotG8, dotRGB16 } from "../../../tests/drawSphere";
 import { saveBmpImage } from "../../../format/bmp";
 import { bmpInfoHeaderSize } from "../../../format/bmp/BmpInfoHeader";
 import { bmpFileHeaderSize } from "../../../format/bmp/BmpFileHeader";
-import { formatForSaveFromSurface } from "../../../format/FormatForSave";
 import {
   createFloydSteinberg8,
   createFloydSteinberg16,
 } from "../FloydSteinberg";
-import { savePnm } from "../../../format/pnm/savePnm";
+import { savePnmImage } from "../../../format/pnm/save";
 import { dump } from "../../../utils";
 import { createInfoSign } from "../../../ImageInfo";
 
 const writeDemoPnm = async (surface: Surface, fname: string) => {
-  const fmt = formatForSaveFromSurface(surface);
   const stream = await getTestFile(__dirname, fname, "w");
-  await savePnm(fmt, stream, {});
+  await savePnmImage(surface, stream);
 };
 
 describe("FloydSteinberg", () => {

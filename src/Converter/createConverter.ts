@@ -55,11 +55,12 @@ export const createConverterForWrite = (
 
 export const createRowsReader = (
   srcImage: Surface,
-  dstPixFmt: PixelFormat,
+  dstPixFmt?: PixelFormat,
   options?: OptionsCreateConverter
 ): Promise<RowsReader> => {
-  const converter = createConverterForWrite(srcImage, dstPixFmt, options);
-  const { palette } = dstPixFmt;
+  const finalPixFmt = dstPixFmt ?? srcImage.info.fmt;
+  const converter = createConverterForWrite(srcImage, finalPixFmt, options);
+  const { palette } = finalPixFmt;
   return converter.getRowsReader({ palette });
 };
 

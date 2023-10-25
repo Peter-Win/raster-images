@@ -1,11 +1,11 @@
 import { savePnm } from "../savePnm";
-import { getTestFile } from "../../../tests/getTestFile";
-import { formatForSaveFromSurface } from "../../FormatForSave";
-import { SurfaceStd } from "../../../Surface";
-import { streamLock } from "../../../stream";
-import { bytesToUtf8, dump, dumpA } from "../../../utils";
-import { copyWordsToBigEndian } from "../../../Converter/rowOps/copy/copyWordsToBigEndian";
-import { PixelFormat } from "../../../PixelFormat";
+import { getTestFile } from "../../../../tests/getTestFile";
+import { SurfaceStd } from "../../../../Surface";
+import { streamLock } from "../../../../stream";
+import { bytesToUtf8, dump, dumpA } from "../../../../utils";
+import { copyWordsToBigEndian } from "../../../../Converter/rowOps/copy/copyWordsToBigEndian";
+import { PixelFormat } from "../../../../PixelFormat";
+import { createRowsReader } from "../../../../Converter";
 
 const bwSrc: string[] = [
   "******************************************",
@@ -47,9 +47,9 @@ describe("savePnm", () => {
     });
     const fname = "plain-bw.pbm";
     const wstream = await getTestFile(__dirname, fname, "w");
-    await savePnm(formatForSaveFromSurface(img), wstream, {
+    const reader = await createRowsReader(img);
+    await savePnm(reader, wstream, {
       dataType: "plain",
-      mapFormat: "bitmap",
       comment: "Hello!",
       maxRowLength: 100,
     });
@@ -100,9 +100,9 @@ describe("savePnm", () => {
     });
     const fname = "raw-bw.pbm";
     const wstream = await getTestFile(__dirname, fname, "w");
-    await savePnm(formatForSaveFromSurface(img), wstream, {
+    const reader = await createRowsReader(img);
+    await savePnm(reader, wstream, {
       dataType: "raw",
-      mapFormat: "bitmap",
     });
     const size = await wstream.getSize();
     expect(size).not.toBe(0);
@@ -141,9 +141,9 @@ describe("savePnm", () => {
   it("raw graymap", async () => {
     const fname = "raw-g8.pgm";
     const wstream = await getTestFile(__dirname, fname, "w");
-    await savePnm(formatForSaveFromSurface(gCube), wstream, {
+    const reader = await createRowsReader(gCube);
+    await savePnm(reader, wstream, {
       dataType: "raw",
-      mapFormat: "graymap",
     });
     const size = await wstream.getSize();
     expect(size).not.toBe(0);
@@ -173,9 +173,9 @@ describe("savePnm", () => {
   it("plain graymap", async () => {
     const fname = "plain-g8.pgm";
     const wstream = await getTestFile(__dirname, fname, "w");
-    await savePnm(formatForSaveFromSurface(gCube), wstream, {
+    const reader = await createRowsReader(gCube);
+    await savePnm(reader, wstream, {
       dataType: "plain",
-      mapFormat: "graymap",
     });
     const size = await wstream.getSize();
     expect(size).not.toBe(0);
@@ -212,10 +212,8 @@ describe("savePnm", () => {
   it("raw graymap 16", async () => {
     const fname = "raw-g16.pgm";
     const wstream = await getTestFile(__dirname, fname, "w");
-    await savePnm(formatForSaveFromSurface(gxCube), wstream, {
-      dataType: "raw",
-      mapFormat: "graymap",
-    });
+    const reader = await createRowsReader(gxCube);
+    await savePnm(reader, wstream, { dataType: "raw" });
     const size = await wstream.getSize();
     expect(size).not.toBe(0);
     const rstream = await getTestFile(__dirname, fname, "r");
@@ -251,9 +249,9 @@ describe("savePnm", () => {
 
   it("plain graymap 16", async () => {
     const wstream = await getTestFile(__dirname, "plain-g16.pgm", "w");
-    await savePnm(formatForSaveFromSurface(gxCube), wstream, {
+    const reader = await createRowsReader(gxCube);
+    await savePnm(reader, wstream, {
       dataType: "plain",
-      mapFormat: "graymap",
       maxRowLength: 120,
     });
     const size = await wstream.getSize();
@@ -294,9 +292,9 @@ describe("savePnm", () => {
   }
   it("plain pixmap", async () => {
     const wstream = await getTestFile(__dirname, "plain-rgb.ppm", "w");
-    await savePnm(formatForSaveFromSurface(rCube), wstream, {
+    const reader = await createRowsReader(rCube);
+    await savePnm(reader, wstream, {
       dataType: "plain",
-      mapFormat: "pixmap",
       maxRowLength: 160,
     });
     const size = await wstream.getSize();
@@ -318,9 +316,9 @@ describe("savePnm", () => {
   it("raw pixmap", async () => {
     const fname = "raw-rgb.ppm";
     const wstream = await getTestFile(__dirname, fname, "w");
-    await savePnm(formatForSaveFromSurface(rCube), wstream, {
+    const reader = await createRowsReader(rCube);
+    await savePnm(reader, wstream, {
       dataType: "raw",
-      mapFormat: "pixmap",
     });
     const size = await wstream.getSize();
     const rstream = await getTestFile(__dirname, fname, "r");
@@ -362,9 +360,9 @@ describe("savePnm", () => {
   it("plain pixmap 16", async () => {
     const fname = "plain-rgb16.ppm";
     const wstream = await getTestFile(__dirname, fname, "w");
-    await savePnm(formatForSaveFromSurface(mCube), wstream, {
+    const reader = await createRowsReader(mCube);
+    await savePnm(reader, wstream, {
       dataType: "plain",
-      mapFormat: "pixmap",
     });
     const size = await wstream.getSize();
     const rstream = await getTestFile(__dirname, fname, "r");
@@ -391,9 +389,9 @@ describe("savePnm", () => {
   it("raw pixmap 16", async () => {
     const fname = "raw-rgb16.ppm";
     const wstream = await getTestFile(__dirname, fname, "w");
-    await savePnm(formatForSaveFromSurface(mCube), wstream, {
+    const reader = await createRowsReader(mCube);
+    await savePnm(reader, wstream, {
       dataType: "raw",
-      mapFormat: "pixmap",
     });
     const size = await wstream.getSize();
     const rstream = await getTestFile(__dirname, fname, "r");
