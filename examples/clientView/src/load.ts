@@ -62,17 +62,8 @@ export const loadFrame = async (frameIndex: number) => {
                 lp.innerText = `${info.value} / ${info.maxValue}`;
             }
         });
-        // const reader = createImageReader(frame.info.fmt, surface, {progress});
-        const converter = createConverterForRead(frame.info.fmt, surface);
+        const converter = createConverterForRead(frame.info.fmt, surface, {progress});
         await frame.read(converter);
-        if (frame.info.fmt.alpha) {
-            for (let j=0; j<height; j++) {
-                const row = surface.getRowBuffer(j);
-                for (let i=0; i<width; i++) {
-                    row[i*4+3] = 0xFF;
-                }
-            }
-        }
         canvasCtx!.putImageData(imageData, 0, 0);
         globalState.frameStatus = "ready";
     } catch (e) {

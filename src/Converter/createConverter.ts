@@ -81,5 +81,7 @@ export const createConverterForRead = (
     dstImage.info.fmt.signature,
     graph
   );
+  // Чтение растровых данных в поверхность требует обратного порядка конвертеров (в отличие от записи)
+  path.reverse();
   return createConverterFromList(path, dstImage, options?.progress);
 };

@@ -6,7 +6,7 @@ import { FnRowOrder, rowOrderForward } from "./rowOrder";
  * Стандартный шаблон для записи изображения.
  * То есть, копирование данных из поверхности в произвольный алгоритм обработки.
  *
- * @param reader
+ * @param reader recommended way: createRowsReader(srcImage, dstPixFmt)
  * @param writeRow
  * @param progress
  */

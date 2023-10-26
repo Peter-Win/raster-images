@@ -13,3 +13,4 @@ But the application is written in TypeScript.
 Webpack is used for assembly. Therefore, before launching, you need to install development dependencies using the **yarn** command.
 
 The application can be run locally with the **yarn start** command.
+And then you need to open the page http://localhost:3001/ in a browser.

@@ -1,3 +1,4 @@
+import { createGrayPalette } from "../../Palette";
 import { PixelFormat } from "../../PixelFormat";
 import { SurfaceStd } from "../../Surface";
 import { dump } from "../../utils";
@@ -7,7 +8,11 @@ import {
 } from "../createConverter";
 
 test("createConverterForRead", async () => {
-  const srcPixFmt = new PixelFormat("G1");
+  const srcPixFmt = new PixelFormat({
+    depth: 1,
+    colorModel: "Indexed",
+    palette: createGrayPalette(2),
+  });
   const dstImage = SurfaceStd.createSign(5, 1, "R8G8B8A8");
   const converter = createConverterForRead(srcPixFmt, dstImage);
   const writer = await converter.getRowsWriter({
@@ -24,7 +29,11 @@ test("createConverterForRead", async () => {
 });
 
 test("createConverterForWrite", async () => {
-  const srcImage = SurfaceStd.create(5, 1, 1, { data: new Uint8Array([0xa0]) });
+  const srcImage = SurfaceStd.create(5, 1, 1, {
+    colorModel: "Indexed",
+    palette: createGrayPalette(2),
+    data: new Uint8Array([0xa0]),
+  });
   const dstPixFmt = new PixelFormat("R8G8B8A8");
   const converter = createConverterForWrite(srcImage, dstPixFmt);
   const reader = await converter.getRowsReader();
