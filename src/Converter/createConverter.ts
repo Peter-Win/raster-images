@@ -1,7 +1,7 @@
 import { Surface } from "../Surface";
 import { PixelFormat } from "..";
 import { OnProgressInfo } from "./ProgressInfo";
-import { Converter } from "./Converter";
+import { Converter, RowsReader } from "./Converter";
 import { ConverterFactoryDescr } from "./ConverterFactory";
 import { surfaceConverter } from "./surfaceConverter";
 import { ConverterSearchProps, defaultConverterSearchProps } from "./search";
@@ -14,7 +14,7 @@ export const createConverterFromList = (
   surface: Surface,
   progress?: OnProgressInfo
 ): Converter =>
-  list.reduceRight(
+  list.reduce(
     (nextConverter: Converter, descr) =>
       descr.create({
         nextConverter,
@@ -53,6 +53,17 @@ export const createConverterForWrite = (
   return createConverterFromList(path, srcImage, options?.progress);
 };
 
+export const createRowsReader = (
+  srcImage: Surface,
+  dstPixFmt?: PixelFormat,
+  options?: OptionsCreateConverter
+): Promise<RowsReader> => {
+  const finalPixFmt = dstPixFmt ?? srcImage.info.fmt;
+  const converter = createConverterForWrite(srcImage, finalPixFmt, options);
+  const { palette } = finalPixFmt;
+  return converter.getRowsReader({ palette });
+};
+
 export const createConverterForRead = (
   srcPixFmt: PixelFormat,
   dstImage: Surface,
@@ -70,5 +81,7 @@ export const createConverterForRead = (
     dstImage.info.fmt.signature,
     graph
   );
+  // Чтение растровых данных в поверхность требует обратного порядка конвертеров (в отличие от записи)
+  path.reverse();
   return createConverterFromList(path, dstImage, options?.progress);
 };

@@ -8,6 +8,7 @@ import { rgb24toRgba32 } from "../../rowOps/rgb/rgb24toRgba32";
 import { gray1toGray8 } from "../../rowOps/gray/gray1toGray";
 import { gray1toRgba32 } from "../../rowOps/gray/gray1toRgb";
 import { gray8toGray1Fast } from "../../rowOps/gray/gray8toGray1";
+import { factoryQuant2 } from "../../factories";
 
 const cvtStr = (c: ConverterFactoryDescr | undefined): string =>
   c ? `${c.srcSign} => ${c.dstSign}` : "";
@@ -91,6 +92,20 @@ describe("findPath", () => {
     const path = findPathEx("G1", "R8G8B8A8", graph);
     expect(path.length).toBe(1);
     expect(cvtStr(path[0])).toBe("G1 => R8G8B8A8");
+  });
+
+  it("dithering flag", () => {
+    const list: ConverterFactoryDescr[] = [
+      factoryQuant2({ dithering: true }, "dither"),
+      factoryQuant2({ dithering: false }, "nodither"),
+    ];
+    const graph = buildConverterGraph(
+      { dithering: false, prefer: "quality" },
+      list
+    );
+    const path = findPathEx("B8G8R8", "I8", graph);
+    expect(path.length).toBe(1);
+    expect(path[0]!.label).toBe("nodither");
   });
 
   // Нужна переделка алгоритма поиска. Пока отложено.

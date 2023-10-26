@@ -2,8 +2,7 @@ import { bgr24toG8, rgb24toG8 } from "../rgb24toG8";
 import { createInfoSign } from "../../../../ImageInfo";
 import { paletteEGA } from "../../../../Palette";
 import { Surface, SurfaceStd } from "../../../../Surface";
-import { formatForSaveFromSurface } from "../../../../format/FormatForSave";
-import { savePnm } from "../../../../format/pnm/savePnm";
+import { savePnmImage } from "../../../../format/pnm/save";
 import { getTestFile } from "../../../../tests/getTestFile";
 import { subBuffer } from "../../../../utils";
 
@@ -49,8 +48,7 @@ describe("rgb24toG8", () => {
   it("file demo", async () => {
     const saveDemoImg = async (img: Surface, shortName: string) => {
       const stream = await getTestFile(__dirname, shortName, "w");
-      const fmt = formatForSaveFromSurface(img);
-      await savePnm(fmt, stream, {});
+      await savePnmImage(img, stream);
     };
 
     const w = 48;

@@ -2,8 +2,7 @@
  * Example of indexed images generate
  */
 import { Surface, SurfaceStd } from "../../../Surface";
-import { formatForSaveFromSurface } from "../../../format/FormatForSave";
-import { saveBmp } from "../../../format/bmp/saveBmp";
+import { saveBmpImage } from "../../../format/bmp";
 import { streamLock } from "../../../stream";
 import { getTestFile } from "../../../tests/getTestFile";
 import { createFloydSteinberg8 } from "../../dithering/FloydSteinberg";
@@ -66,8 +65,7 @@ describe("indexedImage", () => {
         const dst = img.getRowBuffer(y);
         h.cvt(width, src.buffer, src.byteOffset, dst.buffer, dst.byteOffset);
       }
-      const fmt = formatForSaveFromSurface(img);
-      await saveBmp(fmt, stream);
+      await saveBmpImage(img, stream);
     });
     const size = await stream.getSize();
     expect(size).not.toBe(0);
@@ -98,8 +96,7 @@ describe("indexedImage", () => {
           ctx
         );
       }
-      const fmt = formatForSaveFromSurface(img);
-      await saveBmp(fmt, stream);
+      await saveBmpImage(img, stream);
     });
     const size = await stream.getSize();
     expect(size).not.toBe(0);

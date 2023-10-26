@@ -95,6 +95,10 @@ export class PixelFormat {
     );
   }
 
+  get maxSampleDepth(): number {
+    return this.samples.reduce((acc, { length }) => Math.max(acc, length), 0);
+  }
+
   toString(): string {
     return this.signature;
   }

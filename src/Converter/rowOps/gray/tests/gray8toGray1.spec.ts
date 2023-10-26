@@ -4,8 +4,7 @@ import { getTestFile } from "../../../../tests/getTestFile";
 import { dump, subBuffer } from "../../../../utils";
 import { createFloydSteinberg8 } from "../../../dithering/FloydSteinberg";
 import { gray8toGray1Fast, gray8toGray1Dither } from "../gray8toGray1";
-import { savePnm } from "../../../../format/pnm/savePnm";
-import { formatForSaveFromSurface } from "../../../../format/FormatForSave";
+import { savePnmImage } from "../../../../format/pnm";
 
 test("gray8toGray1Fast", () => {
   // ignore 3 first and 2 last bytes, use 10 pixels
@@ -85,8 +84,7 @@ test("gray8toGray1", async () => {
   });
   const saveDemoImg = async (img: Surface, shortName: string) => {
     const stream = await getTestFile(__dirname, shortName, "w");
-    const fmt = formatForSaveFromSurface(img);
-    await savePnm(fmt, stream, {});
+    await savePnmImage(img, stream);
   };
   const makeBW = (cvt: (src: Uint8Array, dst: Uint8Array) => void): Surface => {
     const dstImg = SurfaceStd.create(width, height, 1, { colorModel: "Gray" });

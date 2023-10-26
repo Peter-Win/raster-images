@@ -14,22 +14,18 @@ import {
   bmpInfoHeaderSize,
   readBmpInfoHeader,
 } from "../../../format/bmp/BmpInfoHeader";
-import { saveBmpImage } from "../../../format/bmp/saveBmp";
+import { saveBmpImage } from "../../../format/bmp";
 import { streamLock } from "../../../stream";
 import { dot24, drawSphere } from "../../../tests/drawSphere";
 import { getTestFile } from "../../../tests/getTestFile";
 import { dumpA } from "../../../utils";
-import { Converter, RowsReaderOptions } from "../../Converter";
+import { RowsReaderOptions } from "../../Converter";
 import { surfaceConverter } from "../../surfaceConverter";
 import { quant2Converter } from "../quant2Converter";
 
-const saveTestFile = async (
-  shortName: string,
-  image: Surface,
-  converter?: Converter
-) => {
+const saveTestFile = async (shortName: string, image: Surface) => {
   const wstream = await getTestFile(__dirname, shortName, "w");
-  await saveBmpImage(image, wstream, { converter });
+  await saveBmpImage(image, wstream);
   return streamLock(
     await getTestFile(__dirname, shortName, "r"),
     async (rstream) => {
@@ -92,7 +88,7 @@ describe("quant2Converter", () => {
 
   // An example of recording a full-color image into an image with a palette.
   it("quant2Converter.reader", async () => {
-    await saveTestFile("q2-src.bmp", srcImg, surfaceConverter(srcImg));
+    await saveTestFile("q2-src.bmp", srcImg);
 
     type TestCase = {
       label: string;

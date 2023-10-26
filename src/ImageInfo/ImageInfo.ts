@@ -20,10 +20,12 @@ export const createInfoSize = (
   depth: PixelDepth,
   colorModel: ColorModel = "Auto",
   alpha?: boolean,
-  palette?: Palette
+  palette?: Palette,
+  vars?: Variables
 ): ImageInfo => ({
   size,
   fmt: new PixelFormat({ depth, colorModel, alpha, palette }),
+  vars,
 });
 
 export const createInfo = (
@@ -32,17 +34,27 @@ export const createInfo = (
   depth: PixelDepth,
   colorModel: ColorModel = "Auto",
   alpha?: boolean,
-  palette?: Palette
+  palette?: Palette,
+  vars?: Variables
 ): ImageInfo =>
-  createInfoSize(new Point(width, height), depth, colorModel, alpha, palette);
+  createInfoSize(
+    new Point(width, height),
+    depth,
+    colorModel,
+    alpha,
+    palette,
+    vars
+  );
 
 export const createInfoSign = (
   width: number,
   height: number,
-  signature: string
+  signature: string,
+  vars?: Variables
 ): ImageInfo => ({
   size: new Point(width, height),
   fmt: new PixelFormat(signature),
+  vars,
 });
 
 export const getImageLineSize = ({ pitch, size, fmt }: ImageInfo): number =>

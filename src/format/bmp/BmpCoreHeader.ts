@@ -9,7 +9,7 @@ const ofsPlanes = ofsHeight + 2;
 // cxWord	bcBitCount;
 const ofsBitCount = ofsPlanes + 2;
 
-export const sizeBmpCoreHeader = ofsBitCount + 2;
+export const bmpCoreHeaderSize = ofsBitCount + 2;
 
 export interface BmpCoreHeader {
   bcSize: number;
