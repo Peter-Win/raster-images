@@ -3,10 +3,17 @@ import { PixelDepth } from "../types";
 import { PixelFormat } from "../PixelFormat";
 import { Palette } from "../Palette/Palette";
 import { Variables } from "../ImageInfo/Variables";
-import { ImageInfo, createInfoSign, getImageLineSize } from "../ImageInfo";
+import {
+  ImageInfo,
+  createInfoSign,
+  fromParcelImageInfo,
+  getImageLineSize,
+  toParcelImageInfo,
+} from "../ImageInfo";
 import { Point } from "../math/Point";
 import { ColorModel } from "../ColorModel";
 import { Surface } from "./Surface";
+import { ParcelSurface } from "./ParcelSurface";
 
 /**
  * SurfaceStd use ArrayBuffer for pixel data
@@ -75,6 +82,18 @@ export class SurfaceStd extends Surface {
     const imgInfo: ImageInfo = createInfoSign(width, height, signature);
     if (options?.palette) imgInfo.fmt.setPalette(options?.palette);
     return new SurfaceStd(imgInfo, options?.data);
+  }
+
+  // Десериализация изображения, пересылаемого через postMessage
+  static fromParcel({ info, data }: ParcelSurface): SurfaceStd {
+    return new SurfaceStd(fromParcelImageInfo(info), data);
+  }
+
+  toParcel(): ParcelSurface {
+    return {
+      info: toParcelImageInfo(this.info),
+      data: this.data,
+    };
   }
 
   createDataView(): DataView {

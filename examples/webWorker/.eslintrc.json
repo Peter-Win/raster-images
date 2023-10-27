@@ -1,0 +1,16 @@
+{
+    "rules": {
+        "no-param-reassign": "off",
+        "import/no-extraneous-dependencies": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                "map": [
+                  ["raster-images", "./src"]
+                ],
+                "extensions": [".ts"]
+            }
+        }
+    }
+}

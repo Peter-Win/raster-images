@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "module": "CommonJS",
+    "target": "es5",
+    "allowJs": true,
+    "esModuleInterop": true,
+
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "strictFunctionTypes": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+
+    "noUncheckedIndexedAccess": true,
+    
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "baseUrl": "./",
+    "paths": {
+      "src/*": ["src/*"],
+      "raster-images/*": ["../../src/*"]
+    }
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}

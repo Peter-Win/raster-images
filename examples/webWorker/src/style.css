@@ -1,0 +1,42 @@
+html, body, div, p, h1, h2, h3, h4, ul, li, span, form, input, select, button {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    color: #333;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size: 16px;
+
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    padding: 0.5em 1em;
+    border-bottom: thin solid silver;
+}
+.main {
+    flex: 1;
+    overflow: auto;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.error {
+    border-radius: 0.2em;
+    border: thin solid red;
+    border-left-width: thick;
+    color: darkred;
+    padding: 1em 2em;
+    background: #FEE;
+}
+
+.progress-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5em;
+}

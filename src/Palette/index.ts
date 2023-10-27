@@ -4,3 +4,4 @@ export * from "./freeColor";
 export * from "./paletteEGA";
 export * from "./readPalette";
 export * from "./writePalette";
+export * from "./analyzePaletteTransparency";

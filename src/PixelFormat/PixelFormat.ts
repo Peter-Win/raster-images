@@ -1,30 +1,33 @@
 import { Sample, equalSamplesList } from "../Sample";
 import { ColorModel } from "../ColorModel";
-import { Palette } from "../Palette/Palette";
+import { Palette, analyzePaletteTransparency } from "../Palette";
 import { PixelDepth } from "../types";
 import { PixelFormatDef } from "./PixelFormatDef";
 import { analysePixelFormatDef } from "./analysePixelFormatDef";
 import { parseSignature } from "./parseSignature";
 import { defFromSamples } from "./defFromSamples";
 import { signatureFromSamples } from "./signatureFromSamples";
+import { ParcelPixelFormat } from "./ParcelPixelFormat";
 
 export class PixelFormat {
   constructor();
 
   constructor(depth: PixelDepth, colorModel?: ColorModel, alpha?: boolean);
 
+  constructor(depth: 1 | 2 | 4 | 8, palette: Readonly<Palette>);
+
   constructor(def: PixelFormatDef);
 
   constructor(signature: string);
 
-  constructor(samples: Sample[]);
+  constructor(samples: Sample[], def?: PixelFormatDef);
 
   constructor(
     a?: PixelDepth | string | PixelFormatDef | Sample[],
-    b?: ColorModel,
+    b?: ColorModel | PixelFormatDef | Readonly<Palette>,
     c?: boolean
   ) {
-    if (typeof a === "number") {
+    if (typeof a === "number" && (!b || typeof b === "string")) {
       const [def, samples] = analysePixelFormatDef({
         depth: a,
         colorModel: b || "Auto",
@@ -32,9 +35,18 @@ export class PixelFormat {
       });
       this.def = def;
       this.samples = samples;
-    } else if (Array.isArray(a)) {
+    } else if (typeof a === "number" && Array.isArray(b)) {
+      const [def, samples] = analysePixelFormatDef({
+        depth: a,
+        palette: b,
+        colorModel: "Indexed",
+        alpha: analyzePaletteTransparency(b).type === "alpha",
+      });
+      this.samples = samples;
+      this.def = def;
+    } else if (Array.isArray(a) && (!b || typeof b === "object")) {
       this.samples = a;
-      this.def = defFromSamples(a);
+      this.def = (b as PixelFormatDef) ?? defFromSamples(a);
     } else if (typeof a === "object") {
       const [def, samples] = analysePixelFormatDef(a as PixelFormatDef);
       this.def = def;
@@ -104,4 +116,15 @@ export class PixelFormat {
   }
 
   static readonly canvas = new PixelFormat("R8G8B8A8");
+
+  toParcel(): ParcelPixelFormat {
+    return {
+      def: this.def,
+      samples: this.samples,
+    };
+  }
+
+  static fromParcel({ samples, def }: ParcelPixelFormat): PixelFormat {
+    return new PixelFormat(samples, def);
+  }
 }
