@@ -8,6 +8,9 @@ export const createSurfaceFromDescriptor = (
   srcImgInfo: ImageInfo,
   descr: TargetImageDescriptor
 ): Surface => {
+  if (typeof descr === "function") {
+    return descr(srcImgInfo);
+  }
   const { size: srcSize } = srcImgInfo;
   if (descr instanceof Surface) {
     // Если передана уже готовая поверхность, то надо проверить соответствие размеров

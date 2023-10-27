@@ -1,4 +1,5 @@
 import { dumpA } from "../../utils";
+import { createGrayPalette } from "../../Palette";
 import { PixelFormat } from "../PixelFormat";
 
 describe("PixelFormat", () => {
@@ -74,5 +75,17 @@ describe("PixelFormat", () => {
       true
     );
     expect(new PixelFormat(16).equals(new PixelFormat("B5G6R5"))).toBe(true);
+  });
+  it("parcel", () => {
+    expect(
+      PixelFormat.fromParcel(new PixelFormat("R8G8B8A8").toParcel()).signature
+    ).toBe("R8G8B8A8");
+    const srcI8 = new PixelFormat(8, createGrayPalette(24));
+    expect(srcI8.equals(PixelFormat.fromParcel(srcI8.toParcel()))).toBe(true);
+    expect(
+      PixelFormat.fromParcel(PixelFormat.canvas.toParcel()).equals(
+        PixelFormat.canvas
+      )
+    ).toBe(true);
   });
 });

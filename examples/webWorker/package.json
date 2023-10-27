@@ -1,0 +1,27 @@
+{
+  "name": "webworker",
+  "private": true,
+  "version": "1.0.0",
+  "description": "An example of using a webworker to load a bitmap.",
+  "main": "src/index.ts",
+  "keywords": [],
+  "author": "PeterWin",
+  "license": "ISC",
+  "scripts": {
+    "build": "webpack --mode=production",
+    "start": "webpack serve --mode=development"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.8.1",
+    "html-webpack-plugin": "^5.5.3",
+    "loader-utils": "^3.2.1",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  }
+}

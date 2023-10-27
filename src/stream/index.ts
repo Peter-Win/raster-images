@@ -4,3 +4,4 @@ export * from "./BufferStream";
 export * from "./streamLock";
 export * from "./readByte";
 export * from "./isEndOfStream";
+export * from "./createFileStream";
