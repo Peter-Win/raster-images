@@ -63,13 +63,6 @@
           ".js",
           ".ts"
         ]
-      },
-      "alias": {
-        "map": [],
-        "extensions": [
-          ".ts",
-          ".tsx"
-        ]
       }
     }
   }

@@ -15,3 +15,9 @@ Start: **yarn start**
 and open http://localhost:3001/
 
 The main feature is that you cannot pass arbitrary objects between the main thread and the worker. Therefore, we have to use special structures with the Parcel prefix. For example, the image is transmitted using ParcelSurface.
+
+template.html
+
+index.ts - main thread
+
+workerLoad.ts - WebWorker for image loadin

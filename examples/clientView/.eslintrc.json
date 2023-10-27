@@ -1,0 +1,20 @@
+{
+    "globals": {
+        "HTMLElementTagNameMap": "readonly"
+    },
+    "rules": {
+        "no-param-reassign": "off",
+        "import/no-extraneous-dependencies": "off"
+    },
+    "settings": {
+        "import/resolver": {
+            "alias": {
+                "map": [
+                  ["src", "./examples/clientView/src"],
+                  ["raster-images", "./src"]
+                ],
+                "extensions": [".ts"]
+            }
+        }
+    }
+}
