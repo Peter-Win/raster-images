@@ -112,6 +112,19 @@ test("allConverters", async () => {
   expect(await mk("B5G5R5", "B8G8R8", { prefer: "speed" }, rgb15, 2)).toBe(
     "00 00 00 F8 F8 F8"
   );
+  expect(await mk("B5G5R5", "B8G8R8A8", {}, rgb15, 2)).toBe(
+    "00 00 00 FF FF FF FF FF"
+  );
+  // RGB 16
+  const rgb16 = wdata([0, 0xffff]);
+  expect(await mk("B5G6R5", "B8G8R8", {}, rgb16, 2)).toBe("00 00 00 FF FF FF");
+  expect(await mk("B5G6R5", "B8G8R8", { prefer: "speed" }, rgb16, 2)).toBe(
+    "00 00 00 F8 FC F8"
+  );
+  expect(await mk("B5G6R5", "B8G8R8A8", {}, rgb16, 2)).toBe(
+    "00 00 00 FF FF FF FF FF"
+  );
+
   // RGB 24
   expect(await mkw("B8G8R8", "B5G5R5", {}, [0, 0, 0, 255, 255, 255], 2)).toBe(
     "0000 7FFF"

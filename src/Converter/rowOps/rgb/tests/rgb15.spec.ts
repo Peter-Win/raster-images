@@ -1,5 +1,5 @@
 import { dumpChunks, subBuffer } from "../../../../utils";
-import { rgb15to24Quality, rgb15to24Fast } from "../rgb15to24";
+import { rgb15to24Quality, rgb15to24Fast, rgb15to32Quality } from "../rgb15";
 
 // max value = 31
 const pk = (r5: number, g5: number, b5: number): number =>
@@ -68,5 +68,29 @@ test("rgb15to24Fast", () => {
     "48 40 38",
     "F0 80 78",
     "00 00 00",
+  ]);
+});
+
+test("rgb15to32Quality", () => {
+  const src = new Uint16Array(srcRow);
+  const dst = new Uint8Array(4 * srcRow.length);
+  rgb15to32Quality(
+    cvtLength,
+    new Uint8Array(src.buffer, src.byteOffset + 2 * startPos),
+    subBuffer(dst, 4 * startPos)
+  );
+  const b3 = dumpChunks(4, dst);
+  expect(b3).toEqual([
+    "00 00 00 00", // not changed
+    "08 08 08 FF",
+    "FF FF FF FF",
+    "00 00 FF FF",
+    "00 FF 00 FF",
+    "FF 00 00 FF",
+    "18 10 08 FF", // +0
+    "31 29 21 FF", // +1
+    "4A 42 39 FF", // +2 +2 +1
+    "F7 84 7B FF", // 0b1111011 = 7B, 1.0000 => 100 | 1000.0000 = 1000.0100 = 84, F7=11110111
+    "00 00 00 00", // not changed
   ]);
 });

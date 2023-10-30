@@ -36,4 +36,4 @@ export const sampleSignChars: Record<SampleSign, boolean> = {
 
 export const equalSamplesList = (a: Sample[], b: Sample[]): boolean =>
   a.length === b.length &&
-  a.reduce((acc, left, i) => equalSamples(left, b[i]!), true);
+  a.reduce((acc, left, i) => acc && equalSamples(left, b[i]!), true);
