@@ -36,7 +36,16 @@ import {
   indexed1toIndexed8,
   indexed4toIndexed8,
 } from "./rowOps/indexed/indexedToIndexedUp";
-import { rgb15to24Fast, rgb15to24Quality } from "./rowOps/rgb/rgb15to24";
+import {
+  rgb15to24Fast,
+  rgb15to24Quality,
+  rgb15to32Quality,
+} from "./rowOps/rgb/rgb15";
+import {
+  rgb16to24Fast,
+  rgb16to24Quality,
+  rgb16to32Quality,
+} from "./rowOps/rgb/rgb16";
 import { rgb24to15Dither, rgb24to15Fast } from "./rowOps/rgb/rgb24to15";
 import { bgr24toG8, rgb24toG8 } from "./rowOps/rgb/rgb24toG8";
 import {
@@ -54,6 +63,23 @@ export const allConverters: ConverterFactoryDescr[] = [
   // 15 bits
   factoryRowOp("B5G5R5", "B8G8R8", rgb15to24Quality, { speed: 90 }, "quality"),
   factoryRowOp("B5G5R5", "B8G8R8", rgb15to24Fast, { quality: 90 }, "fast"),
+  factoryRowOp(
+    "B5G5R5",
+    "B8G8R8A8",
+    rgb15to32Quality,
+    { speed: 90 },
+    "quality"
+  ),
+  // 16 bits
+  factoryRowOp("B5G6R5", "B8G8R8", rgb16to24Quality, { speed: 90 }, "quality"),
+  factoryRowOp("B5G6R5", "B8G8R8", rgb16to24Fast, { quality: 90 }, "fast"),
+  factoryRowOp(
+    "B5G6R5",
+    "B8G8R8A8",
+    rgb16to32Quality,
+    { speed: 90 },
+    "quality"
+  ),
   // 24 bits
   factoryDithering(
     "B8G8R8",

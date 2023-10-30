@@ -33,3 +33,21 @@ export const rgb15to24Fast: FnRowOp = (width, bsrc, dst) => {
     dst[dstPos++] = (a >> 7) & 0xf8;
   }
 };
+
+// Используется для чтения 16-битовой палитры в Targa
+export const rgb15to32Quality: FnRowOp = (width, bsrc, dst) => {
+  const wsrc = new Uint16Array(bsrc.buffer, bsrc.byteOffset);
+  let srcPos = 0;
+  let dstPos = 0;
+  const srcEnd = srcPos + width;
+  while (srcPos < srcEnd) {
+    const a = wsrc[srcPos++]!;
+    let c = a & 0x1f; // first
+    dst[dstPos++] = (c >> 2) | (c << 3);
+    c = (a >> 5) & 0x1f; // second component
+    dst[dstPos++] = (c >> 2) | (c << 3);
+    c = (a >> 10) & 0x1f; // third component
+    dst[dstPos++] = (c >> 2) | (c << 3);
+    dst[dstPos++] = 0xff;
+  }
+};
