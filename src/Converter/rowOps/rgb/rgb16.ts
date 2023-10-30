@@ -19,7 +19,7 @@ export const rgb16to24Quality: FnRowOp = (width, bsrc, dst) => {
   }
 };
 
-// Чуть более быстрый, но менее качественный алгоритм. Проецирует [0, 1F] => [0, F8]
+// Чуть более быстрый, но менее качественный алгоритм. Проецирует [0, 1F] => [0, F8], [0, 3F] => [0, FC]
 // То есть, нижняя часть числа остается незаполненная.
 export const rgb16to24Fast: FnRowOp = (width, bsrc, dst) => {
   const wsrc = new Uint16Array(bsrc.buffer, bsrc.byteOffset);
@@ -34,7 +34,6 @@ export const rgb16to24Fast: FnRowOp = (width, bsrc, dst) => {
   }
 };
 
-// Используется для чтения 16-битовой палитры в Targa
 export const rgb16to32Quality: FnRowOp = (width, bsrc, dst) => {
   const wsrc = new Uint16Array(bsrc.buffer, bsrc.byteOffset);
   let srcPos = 0;
