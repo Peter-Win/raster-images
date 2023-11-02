@@ -9,6 +9,7 @@ import { Point } from "../../math";
 import { PixelFormat, PixelFormatDef } from "../../PixelFormat";
 import { ColorModel } from "../../ColorModel";
 import { ErrorRI } from "../../utils";
+import { orgFromTarga } from "./targaOrg";
 
 type Details = {
   colorModel: ColorModel;
@@ -24,6 +25,7 @@ const typeMap: Record<TargaImageType, Details | null> = {
   [TargaImageType.uncompressedGray]: { colorModel: "Gray", rle: false },
   [TargaImageType.rleColorMapped]: { colorModel: "Indexed", rle: true },
   [TargaImageType.rleTrueColor]: { colorModel: "RGB", rle: true },
+  [TargaImageType.rleGray]: { colorModel: "Gray", rle: true },
 };
 
 export const targaHeaderAnalyze = (
@@ -32,7 +34,7 @@ export const targaHeaderAnalyze = (
   info: ImageInfo;
   options: OptionsTarga;
 } => {
-  const { width, height, depth, imageType, imageDescriptor, x0, y0 } = header;
+  const { width, height, depth, imageType, imageDescriptor } = header;
 
   const details = typeMap[imageType];
   if (details === undefined) throw new ErrorRI("Invalid Targa image type");
@@ -43,9 +45,7 @@ export const targaHeaderAnalyze = (
     right2left: !!(imageDescriptor & TargaImageDescriptor.right2left),
     top2bottom: !!(imageDescriptor & TargaImageDescriptor.top2bottom),
   };
-  // for Targa the origin is in the **lower left** corner, and for raster-images it is in the upper left.
-  const orgX = options.right2left ? width - x0 : x0;
-  const orgY = options.top2bottom ? height - y0 : y0;
+  const { orgX, orgY } = orgFromTarga(header, options);
   if (orgX !== 0 || orgY !== 0) {
     options.orgX = orgX;
     options.orgY = orgY;
