@@ -104,7 +104,8 @@ describe("saveBmpFormat", () => {
     const dstPixFmt = new PixelFormat(8, "Indexed");
     const fmt = formatForSaveFromSurface(img);
     const wstream = await getTestFile(__dirname, "fmt-options-os2.bmp", "w");
-    await saveBmpFormat(fmt, wstream, dstPixFmt, {
+    await saveBmpFormat(fmt, wstream, {
+      dstPixFmt,
       converterSearchProps: { dithering: false, prefer: "speed" },
     });
     await streamLock(new NodeJSFile(wstream.name, "r"), async (rstream) => {
@@ -123,7 +124,7 @@ describe("saveBmpFormat", () => {
     const log: ProgressInfo[] = [];
     const progress = testProgress(log);
     const fmt = formatForSaveFromSurface(img);
-    await saveBmpFormat(fmt, stream, undefined, { progress });
+    await saveBmpFormat(fmt, stream, { progress });
     expect(log.length).toBe(img.height + 2);
   });
 });

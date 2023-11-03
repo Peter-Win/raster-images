@@ -61,7 +61,7 @@ describe("saveBmpImage", () => {
     const wstream = await getTestFile(__dirname, "img-rgb-i8.bmp", "w");
     const dstPixFmt = new PixelFormat("I8");
     dstPixFmt.setPalette(createFreePalette(128));
-    await saveBmpImage(img, wstream, { dstPixFmt });
+    await saveBmpImage(img, wstream, {}, { dstPixFmt });
     await streamLock(new NodeJSFile(wstream.name, "r"), async (rstream) => {
       await rstream.seek(bmpFileHeaderSize);
       const ibuf = await rstream.read(bmpInfoHeaderSize);

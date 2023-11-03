@@ -1,14 +1,10 @@
-import { OptionsCreateConverter, createRowsReader } from "../../../Converter";
-import { PixelFormat } from "../../../PixelFormat";
+import { OptionsSave } from "../../Driver";
+import { createRowsReader } from "../../../Converter";
 import { Surface } from "../../../Surface";
 import { RAStream } from "../../../stream";
 import { compatibleBmpPixelFormat } from "../compatibleBmpPixelFormat";
 import { OptionsSaveBmp } from "./OptionsSaveBmp";
 import { saveBmp } from "./saveBmp";
-
-type OptionsSaveBmpImage = OptionsSaveBmp & {
-  dstPixFmt?: PixelFormat;
-};
 
 /**
  * Эту функцию рекомендуется использовать, если нужно целенаправленно использовать запись в BMP-формате.
@@ -20,11 +16,11 @@ type OptionsSaveBmpImage = OptionsSaveBmp & {
 export const saveBmpImage = async (
   surface: Surface,
   stream: RAStream,
-  bmpOptions?: OptionsSaveBmpImage,
-  converterOptions?: OptionsCreateConverter
+  bmpOptions?: OptionsSaveBmp,
+  saveOptions?: OptionsSave
 ) => {
-  const { dstPixFmt, ...restOptions } = bmpOptions || {};
+  const { dstPixFmt, ...converterOptions } = saveOptions ?? {};
   const bmpPixFmt = compatibleBmpPixelFormat(dstPixFmt ?? surface.info.fmt);
   const reader = await createRowsReader(surface, bmpPixFmt, converterOptions);
-  await saveBmp(reader, stream, restOptions, converterOptions?.progress);
+  await saveBmp(reader, stream, bmpOptions, converterOptions.progress);
 };

@@ -23,12 +23,16 @@ describe("saveTargaImage", () => {
       }
     }
     const stream = await getTestFile(__dirname, "image15.tga", "w");
-    await saveTargaImage(image, stream, {
-      compression: true,
-      top2bottom: true,
-      right2left: true,
-      dstPixFmt: new PixelFormat("B5G5R5"),
-    });
+    await saveTargaImage(
+      image,
+      stream,
+      {
+        compression: true,
+        top2bottom: true,
+        right2left: true,
+      },
+      { dstPixFmt: new PixelFormat("B5G5R5") }
+    );
     await streamLock(new NodeJSFile(stream.name, "r"), async (rstream) => {
       const hdr = await readTargaHeader(rstream);
       expect(hdr.imageType).toBe(TargaImageType.rleTrueColor);

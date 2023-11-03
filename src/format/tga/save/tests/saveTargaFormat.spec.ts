@@ -34,7 +34,9 @@ describe("saveTargaFormat", () => {
     }
     const stream = await getTestFile(__dirname, "format-bgr-i8.tga", "w");
     const format = formatForSaveFromSurface(image);
-    await saveTargaFormat(format, stream, new PixelFormat("I8"));
+    await saveTargaFormat(format, stream, {
+      dstPixFmt: new PixelFormat("I8"),
+    });
     await streamLock(new NodeJSFile(stream.name, "r"), async (rstream) => {
       const hdr = await readTargaHeader(rstream);
       expect(hdr.imageType).toBe(TargaImageType.rleColorMapped);
@@ -54,7 +56,7 @@ describe("saveTargaFormat", () => {
     const buf = new Uint8Array(1000);
     const stream = new BufferStream(buf, { size: 0 });
     const log: ProgressInfo[] = [];
-    await saveTargaFormat(format, stream, undefined, {
+    await saveTargaFormat(format, stream, {
       progress: testProgress(log),
     });
     expect(log.length).toBe(height + 2);

@@ -55,10 +55,16 @@ describe("savePnmImage", () => {
     const img = SurfaceStd.createSign(3, 1, "R8G8B8", {
       data: new Uint8Array(rgbPixels.buffer, rgbPixels.byteOffset),
     });
-    await savePnmImage(img, stream, {
-      dataType: "plain",
-      dstPixFmt: new PixelFormat(8, "Gray"),
-    });
+    await savePnmImage(
+      img,
+      stream,
+      {
+        dataType: "plain",
+      },
+      {
+        dstPixFmt: new PixelFormat(8, "Gray"),
+      }
+    );
     const size = await stream.getSize();
     const text = bytesToUtf8(subBuffer(buf, 0, size));
     expect(text).toBe(`P2\n3 1\n255\n0 15 215\n`);
