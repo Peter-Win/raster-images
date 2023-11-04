@@ -1,6 +1,6 @@
 {
   "name": "raster-images",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Library for working with bitmaps",
   "main": "lib/index.js",
   "scripts": {
