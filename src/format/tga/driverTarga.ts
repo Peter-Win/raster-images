@@ -4,6 +4,7 @@ import { targaName } from "./targaCommon";
 import { BitmapFormat } from "../BitmapFormat";
 import { FormatTarga } from "./FormatTarga";
 import { targaDetect } from "./targaDetect";
+import { saveTargaFormat } from "./save";
 
 export const driverTarga: Driver = {
   name: targaName,
@@ -15,4 +16,6 @@ export const driverTarga: Driver = {
 
   createFormat: (stream: RAStream): Promise<BitmapFormat> =>
     FormatTarga.create(stream),
+
+  save: saveTargaFormat,
 };

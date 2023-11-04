@@ -1,23 +1,19 @@
+import { OptionsSave } from "../../Driver";
 import { RAStream } from "../../../stream";
 import { Surface } from "../../../Surface";
-import { PixelFormat } from "../../../PixelFormat";
 import { OptionsSavePnm } from "./OptionsSavePnm";
-import { OptionsCreateConverter, createRowsReader } from "../../../Converter";
+import { createRowsReader } from "../../../Converter";
 import { compatiblePnmPixelFormat } from "../compatiblePnmPixelFormat";
 import { savePnm } from "./savePnm";
-
-export type OptionsSavePnmImage = OptionsSavePnm & {
-  dstPixFmt?: PixelFormat;
-};
 
 export const savePnmImage = async (
   image: Surface,
   stream: RAStream,
-  options?: OptionsSavePnmImage,
-  converterOptions?: OptionsCreateConverter
+  pnmOptions?: OptionsSavePnm,
+  saveOptions?: OptionsSave
 ) => {
-  const { dstPixFmt, ...restOptions } = options ?? {};
+  const { dstPixFmt, ...cvtOptions } = saveOptions ?? {};
   const pnmPixFmt = compatiblePnmPixelFormat(dstPixFmt ?? image.info.fmt);
-  const reader = await createRowsReader(image, pnmPixFmt, converterOptions);
-  await savePnm(reader, stream, restOptions, converterOptions?.progress);
+  const reader = await createRowsReader(image, pnmPixFmt, cvtOptions);
+  await savePnm(reader, stream, pnmOptions, cvtOptions?.progress);
 };

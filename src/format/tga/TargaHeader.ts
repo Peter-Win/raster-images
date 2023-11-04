@@ -35,6 +35,7 @@ export const enum TargaImageType {
   uncompressedGray = 3,
   rleColorMapped = 9,
   rleTrueColor = 10,
+  rleGray = 11,
 }
 
 export const enum TargaImageDescriptor {
@@ -44,7 +45,7 @@ export const enum TargaImageDescriptor {
   interleaveMask = 0xc0, // Необходимо выдать предупреждение, что эти флаги не поддерживаются
 }
 
-type TargaDepth = 8 | 16 | 24 | 32;
+export type TargaDepth = 8 | 16 | 24 | 32;
 const possibleDepth = [8, 16, 24, 32];
 
 export interface TargaHeader {
@@ -82,6 +83,7 @@ export const checkTargaHeader = ({ depth, width, height }: TargaHeader) => {
       height,
     });
 };
+
 export const targaHeaderFromBuffer = (buf: Uint8Array): TargaHeader => {
   const dv = new DataView(buf.buffer, buf.byteOffset);
   return {
@@ -100,6 +102,13 @@ export const targaHeaderFromBuffer = (buf: Uint8Array): TargaHeader => {
   };
 };
 
+export const readTargaHeader = async (
+  stream: RAStream
+): Promise<TargaHeader> => {
+  const buf = await stream.read(targaHeaderSize);
+  return targaHeaderFromBuffer(buf);
+};
+
 export const targaHeaderToBuffer = (h: TargaHeader): Uint8Array => {
   const buf = new Uint8Array(targaHeaderSize);
   const dv = new DataView(buf.buffer, buf.byteOffset);
@@ -116,11 +125,4 @@ export const targaHeaderToBuffer = (h: TargaHeader): Uint8Array => {
   buf[ofsDepth] = h.depth;
   buf[ofsImageDescriptor] = h.imageDescriptor;
   return buf;
-};
-
-export const readTargaHeader = async (
-  stream: RAStream
-): Promise<TargaHeader> => {
-  const buf = await stream.read(targaHeaderSize);
-  return targaHeaderFromBuffer(buf);
 };

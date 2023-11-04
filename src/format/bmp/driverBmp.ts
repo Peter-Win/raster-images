@@ -1,5 +1,3 @@
-import { PixelFormat } from "../../PixelFormat";
-import { OptionsCreateConverter } from "../../Converter";
 import { RAStream } from "../../stream";
 import { Driver } from "../Driver";
 import { BitmapFormat } from "../BitmapFormat";
@@ -23,10 +21,5 @@ export const driverBmp: Driver = {
   createFormat: (stream: RAStream): Promise<BitmapFormat> =>
     FormatBmp.create(stream),
 
-  save: (
-    format,
-    stream,
-    dstPixFmt?: PixelFormat,
-    options?: OptionsCreateConverter
-  ): Promise<void> => saveBmpFormat(format, stream, dstPixFmt, options),
+  save: saveBmpFormat,
 };

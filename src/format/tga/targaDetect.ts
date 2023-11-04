@@ -15,6 +15,7 @@ const validTypes: Record<TargaImageType, boolean> = {
   [TargaImageType.uncompressedGray]: true,
   [TargaImageType.rleColorMapped]: true,
   [TargaImageType.rleTrueColor]: true,
+  [TargaImageType.rleGray]: true,
 };
 
 const validDepth = new Set([8, 15, 16, 24, 32]);

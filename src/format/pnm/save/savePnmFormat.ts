@@ -1,8 +1,6 @@
-import { OptionsCreateConverter } from "../../../Converter";
-import { PixelFormat } from "../../../PixelFormat";
-import { Surface } from "../../../Surface";
+import { saveSingleImageFormat } from "../../saveSingleImageFormat";
+import { OptionsSave } from "../../Driver";
 import { RAStream } from "../../../stream";
-import { ErrorRI } from "../../../utils";
 import { FormatForSave } from "../../FormatForSave";
 import { makeOptionsSavePnm } from "./OptionsSavePnm";
 import { savePnmImage } from "./savePnmImage";
@@ -20,22 +18,14 @@ import { savePnmImage } from "./savePnmImage";
 export const savePnmFormat = async (
   format: FormatForSave,
   stream: RAStream,
-  dstPixFmt?: PixelFormat,
-  options?: OptionsCreateConverter
+  options?: OptionsSave
 ) => {
-  const { frames } = format;
-  if (frames.length !== 1) {
-    throw new ErrorRI("Can't write <fmt> file with <n> frames", {
-      fmt: "PNM",
-      n: frames.length,
-    });
-  }
-  const frame = frames[0]!;
-  const surface: Surface = await frame.getImage();
-  return savePnmImage(
-    surface,
+  await saveSingleImageFormat(
+    format,
     stream,
-    { ...makeOptionsSavePnm(frame.info.vars), dstPixFmt },
-    options
+    options,
+    "PNM",
+    makeOptionsSavePnm,
+    savePnmImage
   );
 };
