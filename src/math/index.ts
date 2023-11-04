@@ -6,3 +6,4 @@ export const toa = (value: number): string =>
   value.toFixed(2).replace(/0+$/g, "").replace(/\.$/, "").replace(/^-0$/, "0");
 
 export * from "./Point";
+export * from "./Rational";

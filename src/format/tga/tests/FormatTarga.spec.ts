@@ -1,8 +1,13 @@
 import { surfaceConverter } from "../../../Converter/surfaceConverter";
 import { SurfaceStd } from "../../../Surface";
+import { getTestFile } from "../../../tests/getTestFile";
 import { onStreamFromGallery } from "../../../tests/streamFromGallery";
 import { dump } from "../../../utils";
 import { FormatTarga } from "../FormatTarga";
+import { FrameTarga } from "../FrameTarga";
+import { AttributesType } from "../extensionArea";
+import { readPostageStamp } from "../extensionArea/readPostageStamp";
+import { saveTargaImage } from "../save/saveTargaImage";
 
 describe("FormatTarga", () => {
   it("BGR32-RLE.tga", async () => {
@@ -45,6 +50,39 @@ describe("FormatTarga", () => {
       // 632900, 633100
       const row = img.getRowBuffer(img.height - 1);
       expect(dump(row.slice(0, 10))).toBe("A0 B0 C0 B0 C1 B4 C1 B4 E0 B4");
+    });
+  });
+
+  // Пока что нашлось мало примеров tga-файлов с использованием EXTENSION AREA
+  it("extArea", async () => {
+    await onStreamFromGallery("extArea.tga", async (stream) => {
+      const fmt = await FormatTarga.create(stream);
+      const frame: FrameTarga = fmt.frames[0]!;
+      const ea = frame.extArea!;
+      expect(ea).toBeDefined();
+      expect(ea.authorName).toBe("Ricky True");
+      expect(ea.authorComment).toEqual([
+        "Sample 8 bit run length compressed black and white image",
+      ]);
+      expect(ea.dateTime?.toISOString()).toBe("1990-03-24T07:00:00.000Z");
+      expect(ea.jobName).toBe("TGA Utilities");
+      expect(ea.jobTimeInSeconds).toBe(0);
+      expect(ea.softwareID).toBe("TGAEdit");
+      expect(ea.softwareVersion).toBe("2.00");
+      expect(ea.keyColor).toEqual([0, 0, 0, 0]);
+      expect(ea.aspectRatio?.toString()).toBe("0/0");
+      expect(ea.gamma?.toString()).toBe("0/0");
+      expect(ea.colorCorrectionOffset).toBe(0);
+      expect(ea.postageStampOffset).toBe(0x102c);
+      expect(ea.scanLineOffset).toBe(0);
+      expect(ea.attributesType).toBe(AttributesType.noAlpha);
+      const postImg = await readPostageStamp(
+        stream,
+        ea.postageStampOffset,
+        frame.info.fmt
+      );
+      const postStream = await getTestFile(__dirname, "postStamp.tga", "w");
+      await saveTargaImage(postImg, postStream);
     });
   });
 });

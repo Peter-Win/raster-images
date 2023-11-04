@@ -10,6 +10,8 @@ import { stdRowOrder } from "../../Converter/rowOrder";
 import { calcPitch } from "../../ImageInfo/calcPitch";
 import { rleUnpack } from "./rleUnpack";
 import { reverseRow } from "./reverseRow";
+import { readTargaFooter } from "./TargaFooter";
+import { TargaExtensionArea, readTargaExtensionArea } from "./extensionArea";
 
 export class FrameTarga implements BitmapFrame {
   static async create(format: BitmapFormat): Promise<FrameTarga> {
@@ -23,7 +25,14 @@ export class FrameTarga implements BitmapFrame {
       const palette = await readTargaPalette(stream, hd);
       info.fmt.setPalette(palette);
       const offset = await stream.getPos();
-      return new FrameTarga(format, info, offset, options);
+      const footer = await readTargaFooter(stream);
+      // Developer area not supported yet.
+      let extArea: TargaExtensionArea | undefined;
+      if (footer?.extensionAreaOffset) {
+        await stream.seek(footer.extensionAreaOffset);
+        extArea = await readTargaExtensionArea(stream);
+      }
+      return new FrameTarga(format, info, offset, options, extArea);
     });
   }
 
@@ -33,7 +42,8 @@ export class FrameTarga implements BitmapFrame {
     public readonly format: BitmapFormat,
     public readonly info: ImageInfo,
     public readonly offset: number,
-    public readonly options: OptionsTarga
+    public readonly options: OptionsTarga,
+    public readonly extArea?: TargaExtensionArea
   ) {}
 
   async read(converter: Converter): Promise<void> {
@@ -44,29 +54,29 @@ export class FrameTarga implements BitmapFrame {
     const { width, depth } = getSizeAndDepth(this.info);
     const bytesPerPixel = calcPitch(1, depth);
 
-    let fillRow: (row: Uint8Array) => Promise<void>;
-    if (!this.options.compression) {
-      fillRow = async (row: Uint8Array) => {
-        await stream.readBuffer(row, rowSize);
-      };
-    } else {
-      const pos = await stream.getPos();
-      const size = await stream.getSize();
-      const buffer = await stream.read(size - pos);
-      const unpack = rleUnpack(width, buffer, bytesPerPixel);
-      fillRow = async (row: Uint8Array) => {
-        unpack(row);
-      };
-    }
-    if (this.options.right2left) {
-      const ltr = fillRow;
-      fillRow = async (row) => {
-        await ltr(row);
-        reverseRow(width, row, bytesPerPixel);
-      };
-    }
     return streamLock(stream, async () => {
       await stream.seek(this.offset);
+
+      let fillRow: (row: Uint8Array) => Promise<void>;
+      if (!this.options.compression) {
+        fillRow = async (row: Uint8Array) => {
+          await stream.readBuffer(row, rowSize);
+        };
+      } else {
+        const size = await stream.getSize();
+        const buffer = await stream.read(size - this.offset);
+        const unpack = rleUnpack(width, buffer, bytesPerPixel);
+        fillRow = async (row: Uint8Array) => {
+          unpack(row);
+        };
+      }
+      if (this.options.right2left) {
+        const ltr = fillRow;
+        fillRow = async (row) => {
+          await ltr(row);
+          reverseRow(width, row, bytesPerPixel);
+        };
+      }
       await readImage(converter, this.info, fillRow, rowOrder);
     });
   }
