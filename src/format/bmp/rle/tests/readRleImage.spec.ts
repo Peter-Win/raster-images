@@ -5,8 +5,8 @@ import { Point } from "../../../../math/Point";
 import { RAStream } from "../../../../stream/RAStream";
 import { onStreamFromGallery } from "../../../../tests/streamFromGallery";
 import { PixelDepth } from "../../../../types";
-import { bmpFileHeaderSize, readBmpFileHeader } from "../../BmpFileHeader";
-import { bmpInfoHeaderSize, readBmpInfoHeader } from "../../BmpInfoHeader";
+import { readBmpFileHeader } from "../../BmpFileHeader";
+import { readBmpInfoHeader } from "../../BmpInfoHeader";
 import { readRleImage } from "../readRleImage";
 import { SurfaceStd } from "../../../../Surface";
 import { Palette } from "../../../../Palette/Palette";
@@ -46,10 +46,8 @@ const dump4 = (row: Uint8Array): string =>
     .join("");
 
 const load = async (stream: RAStream) => {
-  const hdBuf = await stream.read(bmpFileHeaderSize);
-  const hdr = readBmpFileHeader(hdBuf.buffer, hdBuf.byteOffset);
-  const biBuf = await stream.read(bmpInfoHeaderSize);
-  const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+  const hdr = await readBmpFileHeader(stream);
+  const bi = await readBmpInfoHeader(stream);
   const palette = await readPalette(stream, bi.biClrUsed, { dword: true });
   const srcData = await stream.read(hdr.bfSize - hdr.bfOffBits);
   const info: ImageInfo = {

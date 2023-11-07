@@ -1,15 +1,12 @@
+import { readDwordLE } from "../../stream";
 import { Converter } from "../../Converter";
 import { ImageInfo } from "../../ImageInfo";
 import { BitmapFormat, BitmapFrame } from "../BitmapFormat";
-import {
-  bmpFileHeaderSize,
-  bmpSignature,
-  readBmpFileHeader,
-} from "./BmpFileHeader";
+import { bmpSignature, readBmpFileHeader } from "./BmpFileHeader";
 import { Variables } from "../../ImageInfo/Variables";
 import { ErrorRI } from "../../utils";
 import { Point } from "../../math/Point";
-import { readBmpCoreHeader } from "./BmpCoreHeader";
+import { readBmpCoreHeaderFromBuffer } from "./BmpCoreHeader";
 import { PixelFormatDef } from "../../PixelFormat/PixelFormatDef";
 import { PixelDepth } from "../../types";
 import { PixelFormat } from "../../PixelFormat";
@@ -17,7 +14,7 @@ import { readPalette } from "../../Palette/readPalette";
 import {
   BmpCompression,
   getBmpCompressionName,
-  readBmpInfoHeader,
+  readBmpInfoHeaderFromBuffer,
 } from "./BmpInfoHeader";
 import { onInvalidFormat } from "../onInvalidFormat";
 import { driverBmp } from "./driverBmp";
@@ -55,19 +52,19 @@ export class FrameBmp implements BitmapFrame {
       };
       let upDown = false;
       let compression = BmpCompression.RGB;
-      const buf0 = await stream.read(bmpFileHeaderSize + 4);
-      const fhd = readBmpFileHeader(buf0.buffer, buf0.byteOffset);
+      const fhd = await readBmpFileHeader(stream);
       if (fhd.bfType !== bmpSignature) {
         onInvalidFormat(driverBmp.name, stream.name);
       }
-      const dv0 = new DataView(buf0.buffer, buf0.byteOffset);
-      const biSize = dv0.getUint32(bmpFileHeaderSize, true);
+      const biSize = await readDwordLE(stream);
       await stream.skip(-4);
       const hdType = headerSizes[biSize] || "std";
       // if (!hdType)
       //   throw new ErrorRI("Unknown image header size <size> bytes", {
       //     size: biSize,
       //   });
+      // Здесь важно читать заголовок из буфера, т.к. размер заголовка может быть разным.
+      // Если читать только нужные поля, то надо как-то перемещать указатель чтения на начало следующего блока.
       const ihd = await stream.read(biSize);
       const size = new Point();
       const pxDef: PixelFormatDef = {
@@ -77,7 +74,7 @@ export class FrameBmp implements BitmapFrame {
       let signature = "";
       const frameSize = fhd.bfSize - fhd.bfOffBits;
       if (hdType === "os2") {
-        const hd = readBmpCoreHeader(ihd.buffer, ihd.byteOffset);
+        const hd = readBmpCoreHeaderFromBuffer(ihd);
         const bpp = hd.bcBitCount;
         size.set(hd.bcWidth, hd.bcHeight);
         if (bpp === 1 || bpp === 4 || bpp === 8) {
@@ -96,7 +93,7 @@ export class FrameBmp implements BitmapFrame {
         vars.compression = "None";
       } else {
         vars.format = driverBmp.name;
-        const bi = readBmpInfoHeader(ihd.buffer, ihd.byteOffset);
+        const bi = readBmpInfoHeaderFromBuffer(ihd);
         compression = bi.biCompression;
         size.set(bi.biWidth, Math.abs(bi.biHeight));
         upDown = bi.biHeight < 0;

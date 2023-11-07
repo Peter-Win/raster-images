@@ -62,8 +62,7 @@ describe("saveBmpFormat", () => {
     await saveBmpFormat(fmt, wstream);
     await streamLock(new NodeJSFile(wstream.name, "r"), async (rstream) => {
       await rstream.seek(bmpFileHeaderSize);
-      const buf2 = await rstream.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(buf2.buffer, buf2.byteOffset);
+      const bi = await readBmpInfoHeader(rstream);
       expect(bi.biSize).toBe(bmpInfoHeaderSize); // non-OS/2
       expect(bi.biHeight).toBe(-height); // rowOrder=forward gives negative height
       expect(resolutionFromMeters(bi.biXPelsPerMeter, "inch")).toBeCloseTo(
@@ -110,8 +109,7 @@ describe("saveBmpFormat", () => {
     });
     await streamLock(new NodeJSFile(wstream.name, "r"), async (rstream) => {
       await rstream.seek(bmpFileHeaderSize);
-      const buf2 = await rstream.read(bmpCoreHeaderSize);
-      const bc = readBmpCoreHeader(buf2.buffer, buf2.byteOffset);
+      const bc = await readBmpCoreHeader(rstream);
       expect(bc.bcSize).toBe(bmpCoreHeaderSize); // OS/2
       expect(bc.bcBitCount).toBe(8);
     });

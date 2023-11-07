@@ -1,18 +1,17 @@
 import { RAStream } from "../../stream";
-
-const ofsLeft = 0;
-const ofsTop = ofsLeft + 2;
-const ofsWidth = ofsTop + 2;
-const ofsHeight = ofsWidth + 2;
-const ofsFlags = ofsHeight + 2;
-const sizeOfImageDescriptor = ofsFlags + 1;
+import {
+  FieldsBlock,
+  fieldByte,
+  fieldWord,
+  fieldsBlockSize,
+  readFieldsBlockFromBuffer,
+} from "../FieldsBlock";
 
 // <Packed Fields>  =      Local Color Table Flag        1 Bit
 //                              Interlace Flag                1 Bit
 //                              Sort Flag                     1 Bit
 //                              Reserved                      2 Bits
 //                              Size of Local Color Table     3 Bits
-
 export enum GifImgDescFlags {
   localTable = 0x80,
   interlace = 0x40,
@@ -28,18 +27,22 @@ export interface GifImageDescriptor {
   flags: number;
 }
 
+const descr: FieldsBlock<GifImageDescriptor> = {
+  littleEndian: true,
+  fields: [
+    fieldWord("left"),
+    fieldWord("top"),
+    fieldWord("width"),
+    fieldWord("height"),
+    fieldByte("flags"),
+  ],
+};
+
+const sizeOfImageDescriptor = fieldsBlockSize(descr);
+
 export const imageDescriptorFromBuffer = (
   buf: Uint8Array
-): GifImageDescriptor => {
-  const dv = new DataView(buf.buffer, buf.byteOffset);
-  return {
-    left: dv.getUint16(ofsLeft, true),
-    top: dv.getUint16(ofsTop, true),
-    width: dv.getUint16(ofsWidth, true),
-    height: dv.getUint16(ofsHeight, true),
-    flags: dv.getUint8(ofsFlags),
-  };
-};
+): GifImageDescriptor => readFieldsBlockFromBuffer(buf, descr);
 
 export const readGifImageDescriptor = async (
   stream: RAStream

@@ -1,28 +1,15 @@
 // https://learn.microsoft.com/en-us/windows/win32/api/wingdi/ns-wingdi-bitmapinfoheader
-// +0  4  DWORD biSize;
-const ofsSize = 0;
-// +4  4  LONG  biWidth;
-const ofsWidth = ofsSize + 4;
-// +8  4  LONG  biHeight;
-const ofsHeight = ofsWidth + 4;
-// +12 2  WORD  biPlanes;
-const ofsPlanes = ofsHeight + 4;
-// +14 2  WORD  biBitCount;
-const ofsBitCount = ofsPlanes + 2;
-// +16 4  DWORD biCompression;
-const ofsCompression = ofsBitCount + 2;
-// +20 4  DWORD biSizeImage;
-const ofsSizeImage = ofsCompression + 4;
-// +24 4  LONG  biXPelsPerMeter;
-const ofsXPelsPerMeter = ofsSizeImage + 4;
-// +28 4  LONG  biYPelsPerMeter;
-const ofsYPelsPerMeter = ofsXPelsPerMeter + 4;
-// +32 4  DWORD biClrUsed;
-const ofsClrUsed = ofsYPelsPerMeter + 4;
-// +36 4  DWORD biClrImportant;
-const ofsClrImportant = ofsClrUsed + 4;
 
-export const bmpInfoHeaderSize = ofsClrImportant + 4;
+import { RAStream } from "../../stream";
+import {
+  FieldsBlock,
+  fieldDword,
+  fieldLong,
+  fieldWord,
+  fieldsBlockSize,
+  readFieldsBlockFromBuffer,
+  writeFieldsBlock,
+} from "../FieldsBlock";
 
 export const enum BmpCompression {
   RGB = 0,
@@ -61,6 +48,7 @@ export interface BmpInfoHeader {
   // For example, YUYV video has the FOURCC 'VYUY' or 0x56595559.
   // For 16-bpp bitmaps, if biCompression equals BI_RGB, the format is always RGB 555.
   // If biCompression equals BI_BITFIELDS, the format is either RGB 555 or RGB 565.
+  // TODO: Здесь не поддерживаются FOURCC-коды, поэтому поле числовое.
 
   biSizeImage: number; // Specifies the size, in bytes, of the image. This can be set to 0 for uncompressed RGB bitmaps.
 
@@ -72,42 +60,35 @@ export interface BmpInfoHeader {
   // If this value is zero, all colors are important.
 }
 
-export const readBmpInfoHeader = (
-  buffer: ArrayBuffer,
-  offset: number
-): BmpInfoHeader => {
-  const dv = new DataView(buffer, offset);
-  return {
-    biSize: dv.getUint32(ofsSize, true),
-    biWidth: dv.getInt32(ofsWidth, true),
-    biHeight: dv.getInt32(ofsHeight, true),
-    biPlanes: dv.getUint16(ofsPlanes, true),
-    biBitCount: dv.getUint16(ofsBitCount, true),
-    biCompression: dv.getUint32(ofsCompression, true),
-    biSizeImage: dv.getUint32(ofsSizeImage, true),
-    biXPelsPerMeter: dv.getInt32(ofsXPelsPerMeter, true),
-    biYPelsPerMeter: dv.getInt32(ofsYPelsPerMeter, true),
-    biClrUsed: dv.getUint32(ofsClrUsed, true),
-    biClrImportant: dv.getUint32(ofsClrImportant, true),
-  };
+const descrInfo: FieldsBlock<BmpInfoHeader> = {
+  littleEndian: true,
+  fields: [
+    fieldDword("biSize"),
+    fieldLong("biWidth"),
+    fieldLong("biHeight"),
+    fieldWord("biPlanes"),
+    fieldWord("biBitCount"),
+    fieldDword("biCompression"), // ! FOURCC не поддерживаются
+    fieldDword("biSizeImage"),
+    fieldLong("biXPelsPerMeter"),
+    fieldLong("biYPelsPerMeter"),
+    fieldDword("biClrUsed"),
+    fieldDword("biClrImportant"),
+  ],
 };
 
-export const writeBmpInfoHeader = (
-  hd: BmpInfoHeader,
-  buffer: ArrayBuffer,
-  offset: number
-): void => {
-  const dv = new DataView(buffer, offset);
-  dv.setUint32(ofsSize, hd.biSize, true);
-  dv.setInt32(ofsWidth, hd.biWidth, true);
-  dv.setInt32(ofsHeight, hd.biHeight, true);
-  dv.setUint16(ofsPlanes, hd.biPlanes, true);
-  dv.setUint16(ofsBitCount, hd.biBitCount, true);
+export const bmpInfoHeaderSize = fieldsBlockSize(descrInfo);
 
-  dv.setUint32(ofsCompression, hd.biCompression, true);
-  dv.setUint32(ofsSizeImage, hd.biSizeImage, true);
-  dv.setInt32(ofsXPelsPerMeter, hd.biXPelsPerMeter, true);
-  dv.setInt32(ofsYPelsPerMeter, hd.biYPelsPerMeter, true);
-  dv.setUint32(ofsClrUsed, hd.biClrUsed, true);
-  dv.setUint32(ofsClrImportant, hd.biClrImportant, true);
+export const readBmpInfoHeaderFromBuffer = (
+  buffer: Uint8Array
+): BmpInfoHeader => readFieldsBlockFromBuffer(buffer, descrInfo);
+
+export const readBmpInfoHeader = async (
+  stream: RAStream
+): Promise<BmpInfoHeader> => {
+  const buf = await stream.read(bmpInfoHeaderSize);
+  return readBmpInfoHeaderFromBuffer(buf);
 };
+
+export const writeBmpInfoHeader = async (hd: BmpInfoHeader, stream: RAStream) =>
+  writeFieldsBlock(hd, stream, descrInfo);

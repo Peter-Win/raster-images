@@ -1,8 +1,9 @@
+import { BufferStream } from "../../../stream";
 import {
   BmpCompression,
   BmpInfoHeader,
   bmpInfoHeaderSize,
-  readBmpInfoHeader,
+  readBmpInfoHeaderFromBuffer,
   writeBmpInfoHeader,
 } from "../BmpInfoHeader";
 
@@ -25,7 +26,7 @@ describe("readBmpInfoHeader", () => {
     const buf = new Uint8Array(hdB5G5R5);
     expect(hdB5G5R5.length).toBe(bmpInfoHeaderSize);
     expect(buf.byteLength).toBe(bmpInfoHeaderSize);
-    const hd = readBmpInfoHeader(buf.buffer, buf.byteOffset);
+    const hd = readBmpInfoHeaderFromBuffer(buf);
     expect(hd).toEqual({
       biSize: bmpInfoHeaderSize,
       biWidth: 0xc7,
@@ -43,7 +44,7 @@ describe("readBmpInfoHeader", () => {
 });
 
 describe("writeBmpInfoHeader", () => {
-  it("B5G5R5", () => {
+  it("B5G5R5", async () => {
     const hd: BmpInfoHeader = {
       biSize: bmpInfoHeaderSize,
       biWidth: 0xc7,
@@ -58,7 +59,8 @@ describe("writeBmpInfoHeader", () => {
       biClrImportant: 0,
     };
     const buf = new Uint8Array(bmpInfoHeaderSize);
-    writeBmpInfoHeader(hd, buf.buffer, buf.byteOffset);
+    const stream = new BufferStream(buf, { size: 0 });
+    await writeBmpInfoHeader(hd, stream);
     expect(Array.from(buf).slice(0, bmpInfoHeaderSize)).toEqual(hdB5G5R5);
   });
 });

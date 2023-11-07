@@ -1,16 +1,14 @@
 import { onStreamFromGallery } from "../../../../tests/streamFromGallery";
-import { bmpFileHeaderSize, readBmpFileHeader } from "../../BmpFileHeader";
-import { bmpInfoHeaderSize, readBmpInfoHeader } from "../../BmpInfoHeader";
+import { readBmpFileHeader } from "../../BmpFileHeader";
+import { readBmpInfoHeader } from "../../BmpInfoHeader";
 import { RleContext, Res } from "../rleTypes";
 import { unpackRle4 } from "../unpackRle4";
 
 describe("unpackRle4", () => {
   it("I4-RLE", async () => {
     await onStreamFromGallery("I4-RLE.bmp", async (stream) => {
-      const hdrBuf = await stream.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
-      const biBuf = await stream.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+      const hdr = await readBmpFileHeader(stream);
+      const bi = await readBmpInfoHeader(stream);
       const width = bi.biWidth;
       expect(width).toBe(8);
       await stream.seek(hdr.bfOffBits);

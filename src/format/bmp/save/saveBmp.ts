@@ -13,11 +13,7 @@ import {
   BmpCoreHeader,
   writeBmpCoreHeader,
 } from "../BmpCoreHeader";
-import {
-  bmpFileHeaderSize,
-  BmpFileHeader,
-  writeBmpFileHeader,
-} from "../BmpFileHeader";
+import { BmpFileHeader, writeBmpFileHeader } from "../BmpFileHeader";
 import {
   bmpInfoHeaderSize,
   BmpInfoHeader,
@@ -54,13 +50,11 @@ export const saveBmp = async (
   await streamLock(stream, async () => {
     // reserve space for file header
     await stream.seek(0);
-    const hdrBuf = new Uint8Array(bmpFileHeaderSize);
     const hdr: BmpFileHeader = {
       bfSize: 0,
       bfOffBits: 0,
     };
-    writeBmpFileHeader(hdr, hdrBuf.buffer, hdrBuf.byteOffset);
-    await stream.write(hdrBuf, hdrBuf.byteLength);
+    await writeBmpFileHeader(hdr, stream);
     let upDown = false;
     // info header
     if (os2) {
@@ -70,16 +64,15 @@ export const saveBmp = async (
           { depth }
         );
       }
-      const bcBuf = new Uint8Array(bmpCoreHeaderSize);
+      // const bcBuf = new Uint8Array(bmpCoreHeaderSize);
       const coreHeader: BmpCoreHeader = {
-        bcSize: bcBuf.byteLength,
+        bcSize: bmpCoreHeaderSize,
         bcWidth: size.x,
         bcHeight: size.y,
         bcPlanes: 1,
         bcBitCount: depth,
       };
-      writeBmpCoreHeader(coreHeader, bcBuf.buffer, bcBuf.byteOffset);
-      await stream.write(bcBuf);
+      await writeBmpCoreHeader(coreHeader, stream);
       if (colorModel === "Indexed") {
         if (!palette) throw onEmptyPal();
         const colors = 1 << depth;
@@ -126,8 +119,7 @@ export const saveBmp = async (
         bi.biXPelsPerMeter = Math.round(resolutionToMeters(resX, resUnit));
         bi.biYPelsPerMeter = Math.round(resolutionToMeters(resY, resUnit));
       }
-      writeBmpInfoHeader(bi, biBuf.buffer, biBuf.byteOffset);
-      await stream.write(biBuf, biBuf.byteLength);
+      await writeBmpInfoHeader(bi, stream);
       if (colorModel === "Indexed") {
         if (!palette) throw onEmptyPal();
         await writePalette(palette, stream, { dword: true });
@@ -150,8 +142,7 @@ export const saveBmp = async (
     });
     hdr.bfSize = await stream.getPos();
     stream.seek(0);
-    writeBmpFileHeader(hdr, hdrBuf.buffer, hdrBuf.byteOffset);
-    await stream.write(hdrBuf);
+    await writeBmpFileHeader(hdr, stream);
   });
 };
 
