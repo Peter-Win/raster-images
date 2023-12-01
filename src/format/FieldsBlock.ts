@@ -79,6 +79,20 @@ export const fieldWord = <Struct extends {}>(
   },
 });
 
+export const fieldInt16 = <Struct extends {}>(
+  key: keyof Struct
+): Field<Struct> => ({
+  key,
+  size: 2,
+  fromDataView: (dv, offset, littleEndian): Struct[keyof Struct] =>
+    dv.getInt16(offset, littleEndian) as Struct[keyof Struct],
+  toDataView: (value, dv, offset, littleEndian) => {
+    if (typeof value === "number") {
+      dv.setInt16(offset, value, littleEndian);
+    } else throw Error("Expected number");
+  },
+});
+
 export const fieldDword = <Struct extends {}>(
   key: keyof Struct
 ): Field<Struct> => ({
@@ -103,6 +117,20 @@ export const fieldLong = <Struct extends {}>(
   toDataView: (value, dv, offset, littleEndian) => {
     if (typeof value === "number") {
       dv.setInt32(offset, value, littleEndian);
+    } else throw Error("Expected number");
+  },
+});
+
+export const fieldFloat32 = <Struct extends {}>(
+  key: keyof Struct
+): Field<Struct> => ({
+  key,
+  size: 4,
+  fromDataView: (dv, offset, littleEndian) =>
+    dv.getFloat32(offset, littleEndian) as Struct[keyof Struct],
+  toDataView: (value, dv, offset, littleEndian) => {
+    if (typeof value === "number") {
+      dv.setFloat32(offset, value, littleEndian);
     } else throw Error("Expected number");
   },
 });

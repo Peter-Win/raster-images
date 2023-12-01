@@ -5,6 +5,9 @@ import {
   readWordBE,
   readDwordLE,
   readDwordBE,
+  readInt16LE,
+  readInt16BE,
+  readDwordArray,
 } from "../readNumber";
 
 describe("readNumber", () => {
@@ -43,5 +46,33 @@ describe("readNumber", () => {
     );
     expect(await readDwordBE(stream)).toBe(0x1020304);
     expect(await readDwordBE(stream)).toBe(0x3355aaee);
+  });
+
+  it("readInt16LE", async () => {
+    const stream = new BufferStream(new Uint8Array([0xfe, 0xff, 2, 0]));
+    expect(await readInt16LE(stream)).toBe(-2);
+    expect(await readInt16LE(stream)).toBe(2);
+  });
+
+  it("readInt16BE", async () => {
+    const stream = new BufferStream(new Uint8Array([0xff, 0xfe, 0, 2]));
+    expect(await readInt16BE(stream)).toBe(-2);
+    expect(await readInt16BE(stream)).toBe(2);
+  });
+});
+
+describe("readDwordArray", () => {
+  it("big endian", async () => {
+    const bbuf = new Uint8Array(
+      [
+        [0, 0, 0, 0],
+        [0, 0, 0, 1],
+        [0, 0, 1, 0],
+        [0xfe, 0xdc, 0xba, 0x98],
+      ].flatMap((n) => n)
+    );
+    const stream = new BufferStream(bbuf);
+    const res = await readDwordArray(stream, bbuf.length / 4, false);
+    expect(res).toEqual([0, 1, 0x100, 0xfedcba98]);
   });
 });

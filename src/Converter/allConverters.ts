@@ -7,12 +7,20 @@ import {
   factoryQuant2,
   factoryRowOp,
 } from "./factories";
+import { cmyk16toRgb16, cmyka16toRgba16 } from "./rowOps/cmyk/cmyk16";
+import { cmyk32to16, cmyka32to16 } from "./rowOps/cmyk/cmyk32";
+import { cmyk8to16, cmyka8to16 } from "./rowOps/cmyk/cmyk8";
 import {
   gray16toGray8,
   grayAlpha16toGrayAlpha8,
 } from "./rowOps/gray/gray16toGray8";
 import { gray1toGray8 } from "./rowOps/gray/gray1toGray";
 import { gray1toRgb24, gray1toRgba32 } from "./rowOps/gray/gray1toRgb";
+import {
+  gray32toGray16,
+  gray32toGray8,
+  grayAlpha32to16,
+} from "./rowOps/gray/gray32";
 import {
   gray8toGray1Dither,
   gray8toGray1Fast,
@@ -52,8 +60,10 @@ import {
   rgb24toRgba32,
   rgb24toRgba32AndSwapRB,
 } from "./rowOps/rgb/rgb24toRgba32";
+import { rgb32swap, rgb32to16 } from "./rowOps/rgb/rgb32";
 import { rgb48to24Fast } from "./rowOps/rgb/rgb48to24";
 import { rgb64to32Fast } from "./rowOps/rgb/rgb64to32";
+import { rgba32to16 } from "./rowOps/rgb/rgba32";
 import { swapRedBlue24, swapRedBlue32 } from "./rowOps/rgb/swapRedBlue";
 
 export const allConverters: ConverterFactoryDescr[] = [
@@ -134,6 +144,38 @@ export const allConverters: ConverterFactoryDescr[] = [
     { loss: true, quality: 90 },
     "fast"
   ),
+  // RGB 3*32
+  factoryRowOp("R32G32B32", "R16G16B16", rgb32to16, {
+    loss: true,
+    speed: 90,
+    quality: 90,
+  }),
+  factoryRowOp("B32G32R32", "B16G16R16", rgb32to16, {
+    loss: true,
+    speed: 90,
+    quality: 90,
+  }),
+  factoryRowOp("R32G32B32", "B32G32R32", rgb32swap, {
+    loss: false,
+    speed: 90,
+    quality: 90,
+  }),
+  factoryRowOp("B32G32R32", "R32G32B32", rgb32swap, {
+    loss: false,
+    speed: 90,
+    quality: 90,
+  }),
+  // RGB 4*32
+  factoryRowOp("R32G32B32A32", "R16G16B16A16", rgba32to16, {
+    loss: true,
+    speed: 90,
+    quality: 90,
+  }),
+  factoryRowOp("B32G32R32A32", "B16G16R16A16", rgba32to16, {
+    loss: true,
+    speed: 90,
+    quality: 90,
+  }),
   // RGB -> Gray
   factoryRowOp("R8G8B8", "G8", rgb24toG8, {
     loss: true,
@@ -184,6 +226,11 @@ export const allConverters: ConverterFactoryDescr[] = [
   factoryRowOp("G16", "G8", gray16toGray8, { loss: true }),
   // Gray16+Alpha
   factoryRowOp("G16A16", "G8A8", grayAlpha16toGrayAlpha8, { loss: true }),
+  // Gray32
+  factoryRowOp("G32", "G8", gray32toGray8, { loss: true }),
+  factoryRowOp("G32", "G16", gray32toGray16, { loss: true }),
+  // Gray32 + Alpha
+  factoryRowOp("G32A32", "G16A16", grayAlpha32to16, { loss: true }),
 
   // -------------
   // Indexed
@@ -212,5 +259,19 @@ export const allConverters: ConverterFactoryDescr[] = [
     dithering: true,
     quality: 80,
     speed: 60,
+  }),
+  // ------ CMYK -------
+  // cmyk8
+  factoryRowOp("C8M8Y8K8", "C16M16Y16K16", cmyk8to16),
+  factoryRowOp("C8M8Y8K8A8", "C16M16Y16K16A16", cmyka8to16),
+  // cmyk16
+  factoryRowOp("C16M16Y16K16", "R16G16B16", cmyk16toRgb16, { loss: true }),
+  factoryRowOp("C16M16Y16K16A16", "R16G16B16A16", cmyka16toRgba16, {
+    loss: true,
+  }),
+  // cmyk32
+  factoryRowOp("C32M32Y32K32", "C16M16Y16K16", cmyk32to16, { loss: true }),
+  factoryRowOp("C32M32Y32K32A32", "C16M16Y16K16A16", cmyka32to16, {
+    loss: true,
   }),
 ];

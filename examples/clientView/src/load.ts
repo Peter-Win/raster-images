@@ -47,6 +47,7 @@ export const loadFrame = async (frameIndex: number) => {
   globalState.currentFrame = frameIndex;
   globalState.frameStatus = "loading";
   globalState.redrawFrame();
+  showActiveFrame(frameIndex);
   try {
     const { format, canvasCtx } = globalState;
     const frame = format?.frames[frameIndex]!;
@@ -75,4 +76,10 @@ export const loadFrame = async (frameIndex: number) => {
     globalState.errorMessage = e.message;
   }
   globalState.redrawFrame();
+};
+
+const showActiveFrame = (frameIndex: number) => {
+  const allFrameHeaders = document.querySelectorAll(".frame-info-header");
+  Array.from(allFrameHeaders).forEach((div) => div.classList.remove("active"));
+  allFrameHeaders[frameIndex]?.classList.add("active");
 };

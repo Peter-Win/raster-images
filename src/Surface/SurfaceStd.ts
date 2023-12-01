@@ -104,6 +104,14 @@ export class SurfaceStd extends Surface {
     return subBuffer(this.data, this.getRowOffset(y), this.rowSize);
   }
 
+  getRowBuffer16(y: number): Uint16Array {
+    return new Uint16Array(
+      this.data.buffer,
+      this.data.byteOffset + this.getRowOffset(y),
+      this.rowSize >> 1
+    );
+  }
+
   getRowBufferClamped(y: number): Uint8ClampedArray {
     return new Uint8ClampedArray(
       this.data.buffer,

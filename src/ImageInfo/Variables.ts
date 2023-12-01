@@ -8,6 +8,8 @@ export type VarName =
   | "orgX" // x of original position
   | "orgY"
   | "resUnit" // resolution units: meter, inch, cm, mm, unknown (for aspect X/Y definition only)
+  | "resUnitX"
+  | "resUnitY"
   | "resX" // x-resolution (pixels/resUnit)
   | "resY"
   | "transparency"; // special pixel value for transparent color
