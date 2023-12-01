@@ -1,6 +1,7 @@
 import { globalState } from "src/globalState";
-import { load } from "src/load";
+import { load, loadFrame } from "src/load";
 import { BitmapFormat, BitmapFrame } from "raster-images/format";
+import { VarValue } from "raster-images/ImageInfo/Variables";
 import { newDomItem } from "../newDomItem";
 
 export const drawLeftSide = (root: HTMLElement) => {
@@ -29,7 +30,7 @@ const drawLoadButton = (parent: HTMLElement) => {
 };
 
 const drawFormatInfo = (parent: HTMLElement, format: BitmapFormat) => {
-  const box = newDomItem("div", { parent });
+  const box = newDomItem("div", { parent, cls: "format-info-box" });
   const { stream } = format;
   newDomItem("div", { parent: box, text: `File name: ${stream.name}` });
   const szItem = newDomItem("div", { parent: box, text: "..." });
@@ -52,10 +53,13 @@ const drawFrameInfo = (
 ) => {
   const box = newDomItem("div", { parent, cls: "frame-info" });
   const hdrText = `${index + 1} / ${frame.format.frames.length}: ${frame.type}`;
-  newDomItem("div", {
+  const hdr = newDomItem("div", {
     parent: box,
     cls: "frame-info-header",
     text: hdrText,
+  });
+  hdr.addEventListener("click", () => {
+    loadFrame(index);
   });
   const inner = newDomItem("div", { parent: box });
   const { size, fmt, vars } = frame.info;
@@ -68,7 +72,12 @@ const drawFrameInfo = (
   newDomItem("div", { parent: inner, text: `Samples: ${fmt.signature}` });
   if (vars) {
     Object.entries(vars).forEach(([key, value]) => {
-      newDomItem("div", { parent: inner, text: `${key}: ${value}` });
+      newDomItem("div", { parent: inner, text: `${key}: ${valueStr(value)}` });
     });
   }
+};
+
+const valueStr = (v: VarValue): string => {
+  if (typeof v === "number") return String(Math.floor(v * 100) / 100);
+  return JSON.stringify(v);
 };

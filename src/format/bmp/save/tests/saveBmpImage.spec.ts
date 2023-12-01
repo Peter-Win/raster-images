@@ -8,7 +8,7 @@ import { dot24, dotG8, drawSphere } from "../../../../tests/drawSphere";
 import { getTestFile } from "../../../../tests/getTestFile";
 import { testProgress } from "../../../../tests/testProgress";
 import { bmpFileHeaderSize } from "../../BmpFileHeader";
-import { bmpInfoHeaderSize, readBmpInfoHeader } from "../../BmpInfoHeader";
+import { readBmpInfoHeader } from "../../BmpInfoHeader";
 import { saveBmpImage } from "../saveBmpImage";
 
 describe("saveBmpImage", () => {
@@ -30,8 +30,7 @@ describe("saveBmpImage", () => {
     await saveBmpImage(img, wstream);
     await streamLock(new NodeJSFile(wstream.name, "r"), async (rstream) => {
       await rstream.seek(bmpFileHeaderSize);
-      const ibuf = await rstream.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(ibuf.buffer, ibuf.byteOffset);
+      const bi = await readBmpInfoHeader(rstream);
       expect(bi.biBitCount).toBe(8);
     });
   });
@@ -64,8 +63,7 @@ describe("saveBmpImage", () => {
     await saveBmpImage(img, wstream, {}, { dstPixFmt });
     await streamLock(new NodeJSFile(wstream.name, "r"), async (rstream) => {
       await rstream.seek(bmpFileHeaderSize);
-      const ibuf = await rstream.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(ibuf.buffer, ibuf.byteOffset);
+      const bi = await readBmpInfoHeader(rstream);
       expect(bi.biBitCount).toBe(8);
       expect(bi.biClrUsed).toBe(128);
     });

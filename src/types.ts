@@ -11,6 +11,7 @@ export type PixelDepth =
   | 40
   | 48
   | 64
+  | 80 // C16M16Y16K16A16
   | 96
   | 128;
 

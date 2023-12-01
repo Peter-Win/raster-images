@@ -12,6 +12,11 @@ export abstract class Surface {
 
   abstract getRowBuffer(y: number): Uint8Array;
 
+  getRowBuffer16(y: number): Uint16Array {
+    const buf = this.getRowBuffer(y);
+    return new Uint16Array(buf.buffer, buf.byteOffset);
+  }
+
   get width(): number {
     return this.info.size.x;
   }

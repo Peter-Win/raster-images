@@ -6,7 +6,16 @@
 // DWORD bfOffBits;      4  +10
 //                          +14
 
-export const bmpFileHeaderSize = 14;
+import { RAStream } from "../../stream";
+import {
+  FieldsBlock,
+  fieldDword,
+  fieldWord,
+  fieldsBlockSize,
+  readFieldsBlock,
+  writeFieldsBlock,
+} from "../FieldsBlock";
+
 export const bmpSignature = 0x4d42;
 
 export interface BmpFileHeader {
@@ -15,26 +24,24 @@ export interface BmpFileHeader {
   bfOffBits: number;
 }
 
-export const readBmpFileHeader = (
-  buffer: ArrayBuffer,
-  offset: number
-): BmpFileHeader => {
-  const dv = new DataView(buffer, offset);
-  return {
-    bfType: dv.getUint16(0, true),
-    bfSize: dv.getUint32(2, true),
-    bfOffBits: dv.getUint32(10, true),
-  };
+const descr: FieldsBlock<BmpFileHeader> = {
+  littleEndian: true,
+  fields: [
+    { ...fieldWord("bfType"), defaultValue: bmpSignature },
+    fieldDword("bfSize"),
+    { size: 4 },
+    fieldDword("bfOffBits"),
+  ],
 };
 
-export const writeBmpFileHeader = (
+export const bmpFileHeaderSize = fieldsBlockSize(descr);
+
+export const readBmpFileHeader = async (stream: RAStream) =>
+  readFieldsBlock(stream, descr);
+
+export const writeBmpFileHeader = async (
   hd: BmpFileHeader,
-  buffer: ArrayBuffer,
-  offset: number
-): void => {
-  const dv = new DataView(buffer, offset);
-  dv.setUint16(0, 0x4d42, true);
-  dv.setUint32(2, hd.bfSize, true);
-  dv.setUint32(6, 0);
-  dv.setUint16(10, hd.bfOffBits, true);
+  stream: RAStream
+) => {
+  await writeFieldsBlock(hd, stream, descr);
 };

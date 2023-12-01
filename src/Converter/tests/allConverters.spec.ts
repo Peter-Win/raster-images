@@ -82,6 +82,12 @@ const wdata = (data: number[]): number[] => {
   return Array.from(bbuf);
 };
 
+const fdata = (data: number[]): number[] => {
+  const fbuf = new Float32Array(data);
+  const bbuf = new Uint8Array(fbuf.buffer, fbuf.byteOffset, fbuf.byteLength);
+  return Array.from(bbuf);
+};
+
 const mk = async (
   srcDef: string | PixelFormat,
   dstSign: string,
@@ -102,6 +108,20 @@ const mkw = async (
 ): Promise<string> => {
   const { row } = await cvt(srcDef, dstSign, searchProps, data, width);
   return dumpW(new Uint16Array(row.buffer, row.byteOffset));
+};
+
+const mkf = async (
+  srcDef: string | PixelFormat,
+  dstSign: string,
+  searchProps: Partial<ConverterSearchProps>,
+  data: number[],
+  width = 1,
+  precision = 2
+): Promise<string> => {
+  const { row } = await cvt(srcDef, dstSign, searchProps, data, width);
+  return Array.from(new Float32Array(row.buffer, row.byteOffset))
+    .map((n) => n.toFixed(precision))
+    .join(" ");
 };
 
 test("allConverters", async () => {
@@ -176,6 +196,26 @@ test("allConverters", async () => {
   expect(await mk("R16G16B16A16", "R8G8B8A8", {}, wdata(rgb64), 2)).toBe(
     "00 00 0F 87 10 12 FF AA"
   );
+  // rgb 3*32
+  expect(await mkw("R32G32B32", "R16G16B16", {}, fdata([0, 0.5, 1]))).toBe(
+    "0000 7FFF FFFF"
+  );
+  expect(await mkw("B32G32R32", "B16G16R16", {}, fdata([0, 0.5, 1]))).toBe(
+    "0000 7FFF FFFF"
+  );
+  expect(await mkf("R32G32B32", "B32G32R32", {}, fdata([0, 0.5, 1]))).toBe(
+    "1.00 0.50 0.00"
+  );
+  expect(await mkf("B32G32R32", "R32G32B32", {}, fdata([0, 0.5, 1]))).toBe(
+    "1.00 0.50 0.00"
+  );
+  // rgb 4*32
+  expect(
+    await mkw("B32G32R32A32", "B16G16R16A16", {}, fdata([0, 0.25, 0.5, 1]))
+  ).toBe("0000 3FFF 7FFF FFFF");
+  expect(
+    await mkw("R32G32B32A32", "R16G16B16A16", {}, fdata([0, 0.25, 0.5, 1]))
+  ).toBe("0000 3FFF 7FFF FFFF");
 
   // rgb -> palette
   const resPal1 = await cvt("B8G8R8", "I8", {}, rgb, 3);
@@ -226,6 +266,14 @@ test("allConverters", async () => {
   expect(
     await mk("G16A16", "G8A8", {}, wdata([0, 0xff, 0x1ff, 0x1fff]), 2)
   ).toBe("00 00 01 1F");
+
+  // Gray 32
+  expect(await mk("G32", "G8", {}, fdata([0, 0.5, 1]), 3)).toBe("00 7F FF");
+  expect(await mkw("G32", "G16", {}, fdata([0, 0.5, 1]), 3)).toBe(
+    "0000 7FFF FFFF"
+  );
+  // Gray32 + Alpga
+  expect(await mkw("G32A32", "G16A16", {}, fdata([0.5, 1]))).toBe("7FFF FFFF");
 
   // -----------
   // Indexed
@@ -287,4 +335,43 @@ test("allConverters", async () => {
   expect(dumpA(resI8toI1.dstInfo.fmt.palette?.flatMap((n) => n) || [])).toBe(
     "00 00 00 FF FF FF FF FF"
   );
+
+  // -----------
+  // CMYK
+  // cmyk8
+  expect(
+    await mkw("C8M8Y8K8", "C16M16Y16K16", {}, [0x12, 0x34, 0x56, 0x78])
+  ).toBe("1212 3434 5656 7878");
+  expect(
+    await mkw(
+      "C8M8Y8K8A8",
+      "C16M16Y16K16A16",
+      {},
+      [0x12, 0x34, 0x56, 0x78, 0x90]
+    )
+  ).toBe("1212 3434 5656 7878 9090");
+  // cmyk16 red(0,1,1,0)
+  expect(
+    await mkw("C16M16Y16K16", "R16G16B16", {}, wdata([0xffff, 0, 0, 0xffff]))
+  ).toBe("FFFF 0000 0000");
+  expect(
+    await mkw(
+      "C16M16Y16K16A16",
+      "R16G16B16A16",
+      {},
+      wdata([0xffff, 0, 0, 0xffff, 0x123])
+    )
+  ).toBe("FFFF 0000 0000 0123");
+  // cmyk32
+  expect(
+    await mkw("C32M32Y32K32", "C16M16Y16K16", {}, fdata([0, 0.25, 0.5, 1]))
+  ).toBe("0000 3FFF 7FFF FFFF");
+  expect(
+    await mkw(
+      "C32M32Y32K32A32",
+      "C16M16Y16K16A16",
+      {},
+      fdata([0, 0.25, 0.5, 0.75, 1])
+    )
+  ).toBe("0000 3FFF 7FFF BFFF FFFF");
 });

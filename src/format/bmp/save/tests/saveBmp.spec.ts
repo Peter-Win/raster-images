@@ -87,15 +87,13 @@ describe("saveBmp", () => {
     await streamLock(rs, async () => {
       await rs.seek(0);
       // bmp file header
-      const hdrBuf = await rs.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
+      const hdr = await readBmpFileHeader(rs);
       expect(hdr.bfType).toBe(bmpSignature);
       const offset = bmpFileHeaderSize + bmpCoreHeaderSize + 3 * 256;
       expect(hdr.bfOffBits).toBe(offset);
       expect(hdr.bfSize).toBe(offset + 16);
       // bmp core header
-      const coreBuf = await rs.read(bmpCoreHeaderSize);
-      const bc = readBmpCoreHeader(coreBuf.buffer, coreBuf.byteOffset);
+      const bc = await readBmpCoreHeader(rs);
       expect(bc.bcSize).toBe(bmpCoreHeaderSize);
       expect(bc.bcWidth).toBe(4);
       expect(bc.bcHeight).toBe(4);
@@ -146,15 +144,13 @@ describe("saveBmp", () => {
     const rs = new NodeJSFile(stream.name, "r");
     await streamLock(rs, async () => {
       // bmp file header
-      const hdrBuf = await rs.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
+      const hdr = await readBmpFileHeader(rs);
       expect(hdr.bfType).toBe(bmpSignature);
       const offset = bmpFileHeaderSize + bmpInfoHeaderSize + 4 * 2;
       expect(hdr.bfOffBits).toBe(offset);
       expect(hdr.bfSize).toBe(offset + 4 * 15);
       // bmp info header
-      const biBuf = await rs.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+      const bi = await readBmpInfoHeader(rs);
       expect(bi.biSize).toBe(bmpInfoHeaderSize);
       expect(bi.biWidth).toBe(15);
       expect(bi.biHeight).toBe(15);
@@ -216,15 +212,13 @@ describe("saveBmp", () => {
     const rs = new NodeJSFile(stream.name, "r");
     await streamLock(rs, async () => {
       // bmp file header
-      const hdrBuf = await rs.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
+      const hdr = await readBmpFileHeader(rs);
       expect(hdr.bfType).toBe(bmpSignature);
       const offset = bmpFileHeaderSize + bmpInfoHeaderSize + 5 * 4;
       expect(hdr.bfOffBits).toBe(offset);
       expect(hdr.bfSize).toBe(offset + 12 * 9); // 21 / 2 = 11, align to 4 => 12
       // bmp info header
-      const biBuf = await rs.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+      const bi = await readBmpInfoHeader(rs);
       expect(bi.biSize).toBe(bmpInfoHeaderSize);
       expect(bi.biWidth).toBe(21);
       expect(bi.biHeight).toBe(9);
@@ -300,15 +294,13 @@ describe("saveBmp", () => {
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
-      const hdrBuf = await rs.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
+      const hdr = await readBmpFileHeader(rs);
       expect(hdr.bfType).toBe(bmpSignature);
       const offset = bmpFileHeaderSize + bmpInfoHeaderSize + palette.length * 4;
       expect(hdr.bfOffBits).toBe(offset);
       expect(hdr.bfSize).toBe(offset + 12 * 10); // 10 align to 4 => 12
       // bmp info header
-      const biBuf = await rs.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+      const bi = await readBmpInfoHeader(rs);
       expect(bi.biSize).toBe(bmpInfoHeaderSize);
       expect(bi.biWidth).toBe(10);
       expect(bi.biHeight).toBe(10);
@@ -396,15 +388,13 @@ describe("saveBmp", () => {
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
-      const hdrBuf = await rs.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
+      const hdr = await readBmpFileHeader(rs);
       expect(hdr.bfType).toBe(bmpSignature);
       const offset = bmpFileHeaderSize + bmpInfoHeaderSize;
       expect(hdr.bfOffBits).toBe(offset);
       expect(hdr.bfSize).toBe(offset + 36 * 8); // 18 * 2 bytes/pixel = 36
       // bmp info header
-      const biBuf = await rs.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+      const bi = await readBmpInfoHeader(rs);
       expect(bi.biSize).toBe(bmpInfoHeaderSize);
       expect(bi.biWidth).toBe(18);
       expect(bi.biHeight).toBe(8);
@@ -469,15 +459,13 @@ describe("saveBmp", () => {
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
-      const hdrBuf = await rs.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
+      const hdr = await readBmpFileHeader(rs);
       expect(hdr.bfType).toBe(bmpSignature);
       const offset = bmpFileHeaderSize + bmpInfoHeaderSize + 12;
       expect(hdr.bfOffBits).toBe(offset);
       expect(hdr.bfSize).toBe(offset + 36 * 8); // 18 * 2 bytes/pixel = 36
       // bmp info header
-      const biBuf = await rs.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+      const bi = await readBmpInfoHeader(rs);
       expect(bi.biSize).toBe(bmpInfoHeaderSize);
       expect(bi.biWidth).toBe(18);
       expect(bi.biHeight).toBe(-8);
@@ -537,15 +525,13 @@ describe("saveBmp", () => {
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
-      const hdrBuf = await rs.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
+      const hdr = await readBmpFileHeader(rs);
       expect(hdr.bfType).toBe(bmpSignature);
       const offset = bmpFileHeaderSize + bmpInfoHeaderSize;
       expect(hdr.bfOffBits).toBe(offset);
       expect(hdr.bfSize).toBe(offset + 16 * 4); // 15 align => 16
       // bmp info header
-      const biBuf = await rs.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+      const bi = await readBmpInfoHeader(rs);
       expect(bi.biSize).toBe(bmpInfoHeaderSize);
       expect(bi.biWidth).toBe(5);
       expect(bi.biHeight).toBe(4);
@@ -610,15 +596,13 @@ describe("saveBmp", () => {
 
     await streamLock(new NodeJSFile(stream.name, "r"), async (rs) => {
       // bmp file header
-      const hdrBuf = await rs.read(bmpFileHeaderSize);
-      const hdr = readBmpFileHeader(hdrBuf.buffer, hdrBuf.byteOffset);
+      const hdr = await readBmpFileHeader(rs);
       expect(hdr.bfType).toBe(bmpSignature);
       const offset = bmpFileHeaderSize + bmpInfoHeaderSize + 3 * 4;
       expect(hdr.bfOffBits).toBe(offset);
       expect(hdr.bfSize).toBe(offset + 20 * 5);
       // bmp info header
-      const biBuf = await rs.read(bmpInfoHeaderSize);
-      const bi = readBmpInfoHeader(biBuf.buffer, biBuf.byteOffset);
+      const bi = await readBmpInfoHeader(rs);
       expect(bi.biSize).toBe(bmpInfoHeaderSize);
       expect(bi.biWidth).toBe(5);
       expect(bi.biHeight).toBe(5);

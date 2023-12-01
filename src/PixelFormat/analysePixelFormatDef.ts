@@ -81,6 +81,12 @@ export const analysePixelFormatDef = (
     } else if (depth === 40 && alpha !== false) {
       alpha = true;
       samples = stdSamples(8, ["C", "M", "Y", "K", "A"]);
+    } else if (depth === 64 && alpha !== true) {
+      alpha = false;
+      samples = stdSamples(16, ["C", "M", "Y", "K"]);
+    } else if (depth === 80 && alpha !== false) {
+      alpha = true;
+      samples = stdSamples(16, ["C", "M", "Y", "K", "A"]);
     } else bErr = true;
   }
   if (bErr) {

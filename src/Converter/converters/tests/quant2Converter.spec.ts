@@ -6,14 +6,8 @@ import {
 } from "../../../Palette";
 import { Surface, SurfaceStd } from "../../../Surface";
 import { copyBytes } from "../../rowOps/copy/copyBytes";
-import {
-  bmpFileHeaderSize,
-  readBmpFileHeader,
-} from "../../../format/bmp/BmpFileHeader";
-import {
-  bmpInfoHeaderSize,
-  readBmpInfoHeader,
-} from "../../../format/bmp/BmpInfoHeader";
+import { readBmpFileHeader } from "../../../format/bmp/BmpFileHeader";
+import { readBmpInfoHeader } from "../../../format/bmp/BmpInfoHeader";
 import { saveBmpImage } from "../../../format/bmp";
 import { streamLock } from "../../../stream";
 import { dot24, drawSphere } from "../../../tests/drawSphere";
@@ -29,10 +23,8 @@ const saveTestFile = async (shortName: string, image: Surface) => {
   return streamLock(
     await getTestFile(__dirname, shortName, "r"),
     async (rstream) => {
-      const buf1 = await rstream.read(bmpFileHeaderSize);
-      const fileHeader = readBmpFileHeader(buf1.buffer, buf1.byteOffset);
-      const buf2 = await rstream.read(bmpInfoHeaderSize);
-      const infoHeader = readBmpInfoHeader(buf2.buffer, buf2.byteOffset);
+      const fileHeader = await readBmpFileHeader(rstream);
+      const infoHeader = await readBmpInfoHeader(rstream);
       const palette: Palette | undefined =
         infoHeader.biBitCount <= 8
           ? await readPalette(rstream, 1 << infoHeader.biBitCount, {

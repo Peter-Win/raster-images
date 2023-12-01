@@ -49,6 +49,11 @@ body {
     border-radius: 3px;
 }
 
+.format-info-box {
+    border: thin solid silver;
+    padding: 0.1em 0.3em;
+}
+
 .frames-info-box {
     flex: 1;
     overflow-y: auto;
@@ -65,4 +70,9 @@ body {
 .frame-info-header {
     background-color: #CCC;
     padding: 0.2em 0.6em;
+    cursor: pointer;
+}
+.frame-info-header.active {
+    background: #555;
+    color: white;
 }
