@@ -112,6 +112,14 @@ export class SurfaceStd extends Surface {
     );
   }
 
+  getRowBuffer32(y: number): Float32Array {
+    return new Float32Array(
+      this.data.buffer,
+      this.data.byteOffset + this.getRowOffset(y),
+      this.rowSize >> 2
+    );
+  }
+
   getRowBufferClamped(y: number): Uint8ClampedArray {
     return new Uint8ClampedArray(
       this.data.buffer,

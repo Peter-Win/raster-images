@@ -1,4 +1,4 @@
-import { bytesToUtf8, dump } from "../../../utils";
+import { bytesToUtf8, dump } from "../../../../utils";
 import { negBytesFactory, plainBitmapRowWriter } from "../getRowWriter";
 
 describe("getRowWriter", () => {

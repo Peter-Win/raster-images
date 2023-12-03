@@ -6,8 +6,8 @@ import { FormatPnm } from "./FormatPnm";
 
 export const driverPnm: Driver = {
   name: pnmName,
-  shortName: "BMP" as const,
-  extensions: ["pnm", "pbm", "pgm", "ppm"] as const,
+  shortName: "PNM" as const,
+  extensions: ["pnm", "pbm", "pgm", "ppm", "pfm"] as const,
   props: new Set(),
 
   detect: async (stream: RAStream): Promise<boolean> => {

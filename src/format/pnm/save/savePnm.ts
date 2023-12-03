@@ -4,7 +4,7 @@ import { RAStream, streamLock } from "../../../stream";
 import { ErrorRI, utf8ToBytes } from "../../../utils";
 import { PnmMapFormat, pnmDescriptions } from "../pnmCommon";
 import { PixelFormat } from "../../../PixelFormat";
-import { RowWriter, getRowWriter } from "../getRowWriter";
+import { RowWriter, getRowWriter } from "./getRowWriter";
 import { OptionsSavePnm } from "./OptionsSavePnm";
 
 /**
@@ -20,6 +20,17 @@ const detectMapFormat = (fmt: PixelFormat): PnmMapFormat => {
   return "pixmap";
 };
 
+const getMaxValue = (sampleDepth: number): number => {
+  switch (sampleDepth) {
+    case 32:
+      return -1;
+    case 16:
+      return 0xffff;
+    default:
+      return 0xff;
+  }
+};
+
 export const savePnm = async (
   reader: RowsReader,
   stream: RAStream,
@@ -29,11 +40,13 @@ export const savePnm = async (
   const { dstInfo } = reader;
   const { size, fmt: pixFmt } = dstInfo;
   const { x: width, y: height } = size;
-  const is16bit = pixFmt.samples[0]?.length === 16;
+  const sampleDepth = pixFmt.maxSampleDepth;
   const { dataType = "raw", comment, maxRowLength = 70 } = pnmOptions ?? {};
   const mapFormat = detectMapFormat(pixFmt);
+  const needFloat = sampleDepth === 32;
   const desc = pnmDescriptions.find(
-    ({ type, fmt }) => fmt === mapFormat && type === dataType
+    ({ type, fmt, isFloat = false }) =>
+      fmt === mapFormat && (needFloat ? isFloat : type === dataType)
   );
   if (!desc) {
     // Теоретически такого возникнуть не должно, т.к. pnmDescriptions содержит все сочетания. Но на практике всякое бывает.
@@ -44,17 +57,19 @@ export const savePnm = async (
     rows.push(`# ${comment}`);
   }
   rows.push(`${width} ${height}`);
+  const maxValue = getMaxValue(sampleDepth);
   if (mapFormat === "pixmap" || mapFormat === "graymap") {
-    rows.push((is16bit ? 0xffff : 0xff).toString());
+    rows.push(maxValue.toString());
   }
   const header = utf8ToBytes(`${rows.join("\n")}\n`);
 
   const makeRowForWrite: RowWriter = getRowWriter({
     dataType,
     mapFormat,
-    is16bit,
+    sampleDepth,
     width,
     maxRowLength,
+    maxValue,
   });
 
   await streamLock(stream, async () => {

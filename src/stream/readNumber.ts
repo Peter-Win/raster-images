@@ -60,3 +60,16 @@ export const readDwordArray = async (
   for (let i = 0; i < count; i++) result[i] = dv.getUint32(i * 4, littleEndian);
   return result;
 };
+
+export const readFloat32Array = async (
+  stream: RAStream,
+  count: number,
+  littleEndian: boolean
+): Promise<number[]> => {
+  const buf = await stream.read(4 * count);
+  const dv = new DataView(buf.buffer, buf.byteOffset);
+  const result = new Array<number>(count);
+  for (let i = 0; i < count; i++)
+    result[i] = dv.getFloat32(i * 4, littleEndian);
+  return result;
+};

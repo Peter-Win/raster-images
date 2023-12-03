@@ -9,6 +9,7 @@ export type PnmRowReader = (
   width: number,
   dstBuffer: Uint8Array
 ) => Promise<void>;
+
 export type PnmRowReaderGenWithMaxVal = (
   stream: RAStream,
   maxVal: number
@@ -175,6 +176,41 @@ export const pnmRowReaderRgb = (
     ? pnmRowReaderRgbRawByte(stream, maxVal)
     : pnmRowReaderRgbRawWord(stream, maxVal);
 };
+
+const readFloatRow = async (
+  count: number,
+  stream: RAStream,
+  maxVal: number,
+  dstBuffer: Uint8Array
+) => {
+  const srcRow = await stream.read(count * 4);
+  const srcDV = new DataView(srcRow.buffer, srcRow.byteOffset);
+  const dstFloat = new Float32Array(dstBuffer.buffer, dstBuffer.byteOffset);
+  const littleEndian = maxVal < 0;
+  const absMaxVal = Math.abs(maxVal);
+  if (absMaxVal === 1 || absMaxVal === 0) {
+    // case of maxVal=0 is wrong. so here we ignore it.
+    for (let i = 0; i < count; i++) {
+      dstFloat[i] = srcDV.getFloat32(i * 4, littleEndian);
+    }
+  } else {
+    // Эта часть пока не тестировалась, т.к. не было найдено ни одного соответствующего изображения.
+    const k = 1 / absMaxVal;
+    for (let i = 0; i < count; i++) {
+      dstFloat[i] = srcDV.getFloat32(i * 4, littleEndian) * k;
+    }
+  }
+};
+
+export const pnmRowReaderRgbFloat =
+  (stream: RAStream, maxVal: number): PnmRowReader =>
+  (width, dstBuffer) =>
+    readFloatRow(width * 3, stream, maxVal, dstBuffer);
+
+export const pnmRowReaderGrayFloat =
+  (stream: RAStream, maxVal: number): PnmRowReader =>
+  (width, dstBuffer) =>
+    readFloatRow(width, stream, maxVal, dstBuffer);
 
 // --- Bitmap
 

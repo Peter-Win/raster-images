@@ -16,6 +16,7 @@ describe("compatiblePnmPixelFormat", () => {
     expect(cvt("G4")).toBe("G8");
     expect(cvt("G8A8")).toBe("G8");
     expect(cvt("G16A16")).toBe("G16");
+    expect(cvt("G32")).toBe("G32");
   });
   it("rgb conversion", () => {
     expect(cvt("B5G5B5")).toBe("R8G8B8");
@@ -24,5 +25,6 @@ describe("compatiblePnmPixelFormat", () => {
     expect(cvt("B16G16B16")).toBe("R16G16B16");
     expect(cvt("I8")).toBe("R8G8B8");
     expect(cvt("C8M8Y8K8")).toBe("R8G8B8");
+    expect(cvt("R32G32B32")).toBe("R32G32B32");
   });
 });
