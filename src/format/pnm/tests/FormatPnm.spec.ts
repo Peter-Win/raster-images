@@ -1,7 +1,7 @@
 import { surfaceConverter } from "../../../Converter/surfaceConverter";
 import { SurfaceStd } from "../../../Surface";
 import { onStreamFromGallery } from "../../../tests/streamFromGallery";
-import { dump } from "../../../utils";
+import { dump, dumpFloat32 } from "../../../utils";
 import { FormatPnm } from "../FormatPnm";
 
 describe("FormatPnm", () => {
@@ -261,6 +261,39 @@ describe("FormatPnm", () => {
 
       expect(dump(surface.getRowBuffer(0))).toBe("FF FF FF");
       expect(dump(surface.getRowBuffer(1))).toBe("86 18 61");
+    });
+  });
+
+  it("pnm rgb float", async () => {
+    await onStreamFromGallery("RGB_3x32.pnm", async (stream) => {
+      const fmt = await FormatPnm.create(stream);
+      const frame = fmt.frames[0]!;
+      expect(frame.info.fmt.signature).toBe("R32G32B32");
+
+      const surface = new SurfaceStd(frame.info);
+      await frame.read(surfaceConverter(surface));
+      const row = surface.getRowBuffer32(0);
+      expect(dumpFloat32(row, 2, 0, 3)).toEqual("1.00 1.00 1.00");
+    });
+  });
+
+  it("pnm gray float", async () => {
+    await onStreamFromGallery("G32.pbm", async (stream) => {
+      const fmt = await FormatPnm.create(stream);
+      const frame = fmt.frames[0]!;
+      expect(frame.info.fmt.signature).toBe("G32");
+
+      const surface = new SurfaceStd(frame.info);
+      await frame.read(surfaceConverter(surface));
+      expect(dumpFloat32(surface.getRowBuffer32(0), 1, 0, 4)).toEqual(
+        "1.0 0.0 0.0 0.0"
+      );
+      expect(dumpFloat32(surface.getRowBuffer32(1), 1, 0, 4)).toEqual(
+        "0.0 0.0 1.0 1.0"
+      );
+      expect(dumpFloat32(surface.getRowBuffer32(2), 1, 0, 4)).toEqual(
+        "0.0 1.0 0.0 0.0"
+      );
     });
   });
 });

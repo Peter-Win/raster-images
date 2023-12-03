@@ -2,10 +2,13 @@ import { savePnm } from "../savePnm";
 import { getTestFile } from "../../../../tests/getTestFile";
 import { SurfaceStd } from "../../../../Surface";
 import { streamLock } from "../../../../stream";
-import { bytesToUtf8, dump, dumpA } from "../../../../utils";
+import { bytesToUtf8, dump, dumpA, dumpFloat32 } from "../../../../utils";
 import { copyWordsToBigEndian } from "../../../../Converter/rowOps/copy/copyWordsToBigEndian";
 import { PixelFormat } from "../../../../PixelFormat";
 import { createRowsReader } from "../../../../Converter";
+import { surfaceConverter } from "../../../../Converter/surfaceConverter";
+import { dotG32, dotRGB32, drawSphere } from "../../../../tests/drawSphere";
+import { NodeJSFile } from "../../../../stream/NodeJSFile";
 
 const bwSrc: string[] = [
   "******************************************",
@@ -424,6 +427,87 @@ describe("savePnm", () => {
         const str = dumpA(Array.from(wline));
         expect(str).toBe(needStr);
       }
+    });
+  });
+
+  it("save pnm g32", async () => {
+    const width = 160;
+    const height = 120;
+    const img = SurfaceStd.createSign(width, height, "G32");
+    for (let y = 0; y < height; y++) {
+      const row = img.getRowBuffer32(y);
+      const v = (0.2 * y) / height;
+      for (let x = 1; x < width; x++) row[x] = v;
+      row[0] = 1;
+      row[width - 1] = 1;
+    }
+    drawSphere({
+      surface: img,
+      ka: 10,
+      ks: 30,
+      n: 4,
+      cx: width * 0.5,
+      cy: height * 0.5,
+      r: height * 0.45,
+      dot: dotG32,
+    });
+    // test gradient: 0, 25, 50, 75 and 100%
+    let y = 1;
+    for (let v = 0; v <= 1; v += 0.25) {
+      const row = img.getRowBuffer32(y++);
+      row[2] = v;
+    }
+    const reader = await surfaceConverter(img).getRowsReader();
+    const stream = await getTestFile(__dirname, "g32.pgm", "w");
+    await savePnm(reader, stream);
+
+    const rs = new NodeJSFile(stream.name, "r");
+    const needHeader = `Pf\n${width} ${height}\n-1\n`;
+    await streamLock(rs, async () => {
+      const hbuf = await rs.read(needHeader.length);
+      const realHeader = bytesToUtf8(hbuf);
+      expect(realHeader).toBe(needHeader);
+      const pixBytes = await rs.read(4 * 2);
+      const pixFl = new Float32Array(pixBytes.buffer, pixBytes.byteOffset);
+      expect(dumpFloat32(pixFl)).toBe("1.00 0.00");
+    });
+  });
+
+  it("save pnm rgb32", async () => {
+    const width = 160;
+    const height = 120;
+    const img = SurfaceStd.createSign(width, height, "R32G32B32");
+    const dotW = dotRGB32([1, 1, 1]);
+    for (let y = 0; y < height; y++) {
+      const row = img.getRowBuffer(y);
+      const dotB = dotRGB32([0, 0, (0.2 * y) / height]);
+      for (let x = 0; x < width; x++) dotB(row, x, 1);
+      dotW(row, 0, 1);
+      dotW(row, width - 1, 1);
+    }
+    drawSphere({
+      surface: img,
+      ka: 10,
+      ks: 30,
+      n: 5,
+      cx: width * 0.5,
+      cy: height * 0.5,
+      r: height * 0.45,
+      dot: dotRGB32([1, 0, 0.8]),
+    });
+    const reader = await surfaceConverter(img).getRowsReader();
+    const stream = await getTestFile(__dirname, "rgb32.pgm", "w");
+    await savePnm(reader, stream);
+
+    const rs = new NodeJSFile(stream.name, "r");
+    const needHeader = `PF\n${width} ${height}\n-1\n`;
+    await streamLock(rs, async () => {
+      const hbuf = await rs.read(needHeader.length);
+      const realHeader = bytesToUtf8(hbuf);
+      expect(realHeader).toBe(needHeader);
+      const pixBytes = await rs.read(4 * 2 * 3);
+      const pixFl = new Float32Array(pixBytes.buffer, pixBytes.byteOffset);
+      expect(dumpFloat32(pixFl)).toBe("1.00 1.00 1.00 0.00 0.00 0.00");
     });
   });
 });

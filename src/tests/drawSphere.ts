@@ -24,6 +24,11 @@ export const dotG8 = (row: Uint8Array, x: number, value: number) => {
   row[x] = rangeLimit(value * 255);
 };
 
+export const dotG32 = (row: Uint8Array, x: number, value: number) => {
+  const frow = new Float32Array(row.buffer, row.byteOffset);
+  frow[x] = value;
+};
+
 export const dot24 =
   (color: [number, number, number]) =>
   (row: Uint8Array, x: number, value: number) => {
@@ -43,6 +48,16 @@ export const dotRGB16 =
     wrow[pos++] = rangeLimit16(color[0]! * v16);
     wrow[pos++] = rangeLimit16(color[1]! * v16);
     wrow[pos] = rangeLimit16(color[2]! * v16);
+  };
+
+export const dotRGB32 =
+  (color: [number, number, number]) =>
+  (row: Uint8Array, x: number, value: number) => {
+    const wrow = new Float32Array(row.buffer, row.byteOffset);
+    let pos = x * 3;
+    wrow[pos++] = color[0]! * value;
+    wrow[pos++] = color[1]! * value;
+    wrow[pos] = color[2]! * value;
   };
 
 export const drawSphere = (params: ParamsDrawSphere) => {

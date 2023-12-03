@@ -7,6 +7,7 @@ export type PnmDescriptor = {
   sign: string;
   type: PnmDataType;
   fmt: PnmMapFormat;
+  isFloat?: boolean;
 };
 
 export const pnmDescriptions: PnmDescriptor[] = [
@@ -16,4 +17,6 @@ export const pnmDescriptions: PnmDescriptor[] = [
   { sign: "P4", type: "raw", fmt: "bitmap" },
   { sign: "P5", type: "raw", fmt: "graymap" },
   { sign: "P6", type: "raw", fmt: "pixmap" },
+  { sign: "PF", type: "raw", fmt: "pixmap", isFloat: true },
+  { sign: "Pf", type: "raw", fmt: "graymap", isFloat: true },
 ];

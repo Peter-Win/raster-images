@@ -1,6 +1,6 @@
-import { utf8ToBytes } from "../../utils";
-import { copyWordsToBigEndian } from "../../Converter/rowOps/copy/copyWordsToBigEndian";
-import { PnmDataType, PnmMapFormat } from "./pnmCommon";
+import { utf8ToBytes } from "../../../utils";
+import { copyWordsToBigEndian } from "../../../Converter/rowOps/copy/copyWordsToBigEndian";
+import { PnmDataType, PnmMapFormat } from "../pnmCommon";
 
 export type RowWriter = (srcRow: Uint8Array) => Uint8Array;
 
@@ -74,21 +74,43 @@ export const makeAsciiRow = (
   return chunks.join("");
 };
 
+export const floatFactory =
+  (count: number, maxValue: number): RowWriter =>
+  (srcRow) => {
+    const srcFloat = new Float32Array(srcRow.buffer, srcRow.byteOffset);
+    // Теоретически, можно ускорить код, если избежать выделение dstRow и dstDv для каждой строки.
+    // Вместо этого выделить буфер за пределами функции.
+    // Но это может привести к трудноуловимым багам.
+    // Поэтому выбор сделан в полльзу надёжности.
+    const dstRow = new Uint8Array(count * 4);
+    const dstDv = new DataView(dstRow.buffer, dstRow.byteOffset);
+    const littleEndian = maxValue < 0;
+    for (let i = 0; i < count; i++) {
+      dstDv.setFloat32(i * 4, srcFloat[i]!, littleEndian);
+    }
+    return dstRow;
+  };
+
 export const getRowWriter = (params: {
   dataType: PnmDataType;
   mapFormat: PnmMapFormat;
-  is16bit: boolean;
+  sampleDepth: number;
   width: number;
   maxRowLength: number;
+  maxValue: number;
 }): RowWriter => {
-  const { dataType, mapFormat, is16bit, width, maxRowLength } = params;
+  const { dataType, mapFormat, sampleDepth, width, maxRowLength, maxValue } =
+    params;
+  if (sampleDepth === 32) {
+    return floatFactory(width * (mapFormat === "pixmap" ? 3 : 1), maxValue);
+  }
   if (mapFormat === "bitmap") {
     return dataType === "plain"
       ? plainBitmapRowWriter(width, maxRowLength)
       : negBytesFactory(width);
   }
   if (mapFormat === "graymap") {
-    if (is16bit) {
+    if (sampleDepth === 16) {
       if (dataType === "plain") {
         return (srcRow: Uint8Array) =>
           utf8ToBytes(
@@ -115,7 +137,7 @@ export const getRowWriter = (params: {
         utf8ToBytes(makeAsciiRow(srcRow, maxRowLength));
     }
   }
-  if (is16bit) {
+  if (sampleDepth === 16) {
     if (dataType === "plain") {
       return (srcRow: Uint8Array) =>
         utf8ToBytes(

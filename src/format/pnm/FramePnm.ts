@@ -12,7 +12,9 @@ import {
   pbmRowReaderPlain,
   pbmRowReaderRaw,
   pnmRowReaderGray,
+  pnmRowReaderGrayFloat,
   pnmRowReaderRgb,
+  pnmRowReaderRgbFloat,
 } from "./PnmRowReader";
 import { Converter, readImage } from "../../Converter";
 
@@ -31,9 +33,12 @@ export class FramePnm implements BitmapFrame {
         "height"
       );
       let maxVal = 1;
+      const { isFloat } = descr;
       if (descr.fmt === "graymap" || descr.fmt === "pixmap") {
         maxVal = asciiNumber(await pnmReader.readString(), "max value");
-        checkInterval("Max value", maxVal, 0xffff, 1);
+        if (!isFloat) {
+          checkInterval("Max value", maxVal, 0xffff, 1);
+        }
       }
       let colorSign: string = "";
       let ext = "";
@@ -49,13 +54,23 @@ export class FramePnm implements BitmapFrame {
           break;
         case "graymap":
           ext = "pgm";
-          colorSign = maxVal < 256 ? "G8" : "G16";
-          rowReader = pnmRowReaderGray(descr.type, stream, maxVal);
+          if (isFloat) {
+            colorSign = "G32";
+            rowReader = pnmRowReaderGrayFloat(stream, maxVal);
+          } else {
+            colorSign = maxVal < 256 ? "G8" : "G16";
+            rowReader = pnmRowReaderGray(descr.type, stream, maxVal);
+          }
           break;
         case "pixmap":
           ext = "ppm";
-          colorSign = maxVal < 256 ? "R8G8B8" : "R16G16B16";
-          rowReader = pnmRowReaderRgb(descr.type, stream, maxVal);
+          if (isFloat) {
+            colorSign = "R32G32B32";
+            rowReader = pnmRowReaderRgbFloat(stream, maxVal);
+          } else {
+            colorSign = maxVal < 256 ? "R8G8B8" : "R16G16B16";
+            rowReader = pnmRowReaderRgb(descr.type, stream, maxVal);
+          }
           break;
         default:
           throw new ErrorRI("Invalid type [<t>]", { t: descr.fmt });
