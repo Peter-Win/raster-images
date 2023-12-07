@@ -1,24 +1,18 @@
 import { saveSingleImageFormat } from "../../saveSingleImageFormat";
-import { FormatForSave } from "../../FormatForSave";
-import { RAStream } from "../../../stream";
 import { saveBmpImage } from "./saveBmpImage";
 import { makeOptionsSaveBmp } from "./OptionsSaveBmp";
-import { OptionsSave } from "../../Driver";
+import { FnSaveFormat } from "../../Driver";
 
 /**
  * Это часть системы универсальной записи в файлы.
  * Вызывать эту функцию напрямую не рекомендуется.
  * Для прямого сохранения в BMP-формат рекомендуется saveBmpImage.
- * @param format
+ * @param {FormatForSave} format
  * @param stream
- * @param options
+ * @param {OptionsSave} options
  * @returns
  */
-export const saveBmpFormat = async (
-  format: FormatForSave,
-  stream: RAStream,
-  options?: OptionsSave
-) => {
+export const saveBmpFormat: FnSaveFormat = async (format, stream, options) => {
   await saveSingleImageFormat(
     format,
     stream,

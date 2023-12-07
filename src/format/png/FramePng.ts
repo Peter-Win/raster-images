@@ -24,6 +24,7 @@ import { PngRowFiltrator } from "./PngRowFiltrator";
 import { readPngInternationalText, readPngText } from "./chunks/PngText";
 import { buildTransparentPalette } from "./chunks/PngTransparency";
 import { analyzePaletteTransparency } from "../../Palette/analyzePaletteTransparency";
+import { getPngTimeFromBuffer, pngTimeToText } from "./chunks/PngTime";
 
 export class FramePng implements BitmapFrame {
   readonly type: FrameType = "image";
@@ -90,6 +91,14 @@ export class FramePng implements BitmapFrame {
           const rec = readPngInternationalText(data);
           if (rec.keyword === "Comment") {
             comment = rec.text;
+          }
+        },
+        tIME: async (chunk) => {
+          if (info?.vars) {
+            const data = await readPngChunkDataOnly(stream, chunk);
+            const time = getPngTimeFromBuffer(data);
+            const text = pngTimeToText(time);
+            info.vars.modificationTime = text;
           }
         },
       };
