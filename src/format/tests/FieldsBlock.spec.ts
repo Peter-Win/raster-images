@@ -7,6 +7,7 @@ import {
   fieldDword,
   fieldFourCC,
   fieldWord,
+  getFieldOffset,
   readFieldsBlock,
   writeFieldsBlock,
 } from "../FieldsBlock";
@@ -68,6 +69,7 @@ describe("FieldsBlock", () => {
     expect(dump(dstBuf.slice(0, buf.length))).toBe(
       "41 42 43 44 00 00 00 03 14 03 44 33 22 00"
     );
+    expect(getFieldOffset("mode", block)).toBe(7);
   });
 
   it("big endian", async () => {

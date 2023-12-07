@@ -9,6 +9,12 @@ export type OptionsSave = OptionsCreateConverter & {
   dstPixFmt?: PixelFormat;
 };
 
+export type FnSaveFormat = (
+  format: FormatForSave,
+  stream: RAStream,
+  options?: OptionsSave
+) => Promise<void>;
+
 export interface Driver {
   readonly name: string;
   readonly shortName: string;
@@ -19,9 +25,5 @@ export interface Driver {
   createFormat(stream: RAStream): Promise<BitmapFormat>;
 
   // Saving
-  save?(
-    format: FormatForSave,
-    stream: RAStream,
-    options?: OptionsSave
-  ): Promise<void>;
+  save?: FnSaveFormat;
 }

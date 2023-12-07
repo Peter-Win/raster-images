@@ -141,6 +141,19 @@ export const fieldsBlockSize = ({
   fields: { size: number }[];
 }): number => fields.reduce((sum, { size }) => sum + size, 0);
 
+export const getFieldOffset = <Struct extends {}>(
+  name: keyof Struct,
+  block: FieldsBlock<Struct>
+): number => {
+  let offset = 0;
+  block.fields.find(({ key, size }) => {
+    if (key === name) return true;
+    offset += size;
+    return false;
+  });
+  return offset;
+};
+
 export const readFieldsBlockFromBuffer = <Struct extends {}>(
   buffer: Uint8Array,
   block: FieldsBlock<Struct>
@@ -171,11 +184,10 @@ export const readFieldsBlock = async <Struct extends {}>(
   return readFieldsBlockFromBuffer(buffer, block);
 };
 
-export const writeFieldsBlock = async <Struct extends {}>(
+export const writeFieldsBlockToBuffer = <Struct extends {}>(
   struct: Struct,
-  stream: RAStream,
   block: FieldsBlock<Struct>
-): Promise<void> => {
+): Uint8Array => {
   const blockSize = fieldsBlockSize(block);
   const buffer = new Uint8Array(blockSize);
   const dataView = new DataView(buffer.buffer, buffer.byteOffset);
@@ -195,5 +207,13 @@ export const writeFieldsBlock = async <Struct extends {}>(
       offset += size;
     }
   );
-  await stream.write(buffer);
+  return buffer;
+};
+
+export const writeFieldsBlock = async <Struct extends {}>(
+  struct: Struct,
+  stream: RAStream,
+  block: FieldsBlock<Struct>
+): Promise<void> => {
+  await stream.write(writeFieldsBlockToBuffer(struct, block));
 };

@@ -5,6 +5,7 @@ export type VarName =
   | "ext" // extension: bmp, tga, jpg...
   | "interlaced" // 1 if yes, 0 or undefined if no
   | "importantColors" // important colors in palette
+  | "modificationTime" // YYYY-MM-DD hh:mm:ss
   | "orgX" // x of original position
   | "orgY"
   | "resUnit" // resolution units: meter, inch, cm, mm, unknown (for aspect X/Y definition only)

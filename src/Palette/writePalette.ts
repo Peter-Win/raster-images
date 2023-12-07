@@ -20,13 +20,20 @@ export const writePaletteToBuf = (
   }
 };
 
+export const makePaletteBuf = (
+  palette: Readonly<Palette>,
+  options: PaletteOptions
+): Uint8Array => {
+  const size = calcPaletteSize(palette.length, options);
+  const buf = new Uint8Array(size);
+  writePaletteToBuf(palette, buf, options);
+  return buf;
+};
+
 export const writePalette = async (
   palette: Readonly<Palette>,
   stream: RAStream,
   options: PaletteOptions
 ) => {
-  const size = calcPaletteSize(palette.length, options);
-  const buf = new Uint8Array(size);
-  writePaletteToBuf(palette, buf, options);
-  await stream.write(buf, size);
+  await stream.write(makePaletteBuf(palette, options));
 };

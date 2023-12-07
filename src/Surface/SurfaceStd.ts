@@ -77,9 +77,15 @@ export class SurfaceStd extends Surface {
     options?: {
       palette?: Palette;
       data?: Uint8Array;
+      vars?: Variables;
     }
   ): SurfaceStd {
-    const imgInfo: ImageInfo = createInfoSign(width, height, signature);
+    const imgInfo: ImageInfo = createInfoSign(
+      width,
+      height,
+      signature,
+      options?.vars
+    );
     if (options?.palette) imgInfo.fmt.setPalette(options?.palette);
     return new SurfaceStd(imgInfo, options?.data);
   }
