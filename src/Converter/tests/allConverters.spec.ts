@@ -88,6 +88,12 @@ const fdata = (data: number[]): number[] => {
   return Array.from(bbuf);
 };
 
+const f64data = (data: number[]): number[] => {
+  const fbuf = new Float64Array(data);
+  const bbuf = new Uint8Array(fbuf.buffer, fbuf.byteOffset, fbuf.byteLength);
+  return Array.from(bbuf);
+};
+
 const mk = async (
   srcDef: string | PixelFormat,
   dstSign: string,
@@ -123,6 +129,20 @@ const mkf = async (
     .map((n) => n.toFixed(precision))
     .join(" ");
 };
+
+// const mkf64 = async (
+//   srcDef: string | PixelFormat,
+//   dstSign: string,
+//   searchProps: Partial<ConverterSearchProps>,
+//   data: number[],
+//   width = 1,
+//   precision = 2
+// ): Promise<string> => {
+//   const { row } = await cvt(srcDef, dstSign, searchProps, data, width);
+//   return Array.from(new Float64Array(row.buffer, row.byteOffset))
+//     .map((n) => n.toFixed(precision))
+//     .join(" ");
+// };
 
 test("allConverters", async () => {
   // ----- RGB -------
@@ -216,6 +236,10 @@ test("allConverters", async () => {
   expect(
     await mkw("R32G32B32A32", "R16G16B16A16", {}, fdata([0, 0.25, 0.5, 1]))
   ).toBe("0000 3FFF 7FFF FFFF");
+  // rgb 3*64
+  expect(await mkf("R64G64B64", "R32G32B32", {}, f64data([0, 0.5, 1]))).toBe(
+    "0.00 0.50 1.00"
+  );
 
   // rgb -> palette
   const resPal1 = await cvt("B8G8R8", "I8", {}, rgb, 3);

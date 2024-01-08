@@ -11,7 +11,7 @@ export const parseSignature = (signature: string): Sample[] => {
     const length = +chunk.slice(1);
     if (!sampleSignChars[sign])
       throw Error(`Unknown sample letter [${sign}] in [${signature}]`);
-    if (!length || length > 32)
+    if (!length || length > 64)
       throw Error(`Invalid sample size ${length} in [${signature}]`);
     const s: Sample = {
       shift,

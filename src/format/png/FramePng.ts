@@ -186,7 +186,6 @@ export class FramePng implements BitmapFrame {
         for (let pass = 0; pass < 7; pass++) {
           const dx = colIncrement[pass]!;
           const pixCnt = Math.floor((width - startingCol[pass]! + dx - 1) / dx);
-          // eslint-disable-next-line no-continue
           if (pixCnt === 0) continue;
           const subLineSize = calcPitch(pixCnt, info.fmt.depth);
           for (
