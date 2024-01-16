@@ -11,16 +11,18 @@ export const enum TiffResolutionUnit {
   Centimeter = 3,
 }
 
-const unitsTiffToStd: Partial<Record<TiffResolutionUnit, ResolutionUnit>> = {
+export const unitsTiffToStd: Partial<
+  Record<TiffResolutionUnit, ResolutionUnit>
+> = {
   [TiffResolutionUnit.Inch]: "inch",
   [TiffResolutionUnit.Centimeter]: "cm",
 };
 
 export const getTiffResolution = async (
   ifd: Ifd,
-  stream: RAStream,
-  littleEndian: boolean
+  stream: RAStream
 ): Promise<Variables | undefined> => {
+  const { littleEndian } = ifd;
   const eResX = ifd.entries[TiffTag.XResolution];
   const eResY = ifd.entries[TiffTag.YResolution];
   const eResUnit = ifd.entries[TiffTag.ResolutionUnit];

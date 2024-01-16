@@ -12,6 +12,11 @@ import { gray1toGray8 } from "../../../../../Converter/rowOps/gray/gray1toGray";
 import { helloImg } from "./helloImg";
 import { calcPitch } from "../../../../../ImageInfo/calcPitch";
 import { ErrorRI } from "../../../../../utils";
+import { getTestFile } from "../../../../../tests/getTestFile";
+import { SurfaceStd } from "../../../../../Surface";
+import { savePngImage } from "../../../../png/save";
+import { loadImageByName } from "../../../../../loadImage";
+import { PixelFormat } from "../../../../../PixelFormat";
 
 const decode = (
   width: number,
@@ -26,7 +31,9 @@ const decode = (
   const mhTables = createDecodeMHTables();
   const cmd = createDecoder2DCmd(width, writer);
   const mrExecDict: Record<MRCodeId, () => void> = {
-    Horiz: () => cmd.horiz(reader, mhTables),
+    Horiz: () => {
+      cmd.horiz(reader, mhTables);
+    },
     Vl3: () => cmd.vert(3),
     Vl2: () => cmd.vert(2),
     Vl1: () => cmd.vert(1),
@@ -46,32 +53,37 @@ const decode = (
       throw Error(`Ext2D ${c}`);
     },
   };
-  for (let y = 0; y < height; y++) {
-    writer.seek(y * rowSize);
-    while (cmd.x < width) {
-      let code = "";
-      for (;;) {
-        if (reader.isEnd()) {
-          throw new ErrorRI(
-            "Unexpected end of data. x=<x>, y=<y>, code=<code>",
-            { x: cmd.x, y, code }
-          );
+  try {
+    for (let y = 0; y < height; y++) {
+      writer.seek(y * rowSize);
+      while (cmd.x < width) {
+        let code = "";
+        for (;;) {
+          if (reader.isEnd()) {
+            throw new ErrorRI(
+              "Unexpected end of data. x=<x>, y=<y>, code=<code>",
+              { x: cmd.x, y, code }
+            );
+          }
+          if (code.length > 20) {
+            throw new ErrorRI("Too long code. x=<x>, y=<y>, code=<code>", {
+              x: cmd.x,
+              y,
+              code,
+            });
+          }
+          code += reader.getStrBit();
+          const mr = mrDecodeDict[code];
+          if (!mr) continue;
+          mrExecDict[mr]?.();
+          break;
         }
-        if (code.length > 20) {
-          throw new ErrorRI("Too long code. x=<x>, y=<y>, code=<code>", {
-            x: cmd.x,
-            y,
-            code,
-          });
-        }
-        code += reader.getStrBit();
-        const mr = mrDecodeDict[code];
-        if (!mr) continue;
-        mrExecDict[mr]?.();
-        break;
       }
+      cmd.endRow();
     }
-    cmd.endRow();
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(e);
   }
   return dst;
 };
@@ -167,6 +179,73 @@ describe("decodeGroup4", () => {
           expect(sum).toBe(0);
         } else if (y === 1 && y === height - 2) {
           expect(sum).toBe(255 * (width - 2));
+        }
+      }
+    });
+  });
+
+  it("ccitt_8", async () => {
+    // В этом файле присутствует длинная строка в коде Horiz, которая состоит из нескольких кодов.
+    await onStreamFromGallery("tiff/ccitt_8.tif", async (stream) => {
+      const fmt = await FormatTiff.create(stream);
+      const frm = fmt.frames[0]!;
+      expect(frm.info.fmt.signature).toBe("G1");
+      const { x: width, y: height } = frm.info.size;
+      const { ifd } = frm;
+      const compressionId = await ifd.getSingleNumber<TiffCompression>(
+        TiffTag.Compression,
+        stream
+      );
+      expect(compressionId).toBe(TiffCompression.Group4Fax);
+      const fillOrder = await ifd.getSingleNumber<TiffFillOrder>(
+        TiffTag.FillOrder,
+        stream,
+        TiffFillOrder.lowColInHiBit
+      );
+      const options = await ifd.getSingleNumber<number>(
+        TiffTag.T6Options,
+        stream,
+        0
+      );
+      expect(options).toBe(0);
+      const sizes = await ifd.getNumbers(TiffTag.StripByteCounts, stream);
+      const offsets = await ifd.getNumbers(TiffTag.StripOffsets, stream);
+      expect(sizes.length).toBe(1);
+      expect(offsets.length).toBe(1);
+      await stream.seek(offsets[0]!);
+      const packedData = await stream.read(sizes[0]!);
+
+      const dst = decode(width, height, packedData, fillOrder);
+
+      const ws = await getTestFile(__dirname, "ccitt_8-res.png", "w");
+      const img = SurfaceStd.create(width, height, 1, {
+        colorModel: "Gray",
+        data: dst,
+      });
+      await savePngImage(img, ws);
+
+      const cmpImg = await onStreamFromGallery("tiff/ccitt_8.png", async (rs) =>
+        loadImageByName(rs, { target: new PixelFormat("G8") })
+      );
+      expect(cmpImg.width).toBe(width);
+      expect(cmpImg.height).toBe(height);
+      const buf = new Uint8Array(width);
+      const rowSize = calcPitch(width, 1);
+      for (let y = 0; y < height; y++) {
+        gray1toGray8(
+          width,
+          new Uint8Array(dst.buffer, dst.byteOffset + y * rowSize, rowSize),
+          buf
+        );
+        const cmpRow = cmpImg.getRowBuffer(y);
+        for (let x = 0; x < width; x++) {
+          const pix = buf[x]! ^ 0xff;
+          if (pix !== cmpRow[x]) {
+            // Если не использовать условие, то очень долго работает.
+            expect(`x=${x}, y=${y}, ${pix}`).toBe(
+              `x=${x}, y=${y}, ${cmpRow[x]}`
+            );
+          }
         }
       }
     });

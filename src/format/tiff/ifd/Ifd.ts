@@ -57,4 +57,13 @@ export class Ifd {
   async getNumbers(tagId: number, stream: RAStream): Promise<number[]> {
     return getIfdNumbers(this.getEntry(tagId), stream, this.littleEndian);
   }
+
+  async getNumbersOpt(
+    tagId: number,
+    stream: RAStream
+  ): Promise<number[] | undefined> {
+    const entry = this.entries[tagId];
+    if (!entry) return undefined;
+    return getIfdNumbers(entry, stream, this.littleEndian);
+  }
 }

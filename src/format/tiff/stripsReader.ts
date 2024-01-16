@@ -24,8 +24,8 @@ type ParamsStripsReader = {
   stripHandlers: FnStripHandler[];
   rowHandlers: FnRowHandler[];
   stream: RAStream;
+  stripRowSize: number;
   rowSize: number;
-  // bytesPerSample: number;
   predictor?: FnTiffPredictor;
   width: number;
   height: number;
@@ -43,11 +43,13 @@ export const stripsReader = (params: ParamsStripsReader) => {
     rowHandlers,
     stream,
     rowSize,
+    stripRowSize,
     predictor,
     width,
     height,
     rowsPerStrip,
   } = params;
+
   let currentStripIndex = -1;
   let currentStripPos = 0;
   let stripData = new Uint8Array();
@@ -79,6 +81,6 @@ export const stripsReader = (params: ParamsStripsReader) => {
     mainRowHandler(stripData, currentStripPos, dstRow);
     restRowHandlers.forEach((handler) => handler(dstRow, 0, dstRow));
     predictor?.(width, dstRow);
-    currentStripPos += rowSize;
+    currentStripPos += stripRowSize;
   };
 };

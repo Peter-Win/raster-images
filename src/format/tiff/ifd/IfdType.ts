@@ -1,6 +1,6 @@
 import { ErrorRI } from "../../../utils";
 
-export const enum IfdType {
+export enum IfdType {
   byte = 1,
   ascii = 2,
   short = 3,

@@ -7,6 +7,11 @@ import { Ifd } from "./ifd/Ifd";
 import { getIfdNumbers } from "./ifd/IfdEntry";
 import { ErrorRI } from "../../utils";
 import { createStripsReader } from "./createStripsReader";
+import { joinPlanes } from "../../Converter/rowOps/planes/joinPlanes";
+import {
+  TiffSampleFormat,
+  tiffSampleFormatName,
+} from "./tags/TiffSampleFormat";
 
 interface Params {
   ifd: Ifd;
@@ -60,8 +65,14 @@ export const loadTiffImage = (params: Params) =>
     }
 
     const { x: width } = info.size;
+    const nbpsv = info.vars?.bitsPerSample;
+    const nativeBitsPerSamples: number[] | undefined = Array.isArray(nbpsv)
+      ? nbpsv.map((n) => +n)
+      : undefined;
     const bitsPerSample = info.fmt.maxSampleDepth as PixelDepth;
     const samplesCount = info.fmt.samples.length;
+    const sampleFormats = await ifd.getNumbersOpt(TiffTag.SampleFormat, stream);
+    const float16 = !!info.vars?.float16;
     type OnRow = (dstRow: Uint8Array, y: number) => Promise<void>;
     let onRow: OnRow;
     if (planarConfiguration === 2 && samplesCount > 1) {
@@ -80,33 +91,39 @@ export const loadTiffImage = (params: Params) =>
       const planeRows: Uint8Array[] = [];
       for (let i = 0; i < nPlanes; i++) {
         planeRows[i] = new Uint8Array(width * bytesPerSample);
+        const curBps = nativeBitsPerSamples?.[i];
         planeReaders[i] = await createStripsReader({
           offsets: [stripOffsets[i]!],
           sizes: [stripByteCounts[i]!],
           ifd,
           stream,
           bitsPerSample,
-          samplesCount,
+          samplesCount: 1,
           rowSize: width * bytesPerSample,
+          nativeBitsPerSamples: curBps ? [curBps] : undefined,
+          float16,
         });
       }
       onRow = async (dstRow: Uint8Array, y: number) => {
         for (let i = 0; i < nPlanes; i++) {
           await planeReaders[i]!(planeRows[i]!, y);
         }
-        let dstPos = 0;
-        let srcPos = 0;
-        for (let x = 0; x < width; x++) {
-          for (let pi = 0; pi < nPlanes; pi++) {
-            for (let bi = 0; bi < bytesPerSample; bi++) {
-              // eslint-disable-next-line no-param-reassign
-              dstRow[dstPos++] = planeRows[pi]![srcPos + bi]!;
-            }
-          }
-          srcPos += bytesPerSample;
-        }
+        joinPlanes(width, bytesPerSample, planeRows, dstRow);
       };
     } else {
+      if (sampleFormats) {
+        const fmtName = (n: number | TiffSampleFormat) =>
+          tiffSampleFormatName[n as TiffSampleFormat] || String(n);
+        // Форматы всех компонент должны быть одинаковые
+        const types = new Set(sampleFormats);
+        if (types.size !== 1)
+          throw new ErrorRI(
+            "Different sample formats [<f>] are not supported",
+            {
+              f: Array.from(types).map(fmtName).join(", "),
+            }
+          );
+      }
       onRow = await createStripsReader({
         offsets: stripOffsets,
         sizes: stripByteCounts,
@@ -115,50 +132,9 @@ export const loadTiffImage = (params: Params) =>
         bitsPerSample,
         samplesCount,
         rowSize: getImageLineSize(info),
+        nativeBitsPerSamples,
+        float16,
       });
     }
     await readImage(converter, info, onRow);
   });
-
-// interface ParamsTransfer {
-//   info: ImageInfo;
-//   ifd: Ifd;
-//   stream: RAStream;
-// }
-// type FnTransfer = (src: Uint8Array, srcPos: number, dst: Uint8Array) => number;
-
-// const getTransfer = async ({
-//   info,
-//   ifd,
-//   stream,
-// }: ParamsTransfer): Promise<FnTransfer> => {
-//   const { littleEndian } = ifd;
-//   const sampleFormat = await ifd.getSingleNumber<TiffSampleFormat>(TiffTag.SampleFormat, stream, TiffSampleFormat.unsignedInteger)
-//   const sampleFormatName = () =>
-//     tiffSampleFormatName[sampleFormat] ?? String(sampleFormat);
-
-//   const rowSize = getImageLineSize(info);
-//   const { maxSampleDepth } = info.fmt;
-//   if (maxSampleDepth === 64) {
-//     if (sampleFormat !== TiffSampleFormat.floatingPoint) {
-//       throw new ErrorRI("Unsupported sample format <f> for <bps> bit/sample", {
-//         f: sampleFormatName(),
-//         bps: maxSampleDepth,
-//       });
-//     }
-//     return (src, srcPos, dst) => {
-//       const fdst = new Float64Array(dst.buffer, dst.byteOffset);
-//       const srcDv = new DataView(src.buffer, src.byteOffset + srcPos);
-//       const count = rowSize / 8;
-//       for (let i = 0; i < count; i++) {
-//         fdst[i] = srcDv.getFloat64(8 * i, littleEndian);
-//       }
-//       return srcPos + rowSize;
-//     };
-//   }
-
-//   return (src, srcPos, dst) => {
-//     copyBytes(rowSize, src, srcPos, dst, 0);
-//     return srcPos + rowSize;
-//   };
-// };

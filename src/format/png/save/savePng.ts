@@ -14,6 +14,7 @@ import { writePngChunk } from "./writePngChunk";
 import { analyzePaletteTransparency } from "../../../Palette";
 import { transparencyFromPalette } from "../chunks/PngTransparency";
 import { dateToPngTime, writePngTimeToBuffer } from "../chunks/PngTime";
+import { encodeWords } from "../../../Converter/rowOps/numbers/encodeWords";
 
 export const savePng = async (
   reader: RowsReader,
@@ -26,6 +27,7 @@ export const savePng = async (
     const { dstInfo } = reader;
     const { fmt, size } = dstInfo;
     const { modificationTime, level = PngPackLevelStd.default } = options ?? {};
+    const is16bitSamples = fmt.maxSampleDepth === 16;
 
     await stream.write(signBuf);
     const hdr: PngHeader = {
@@ -68,7 +70,12 @@ export const savePng = async (
       const { length } = srcRow;
       const dst = new Uint8Array(length + 1);
       // Пока что без фильтрации
-      copyBytes(length, srcRow, 0, dst, 1);
+      if (is16bitSamples) {
+        // Для 16-битовых данных нужно соблюдать числовой формат
+        encodeWords(false, length >> 1, srcRow, 0, dst, 1);
+      } else {
+        copyBytes(length, srcRow, 0, dst, 1);
+      }
       deflator.push(dst, y + 1 === size.y);
     };
     await writeImage(reader, writeRow, { progress });

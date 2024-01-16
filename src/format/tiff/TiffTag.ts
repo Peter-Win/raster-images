@@ -1,4 +1,4 @@
-export const enum TiffTag {
+export enum TiffTag {
   Artist = 0x13b, // ASCII
   BitsPerSample = 0x102,
   CellLength = 0x109,
@@ -29,6 +29,8 @@ export const enum TiffTag {
   ResolutionUnit = 0x128, // 1 = No absolute unit of measurement.  2 = Inch, 3 = Centimeter.
   RowsPerStrip = 0x116,
   SampleFormat = 0x153,
+  SMinSampleValue = 0x154,
+  SMaxSampleValue = 0x155,
   SamplesPerPixel = 0x115,
   Software = 0x131, // ASCII
   StripByteCounts = 0x117,
@@ -102,6 +104,8 @@ export const tiffTagName: Record<TiffTag, string> = {
   [TiffTag.ResolutionUnit]: "ResolutionUnit",
   [TiffTag.RowsPerStrip]: "RowsPerStrip",
   [TiffTag.SampleFormat]: "SampleFormat",
+  [TiffTag.SMinSampleValue]: "SMinSampleValue",
+  [TiffTag.SMaxSampleValue]: "SMaxSampleValue",
   [TiffTag.SamplesPerPixel]: "SamplesPerPixel",
   [TiffTag.Software]: "Software",
   [TiffTag.StripByteCounts]: "StripByteCounts",

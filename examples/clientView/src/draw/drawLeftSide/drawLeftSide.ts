@@ -77,7 +77,11 @@ const drawFrameInfo = (
   }
 };
 
+const maxLength = 256;
+
 const valueStr = (v: VarValue): string => {
   if (typeof v === "number") return String(Math.floor(v * 100) / 100);
-  return JSON.stringify(v);
+  const s = JSON.stringify(v);
+  if (s.length <= maxLength) return s;
+  return `${s.slice(0, maxLength)}...`;
 };

@@ -16,8 +16,6 @@ export const getCodeLength = (
     if (reader.isEnd()) throw Error("Unexpected end of data");
     if (code.length > maxCodeLength)
       throw Error(`Too long ${["W", "B"][color]} code ${code}`);
-    // TODO: здесь пока извлекаются только из таблицы Terminating codes
-    // Нужно протестировать, возможно ли наличие здесь каких-то других кодов.
     code += reader.getStrBit();
     const longLen = mhTables.addMkUp[code] ?? mhTables.mkUp[color][code];
     if (longLen) {
@@ -26,7 +24,9 @@ export const getCodeLength = (
       continue;
     }
     const len = mhTables.term[color][code];
-    if (typeof len === "number") return len + sumLen;
+    if (typeof len === "number") {
+      return len + sumLen;
+    }
   }
 };
 
@@ -43,7 +43,14 @@ const calcRelativeLength = (
   const sCurColor = codeWordStr(curColor, 1);
   let b1 = a0;
   // Если цвета не совпадают, то нужно пропускать, пока не будет найден совпадающий цвет
-  while (b1 < width && prevRow[b1] !== sCurColor) b1++;
+  // Но опытным путём выяснено: если строка начинается с черного цвета, то пропускать не надо.
+  // see ccitt_8.tif, start of line 1186:
+  //             646        1680
+  //      0123...v          v
+  // 1185 BBBB...BWBBBBB...BWWWWW
+  // 1186 BBBB...BBBBBBB...BWWWWW
+  // V0 (W len=0), Pass (B len=648), V0 (B len=1032), V0 (W len=48)
+  if (a0 !== 0) while (b1 < width && prevRow[b1] !== sCurColor) b1++;
   // Теперь пропускать тот цвет, который совпадает с a0
   while (b1 < width && prevRow[b1] === sCurColor) b1++;
   return b1 - a0 - leftDelta;
@@ -63,7 +70,6 @@ export const createDecoder2DCmd = (width: number, writer: BitFiller) => {
       curRow += codeWordStr(color, len);
       a0 += len;
       color ^= 1;
-      // console.log("  vert", leftDelta, "=>", curRow);
     },
     horiz: (reader: BitReader, mhTables: DecodeModifiedHuffmanTables) => {
       const nextColor: MHIndex = color ^ 1;
@@ -74,7 +80,6 @@ export const createDecoder2DCmd = (width: number, writer: BitFiller) => {
       curRow += codeWordStr(color, firstLen);
       curRow += codeWordStr(nextColor, secondLen);
       a0 += firstLen + secondLen;
-      // console.log("  ",["W","B"][color], firstLen, ["W","B"][nextColor], secondLen, "=>", curRow);
     },
     pass: () => {
       let b2 = a0;
@@ -86,7 +91,6 @@ export const createDecoder2DCmd = (width: number, writer: BitFiller) => {
       writer.fill(color, len);
       curRow += codeWordStr(color, len);
       a0 += len;
-      // console.log("  pass", curRow)
     },
     endRow: () => {
       prevRow = curRow;

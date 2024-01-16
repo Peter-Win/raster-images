@@ -3,3 +3,5 @@ node_modules
 yarn-error.log
 **/tests/files/*.*
 **/dist/*.*
+/examples/tiffDetails/details.html
+/examples/tiffDetails/files/*.*

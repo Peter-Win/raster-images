@@ -67,4 +67,20 @@ describe("imageInfoFromIfd", () => {
       expect(info.vars?.DocumentName).toBe("python.tiff");
     });
   });
+  it("TIFF R12G12B12", async () => {
+    await onStreamFromGallery("tiff/shapes_lzw_12bps.tif", async (stream) => {
+      const info = await loadInfo(stream);
+      expect(info.size.toString()).toBe("(128, 72)");
+      expect(info.fmt.signature).toBe("R16G16B16");
+      expect(info.vars?.bitsPerSample).toEqual([12, 12, 12]);
+    });
+  });
+  it("TIFF float16", async () => {
+    await onStreamFromGallery("tiff/rgb-float16.tif", async (stream) => {
+      const info = await loadInfo(stream);
+      expect(info.size.toString()).toBe("(858, 619)");
+      expect(info.fmt.signature).toBe("R32G32B32");
+      expect(info.vars?.float16).toBe(1);
+    });
+  });
 });
