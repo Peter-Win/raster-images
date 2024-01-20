@@ -1,4 +1,4 @@
-import { getFloat16 } from "../float16";
+import { getFloat16, copyFloat16to32 } from "../float16";
 
 // Test data from
 // https://en.wikipedia.org/wiki/Half-precision_floating-point_format
@@ -26,4 +26,17 @@ test("float16", () => {
   // 0 01110 000000000
   expect(getFloat16(0x3800)).toBe(0.5);
   // ∞ −0 −∞  - Эти случаи нам не нужны, т.к. они не могут использоваться как пиксельные данные
+});
+
+test("copyFloat16to32", () => {
+  // little endian: [1,0,-2]
+  const leSrc = new Uint8Array([0x55, 0, 0x3c, 0, 0, 0, 0xc0]);
+  const leDst = new Float32Array(3);
+  copyFloat16to32(3, leSrc, 1, leDst, true);
+  expect(Array.from(leDst)).toEqual([1, 0, -2]);
+  // big endian
+  const beSrc = new Uint8Array([0xaa, 0xaa, 0x3c, 0, 0, 0, 0xc0, 0]);
+  const beDst = new Float32Array(3);
+  copyFloat16to32(3, beSrc, 2, beDst, false);
+  expect(Array.from(beDst)).toEqual([1, 0, -2]);
 });

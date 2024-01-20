@@ -3,7 +3,7 @@ import { ImageInfo } from "../../ImageInfo";
 import { BitmapFormat, BitmapFrame } from "../BitmapFormat";
 import { Ifd } from "./ifd/Ifd";
 import { imageInfoFromIfd } from "./imageInfoFromIfd";
-import { loadTiffImage } from "./loadTiffImage";
+import { loadTiffImage } from "./load/loadTiffImage";
 
 export class FrameTiff implements BitmapFrame {
   readonly type = "image"; // TODO: может зависеть от TiffTag.NewSubfileType

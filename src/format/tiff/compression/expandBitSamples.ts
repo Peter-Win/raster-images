@@ -1,4 +1,20 @@
+import { Variables } from "../../../ImageInfo/Variables";
 import { Point } from "../../../math";
+
+export const getNativeBitsPerSamples = (
+  vars: Variables | undefined
+): number[] | undefined => {
+  const nbpsv = vars?.bitsPerSample;
+  return Array.isArray(nbpsv) ? nbpsv.map((n) => +n) : undefined;
+};
+
+export const getPlanarNativeBitsPerSamples = (
+  nativeBitsPerSamples: number[] | undefined,
+  planeIndex: number
+): number[] | undefined => {
+  const curBps = nativeBitsPerSamples?.[planeIndex];
+  return curBps ? [curBps] : undefined;
+};
 
 /**
  * Извлечение упакованных битов для нестандартных значений бит/компонент.

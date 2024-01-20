@@ -40,6 +40,11 @@ export enum TiffTag {
   XResolution = 0x11a,
   YResolution = 0x11b,
 
+  TileWidth = 0x142,
+  TileLength = 0x143,
+  TileOffsets = 0x144,
+  TileByteCounts = 0x145,
+
   // Section 12: Document Storage and Retrieval
   DocumentName = 0x10d,
   PageName = 0x11d,
@@ -120,6 +125,11 @@ export const tiffTagName: Record<TiffTag, string> = {
   [TiffTag.PageNumber]: "PageNumber",
   [TiffTag.XPosition]: "XPosition",
   [TiffTag.YPosition]: "YPosition",
+
+  [TiffTag.TileWidth]: "TileWidth",
+  [TiffTag.TileLength]: "TileLength",
+  [TiffTag.TileOffsets]: "TileOffsets",
+  [TiffTag.TileByteCounts]: "TileByteCounts",
 
   [TiffTag.WhitePoint]: "WhitePoint",
   [TiffTag.PrimaryChromaticities]: "PrimaryChromaticities",

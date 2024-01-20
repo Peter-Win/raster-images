@@ -54,6 +54,16 @@ export class Ifd {
     return (await getIfdSingleNumber(entry, stream, this.littleEndian)) as T;
   }
 
+  async getSingleNumberOpt<T extends number = number>(
+    tagId: number,
+    stream: RAStream
+  ): Promise<T | undefined> {
+    const entry = this.entries[tagId];
+    if (!entry) return undefined;
+    const val = await getIfdSingleNumber(entry, stream, this.littleEndian);
+    return val as T;
+  }
+
   async getNumbers(tagId: number, stream: RAStream): Promise<number[]> {
     return getIfdNumbers(this.getEntry(tagId), stream, this.littleEndian);
   }

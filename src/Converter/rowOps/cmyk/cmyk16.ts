@@ -10,11 +10,11 @@ export const cmyk16toRgb16: FnRowOp = (width, src, dst) => {
   const srcEnd = width * 4;
   let dstPos = 0;
   while (srcPos < srcEnd) {
-    const c = wsrc[srcPos++]!;
-    const m = wsrc[srcPos++]!;
-    const y = wsrc[srcPos++]!;
-    const k = wsrc[srcPos++]!;
-    const kL = k * Lneg;
+    const c = 1 - wsrc[srcPos++]! * Lneg;
+    const m = 1 - wsrc[srcPos++]! * Lneg;
+    const y = 1 - wsrc[srcPos++]! * Lneg;
+    const k = 1 - wsrc[srcPos++]! * Lneg;
+    const kL = k * L;
     // red =   L × (1-C) × (1-K)
     wdst[dstPos++] = Math.max(Math.min(c * kL, L), 0);
     // green = L × (1-M) × (1-K)
@@ -32,12 +32,12 @@ export const cmyka16toRgba16: FnRowOp = (width, src, dst) => {
   const srcEnd = width * 5;
   let dstPos = 0;
   while (srcPos < srcEnd) {
-    const c = wsrc[srcPos++]!;
-    const m = wsrc[srcPos++]!;
-    const y = wsrc[srcPos++]!;
-    const k = wsrc[srcPos++]!;
+    const c = 1 - wsrc[srcPos++]! * Lneg;
+    const m = 1 - wsrc[srcPos++]! * Lneg;
+    const y = 1 - wsrc[srcPos++]! * Lneg;
+    const k = 1 - wsrc[srcPos++]! * Lneg;
+    const kL = k * L;
     const a = wsrc[srcPos++]!;
-    const kL = k * Lneg;
     wdst[dstPos++] = Math.max(Math.min(c * kL, L), 0);
     wdst[dstPos++] = Math.max(Math.min(m * kL, L), 0);
     wdst[dstPos++] = Math.max(Math.min(y * kL, L), 0);

@@ -1,8 +1,8 @@
-import { ErrorRI } from "../../utils";
-import { RAStream } from "../../stream";
-import { copyBytes } from "../../Converter/rowOps/copy/copyBytes";
-import { FnTiffPredictor } from "./compression/TiffPredictor";
-import { Point } from "../../math";
+import { ErrorRI } from "../../../utils";
+import { RAStream } from "../../../stream";
+import { copyBytes } from "../../../Converter/rowOps/copy/copyBytes";
+import { FnTiffPredictor } from "../compression/TiffPredictor";
+import { Point } from "../../../math";
 
 export type FnStripHandler = (src: Uint8Array, stripSize: Point) => Uint8Array;
 // Тут следует учесть, что src и dst может быть одно и то же.
@@ -79,8 +79,8 @@ export const stripsReader = (params: ParamsStripsReader) => {
       }
     }
     mainRowHandler(stripData, currentStripPos, dstRow);
-    restRowHandlers.forEach((handler) => handler(dstRow, 0, dstRow));
     predictor?.(width, dstRow);
+    restRowHandlers.forEach((handler) => handler(dstRow, 0, dstRow));
     currentStripPos += stripRowSize;
   };
 };

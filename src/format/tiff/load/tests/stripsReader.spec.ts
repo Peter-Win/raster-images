@@ -1,6 +1,6 @@
-import { createInfoSign, getImageLineSize } from "../../../ImageInfo";
-import { BufferStream } from "../../../stream";
-import { dump } from "../../../utils";
+import { createInfoSign, getImageLineSize } from "../../../../ImageInfo";
+import { BufferStream } from "../../../../stream";
+import { dump } from "../../../../utils";
 import { stripsReader } from "../stripsReader";
 
 describe("stripesReader", () => {

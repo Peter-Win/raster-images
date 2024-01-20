@@ -6,6 +6,7 @@ export const enum PhotometricInterpretation {
   RGB = 2,
   PaletteColor = 3,
   TransparencyMask = 4,
+  CMYK = 5,
   YCbCr = 6,
 }
 
@@ -15,6 +16,7 @@ export const photoIntNames: Record<PhotometricInterpretation, string> = {
   [PhotometricInterpretation.RGB]: "RGB",
   [PhotometricInterpretation.PaletteColor]: "Palette color",
   [PhotometricInterpretation.TransparencyMask]: "Transparency Mask",
+  [PhotometricInterpretation.CMYK]: "CMYK",
   [PhotometricInterpretation.YCbCr]: "YCbCr",
 };
 
@@ -27,5 +29,6 @@ export const photoIntToColorModel: Record<
   [PhotometricInterpretation.RGB]: "RGB",
   [PhotometricInterpretation.PaletteColor]: "Indexed",
   [PhotometricInterpretation.TransparencyMask]: "Gray",
+  [PhotometricInterpretation.CMYK]: "CMYK",
   [PhotometricInterpretation.YCbCr]: "YCbCr",
 };

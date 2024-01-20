@@ -63,16 +63,15 @@ const createFrameInfo = async (frame, index) => {
             } else if (tagName === "StripOffsets") {
                 const eStripByteCounts = ifd.entries[TiffTag.StripByteCounts];
                 const sizes = eStripByteCounts ? await getIfdNumbers(eStripByteCounts, stream, ifd.littleEndian) : [];
-                content = "    <pre>";
-                for (let i=0; i<nums.length; i++) {
-                    if (i>0) content += "\n";
-                    content += nums[i].toString(16).toUpperCase().padStart(8, "0");
-                    await stream.seek(nums[i]);
-                    const dataSize = Math.min(sizes[i] || 32, 32);
-                    const data = await stream.read(dataSize);
-                    content += ": " + dump(data);
-                }
-                content += "</pre>"
+                content = await makeDump(nums, sizes, stream);
+            } else if (tagName === "TileOffsets") {
+                const sizes = await ifd.getNumbers(TiffTag.TileByteCounts, stream);
+                content = await makeDump(nums, sizes, stream);
+            } else if ((typeName === "Byte" || typeName === "Undefined") && entry.count >= 16) {
+                const offset = entry.valueOffset.getUint32(0, littleEndian);
+                await stream.seek(offset);
+                const buffer = await stream.read(entry.count);
+                content = makeHexView(buffer, offset);
             } else {
                 content = nums.map(showNumber).join(", ");
             }
@@ -96,6 +95,39 @@ const createFrameInfo = async (frame, index) => {
         res += `<div>Resolution: ${resolution.resX} x ${resolution.resY} pixels/${resolution.resUnit}</div>`
     }
     return res;
+}
+
+const makeDump = async (offsets, sizes, stream) => {
+    let content = "<pre>";
+    for (let i=0; i<offsets.length; i++) {
+        if (i>0) content += "\n";
+        content += offsets[i].toString(16).toUpperCase().padStart(8, "0");
+        await stream.seek(offsets[i]);
+        const dataSize = Math.min(sizes[i] || 32, 32);
+        const data = await stream.read(dataSize);
+        content += ": " + dump(data);
+    }
+    return content + "</pre>"
+}
+
+const makeHexView = (buffer, startOffset) => {
+    let content = "<pre>";
+    let offset = startOffset;
+    const end = startOffset + buffer.length;
+    while (offset < end) {
+        if (offset !== startOffset) content += "\n";
+        const rowSize = Math.min(end - offset, 16);
+        content += offset.toString(16).toUpperCase().padStart(6, " ");
+        content += "  ";
+        const rowStart = offset - startOffset;
+        for (let i=0; i<rowSize; i++) content += `${buffer[rowStart + i].toString(16).toUpperCase().padStart(2, "0")} `;
+        for (let i=0; i<rowSize; i++) {
+            const c = buffer[rowStart + i];
+            content += (c < 32 || c >= 0x78) ? "." : String.fromCharCode(c);
+        }
+        offset += rowSize;
+    }
+    return content + "</pre>"
 }
 
 const main = async () => {

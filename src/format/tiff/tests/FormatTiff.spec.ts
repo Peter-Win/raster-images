@@ -16,7 +16,10 @@ import { SurfaceStd } from "../../../Surface";
 import { savePngImage } from "../../png/save";
 import { surfaceConverter } from "../../../Converter/surfaceConverter";
 import { readImage } from "../../../Converter";
-import { createStripsReader } from "../createStripsReader";
+import { createStripsReader } from "../load/createStripsReader";
+import { compareImages } from "../../../tests/compareImages";
+
+const shapesName = "tiff/shapes_lzw.tif";
 
 describe("FormatTiff", () => {
   it("TIFF RGB64", async () => {
@@ -179,21 +182,12 @@ describe("FormatTiff", () => {
   });
 
   it("TIFF Non-std bits per sample", async () => {
-    const img8 = await onStreamFromGallery(
-      "tiff/shapes_lzw.tif",
-      async (stream) => loadImageByName(stream)
-    );
-    expect(img8.info.fmt.signature).toBe("R8G8B8");
-
     await onStreamFromGallery("tiff/shapes_lzw_14bps.tif", async (stream) => {
       const fmt = await FormatTiff.create(stream);
       expect(fmt.frames.length).toBe(1);
       const frm = fmt.frames[0]!;
       const { ifd, info } = frm;
       expect(info.fmt.signature).toBe("R16G16B16");
-      const { x: width, y: height } = info.size;
-      expect(width).toBe(img8.width);
-      expect(height).toBe(img8.height);
       const compressionId = await ifd.getSingleNumber<TiffCompression>(
         TiffTag.Compression,
         stream
@@ -201,33 +195,13 @@ describe("FormatTiff", () => {
       expect(compressionId).toBe(TiffCompression.LZW);
 
       const testImg = await loadImageFromFrame(frm);
-      for (let y = 0; y < height; y++) {
-        const row16 = testImg.getRowBuffer16(y);
-        const row8 = img8.getRowBuffer(y);
-        let p16 = 0;
-        let p8 = 0;
-        for (let x = 0; x < width; x++) {
-          for (let i = 0; i < 3; i++) {
-            const c16 = row16[p16++]!;
-            const c8 = row8[p8++]!;
-            if (Math.abs((c16 >> 8) - c8) > 1) {
-              expect(`y=${y}, x=${x}, ${dumpW(row16, x * 3, x * 3 + 3)}`).toBe(
-                `y=${y}, x=${x}, ${dump(row8, 3 * x, x * 3 + 3)}`
-              );
-            }
-          }
-        }
-      }
+      await compareImages(testImg, shapesName, (received, expected) => {
+        expect(received).toBe(expected);
+      });
     });
   });
 
   it("TIFF Planar", async () => {
-    const img8 = await onStreamFromGallery(
-      "tiff/shapes_lzw.tif",
-      async (stream) => loadImageByName(stream)
-    );
-    expect(img8.info.fmt.signature).toBe("R8G8B8");
-
     await onStreamFromGallery("tiff/shapes_lzw_planar.tif", async (stream) => {
       const fmt = await FormatTiff.create(stream);
       expect(fmt.frames.length).toBe(1);
@@ -258,6 +232,7 @@ describe("FormatTiff", () => {
           rowSize: width,
           bitsPerSample: 8,
           samplesCount: 1,
+          floatBitsPerSample: undefined,
         });
         await readImage(converter, channelImg.info, onRow);
 
@@ -267,33 +242,13 @@ describe("FormatTiff", () => {
       }
 
       const testImg = await loadImageFromFrame(frm);
-      for (let y = 0; y < testImg.height; y++) {
-        const rowTest = testImg.getRowBuffer(y);
-        const rowOrigin = img8.getRowBuffer(y);
-        let pTest = 0;
-        let pOrigin = 0;
-        for (let x = 0; x < testImg.width; x++) {
-          for (let i = 0; i < 3; i++) {
-            const cTest = rowTest[pTest++]!;
-            const cOrigin = rowOrigin[pOrigin++]!;
-            if (Math.abs(cTest - cOrigin) > 1) {
-              expect(`y=${y}, x=${x}, ${dump(rowTest, x * 3, x * 3 + 3)}`).toBe(
-                `y=${y}, x=${x}, ${dump(rowOrigin, 3 * x, x * 3 + 3)}`
-              );
-            }
-          }
-        }
-      }
+      await compareImages(testImg, shapesName, (received, expected) => {
+        expect(received).toBe(expected);
+      });
     });
   });
 
   it("TIFF Planar Non-std", async () => {
-    const img8 = await onStreamFromGallery(
-      "tiff/shapes_lzw.tif",
-      async (stream) => loadImageByName(stream)
-    );
-    expect(img8.info.fmt.signature).toBe("R8G8B8");
-
     await onStreamFromGallery(
       "tiff/shapes_lzw_planar_10bps.tif",
       async (stream) => {
@@ -303,9 +258,6 @@ describe("FormatTiff", () => {
         const { ifd, info } = frm;
         expect(info.fmt.signature).toBe("R16G16B16");
         expect(info.vars?.bitsPerSample).toEqual([10, 10, 10]);
-        const { x: width, y: height } = info.size;
-        expect(width).toBe(img8.width);
-        expect(height).toBe(img8.height);
         const compressionId = await ifd.getSingleNumber<TiffCompression>(
           TiffTag.Compression,
           stream
@@ -313,34 +265,14 @@ describe("FormatTiff", () => {
         expect(compressionId).toBe(TiffCompression.LZW);
 
         const testImg = await loadImageFromFrame(frm);
-        for (let y = 0; y < height; y++) {
-          const row16 = testImg.getRowBuffer16(y);
-          const row8 = img8.getRowBuffer(y);
-          let p16 = 0;
-          let p8 = 0;
-          for (let x = 0; x < width; x++) {
-            for (let i = 0; i < 3; i++) {
-              const c16 = row16[p16++]!;
-              const c8 = row8[p8++]!;
-              if (Math.abs((c16 >> 8) - c8) > 1) {
-                expect(
-                  `y=${y}, x=${x}, ${dumpW(row16, x * 3, x * 3 + 3)}`
-                ).toBe(`y=${y}, x=${x}, ${dump(row8, 3 * x, x * 3 + 3)}`);
-              }
-            }
-          }
-        }
+        await compareImages(testImg, shapesName, (received, expected) => {
+          expect(received).toBe(expected);
+        });
       }
     );
   });
 
   it("TIFF Predictor 3", async () => {
-    const img8 = await onStreamFromGallery(
-      "tiff/shapes_lzw.tif",
-      async (stream) => loadImageByName(stream)
-    );
-    expect(img8.info.fmt.signature).toBe("R8G8B8");
-
     await onStreamFromGallery(
       "tiff/shapes_lzw_predictor3.tif",
       async (stream) => {
@@ -349,9 +281,6 @@ describe("FormatTiff", () => {
         const frm = fmt.frames[0]!;
         const { ifd, info } = frm;
         expect(info.fmt.signature).toBe("R32G32B32");
-        const { x: width, y: height } = info.size;
-        expect(width).toBe(img8.width);
-        expect(height).toBe(img8.height);
         const compressionId = await ifd.getSingleNumber<TiffCompression>(
           TiffTag.Compression,
           stream
@@ -361,23 +290,9 @@ describe("FormatTiff", () => {
         expect(predictor).toBe(3);
 
         const testImg = await loadImageFromFrame(frm);
-        for (let y = 0; y < height; y++) {
-          const row32 = testImg.getRowBuffer32(y);
-          const row8 = img8.getRowBuffer(y);
-          let p32 = 0;
-          let p8 = 0;
-          for (let x = 0; x < width; x++) {
-            for (let i = 0; i < 3; i++) {
-              const c32 = row32[p32++]!;
-              const c8 = row8[p8++]!;
-              if (Math.abs(c32 * 256 - c8) > 1) {
-                expect(
-                  `y=${y}, x=${x}, ${dumpFloat32(row32, 0, x * 3, x * 3 + 3)}`
-                ).toBe(`y=${y}, x=${x}, ${dump(row8, 3 * x, x * 3 + 3)}`);
-              }
-            }
-          }
-        }
+        await compareImages(testImg, shapesName, (received, expected) => {
+          expect(received).toBe(expected);
+        });
       }
     );
   });
@@ -391,5 +306,328 @@ describe("FormatTiff", () => {
       expect(row[1]).toBeCloseTo(0.66, 3);
       expect(row[2]).toBeCloseTo(0.758, 3);
     });
+  });
+
+  it("TIFF tiled", async () => {
+    await onStreamFromGallery("tiff/shapes_lzw_tiled.tif", async (stream) => {
+      const fmt = await FormatTiff.create(stream);
+      expect(fmt.frames.length).toBe(1);
+      const frame = fmt.frames[0]!;
+      const { info, ifd } = frame;
+      expect(info.vars?.tileWidth).toBe(32);
+      expect(info.vars?.tileHeight).toBe(32);
+      const planarCfg = await ifd.getSingleNumber(
+        TiffTag.PlanarConfiguration,
+        stream
+      );
+      expect(planarCfg).toBe(1);
+      const testImg = await loadImageFromFrame(frame);
+      await compareImages(testImg, shapesName, (fact, need) => {
+        expect(fact).toBe(need);
+      });
+    });
+  });
+
+  it("TIFF tiled planar", async () => {
+    await onStreamFromGallery(
+      "tiff/shapes_uncompressed_tiled_planar.tif",
+      async (stream) => {
+        const fmt = await FormatTiff.create(stream);
+        expect(fmt.frames.length).toBe(1);
+        const frame = fmt.frames[0]!;
+        const { info, ifd } = frame;
+        expect(info.vars?.tileWidth).toBe(32);
+        expect(info.vars?.tileHeight).toBe(32);
+        const planarCfg = await ifd.getSingleNumber(
+          TiffTag.PlanarConfiguration,
+          stream
+        );
+        expect(planarCfg).toBe(2);
+        const testImg = await loadImageFromFrame(frame);
+        await compareImages(testImg, shapesName, (fact, need) => {
+          expect(fact).toBe(need);
+        });
+      }
+    );
+  });
+
+  it("TIFF RGB 16", async () => {
+    await onStreamFromGallery("tiff/shapes_16.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("R16G16B16");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.planarConfiguration).toBe("Chunky");
+      await compareImages(img, shapesName, (fact, need) => {
+        expect(fact).toBe(need);
+      });
+    });
+  });
+
+  it("TIFF RGB 16 planar", async () => {
+    await onStreamFromGallery("tiff/shapes_16_planar.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("R16G16B16");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.planarConfiguration).toBe("Planar");
+      await compareImages(img, shapesName, (fact, need) => {
+        expect(fact).toBe(need);
+      });
+    });
+  });
+
+  it("TIFF RGB float16", async () => {
+    await onStreamFromGallery("tiff/shapes_16fp.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("R32G32B32");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.planarConfiguration).toBe("Chunky");
+      // Похоже что фотошоп применил какую-то гамма-коррекцию, в результате чего изменилась контрастность.
+      // await compareImages(img, shapesName, (fact, need) => {
+      //   expect(fact).toBe(need);
+      // }, {epsiolon: 20})
+    });
+  });
+
+  it("TIFF RGB float16 planar", async () => {
+    await onStreamFromGallery("tiff/shapes_16fp_planar.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("R32G32B32");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.planarConfiguration).toBe("Planar");
+      await compareImages(img, "tiff/shapes_16fp.tif", (fact, need) => {
+        expect(fact).toBe(need);
+      });
+    });
+  });
+
+  it("TIFF RGB float24", async () => {
+    await onStreamFromGallery("tiff/shapes_3x24fp.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("R32G32B32");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.planarConfiguration).toBe("Chunky");
+      expect(img.info.vars?.floatBitsPerSample).toBe(24);
+      await compareImages(img, "tiff/shapes_16fp.tif", (fact, need) => {
+        expect(fact).toBe(need);
+      });
+    });
+  });
+
+  it("TIFF Gray 16 predictor", async () => {
+    // GIMP can't read this file. Made in PhotoShop CS6
+    await onStreamFromGallery("tiff/gray-16-predictor.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("G16");
+      expect(img.info.vars?.numberFormat).toBe("little endian");
+      expect(img.info.vars?.predictor).toBe(3);
+      expect(img.info.vars?.compression).toBe("None");
+      expect(img.info.vars?.planarConfiguration).toBeUndefined();
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dumpW(img.getRowBuffer16(0), 0, 3)).toBe("FFF1 FFF1 FFF1");
+      expect(dumpW(img.getRowBuffer16(1), 0, 3)).toBe("FFF1 0000 0000");
+    });
+  });
+
+  it("TIFF Gray 16fp predictor", async () => {
+    await onStreamFromGallery(
+      "tiff/gray-16fp-predictor.tif",
+      async (stream) => {
+        const img = await loadImageByName(stream);
+        expect(img.info.fmt.signature).toBe("G32");
+        expect(img.info.vars?.numberFormat).toBe("little endian");
+        expect(img.info.vars?.predictor).toBe(3);
+        expect(img.info.vars?.compression).toBe("LZW");
+        expect(img.info.vars?.planarConfiguration).toBeUndefined();
+        expect(img.info.vars?.floatBitsPerSample).toBe(16);
+        expect(dumpFloat32(img.getRowBuffer32(0), 4, 0, 3)).toBe(
+          "1.0000 1.0000 1.0000"
+        );
+        expect(dumpFloat32(img.getRowBuffer32(1), 4, 0, 3)).toBe(
+          "1.0000 0.0000 0.0000"
+        );
+      }
+    );
+  });
+
+  it("TIFF Gray 24fp predictor", async () => {
+    // GIMP can't read this file. Made in PhotoShop CS6
+    await onStreamFromGallery(
+      "tiff/gray-24fp-predictor.tif",
+      async (stream) => {
+        const img = await loadImageByName(stream);
+        expect(img.info.fmt.signature).toBe("G32");
+        expect(img.info.vars?.numberFormat).toBe("big endian");
+        expect(img.info.vars?.predictor).toBe(3);
+        expect(img.info.vars?.compression).toBe("LZW");
+        expect(img.info.vars?.planarConfiguration).toBeUndefined();
+        expect(img.info.vars?.floatBitsPerSample).toBe(24);
+        expect(dumpFloat32(img.getRowBuffer32(0), 4, 0, 3)).toBe(
+          "1.0000 1.0000 1.0000"
+        );
+        expect(dumpFloat32(img.getRowBuffer32(1), 4, 0, 3)).toBe(
+          "1.0000 0.0000 0.0000"
+        );
+      }
+    );
+  });
+
+  it("TIFF CMYK 16", async () => {
+    await onStreamFromGallery("tiff/cmyk-16.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("C16M16Y16K16");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.compression).toBe("None");
+      expect(img.info.vars?.planarConfiguration).toBe("Chunky");
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dumpW(img.getRowBuffer16(0), 0, 4)).toBe("0000 0000 0000 0000");
+      expect(dumpW(img.getRowBuffer16(1), 0, 8)).toBe(
+        "0000 0000 0000 0000 FFFF 0000 0000 0000"
+      );
+      expect(dumpW(img.getRowBuffer16(16), 0, 8)).toBe(
+        "0000 0000 0000 0000 0000 FFFF 0000 0000"
+      );
+    });
+  });
+  it("TIFF CMYK 16 planar", async () => {
+    await onStreamFromGallery("tiff/cmyk-16-planar.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("C16M16Y16K16");
+      expect(img.info.vars?.numberFormat).toBe("little endian");
+      expect(img.info.vars?.compression).toBe("None");
+      expect(img.info.vars?.planarConfiguration).toBe("Planar");
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dumpW(img.getRowBuffer16(0), 0, 4)).toBe("0000 0000 0000 0000");
+      expect(dumpW(img.getRowBuffer16(1), 0, 8)).toBe(
+        "0000 0000 0000 0000 FFFF 0000 0000 0000"
+      );
+      expect(dumpW(img.getRowBuffer16(16), 0, 8)).toBe(
+        "0000 0000 0000 0000 0000 FFFF 0000 0000"
+      );
+    });
+  });
+
+  it("TIFF CMYK 8", async () => {
+    await onStreamFromGallery("tiff/cmyk-8.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("C8M8Y8K8");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.compression).toBe("LZW");
+      expect(img.info.vars?.predictor).toBe(2);
+      expect(img.info.vars?.planarConfiguration).toBe("Chunky");
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dump(img.getRowBuffer(0), 0, 4)).toBe("00 00 00 00");
+      expect(dump(img.getRowBuffer(1), 0, 8)).toBe("00 00 00 00 FF 00 00 00"); // white, cyan
+      expect(dump(img.getRowBuffer(16), 0, 8)).toBe("00 00 00 00 00 FF 00 00"); // white, magenta
+    });
+  });
+  it("TIFF CMYK 16 planar", async () => {
+    await onStreamFromGallery("tiff/cmyk-8-planar.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("C8M8Y8K8");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.compression).toBe("ZIP");
+      expect(img.info.vars?.predictor).toBe(2);
+      expect(img.info.vars?.planarConfiguration).toBe("Planar");
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dump(img.getRowBuffer(0), 0, 4)).toBe("00 00 00 00");
+      expect(dump(img.getRowBuffer(1), 0, 8)).toBe("00 00 00 00 FF 00 00 00"); // white, cyan
+      expect(dump(img.getRowBuffer(16), 0, 8)).toBe("00 00 00 00 00 FF 00 00"); // white, magenta
+    });
+  });
+
+  it("TIFF CMYKA 16", async () => {
+    await onStreamFromGallery("tiff/cmyka-16.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("C16M16Y16K16A16");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.compression).toBe("None");
+      expect(img.info.vars?.planarConfiguration).toBe("Chunky");
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dumpW(img.getRowBuffer16(0), 0, 5)).toBe(
+        "0000 0000 0000 0000 FFFF"
+      );
+      expect(dumpW(img.getRowBuffer16(1), 0, 10)).toBe(
+        "0000 0000 0000 0000 FFFF 0000 0000 0000 0000 0000"
+      );
+      expect(dumpW(img.getRowBuffer16(2), 10, 15)).toBe(
+        "FFFF 0000 0000 0000 FFFF"
+      );
+    });
+  });
+
+  it("TIFF CMYKA 16 planar", async () => {
+    await onStreamFromGallery("tiff/cmyka-16-planar.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("C16M16Y16K16A16");
+      expect(img.info.vars?.numberFormat).toBe("little endian");
+      expect(img.info.vars?.compression).toBe("LZW");
+      expect(img.info.vars?.planarConfiguration).toBe("Planar");
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dumpW(img.getRowBuffer16(0), 0, 5)).toBe(
+        "0000 0000 0000 0000 FFFF"
+      );
+      expect(dumpW(img.getRowBuffer16(1), 0, 10)).toBe(
+        "0000 0000 0000 0000 FFFF 0000 0000 0000 0000 0000"
+      );
+      expect(dumpW(img.getRowBuffer16(2), 10, 15)).toBe(
+        "FFFF 0000 0000 0000 FFFF"
+      );
+    });
+  });
+
+  it("TIFF CMYKA 8", async () => {
+    await onStreamFromGallery("tiff/cmyka-8.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("C8M8Y8K8A8");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.compression).toBe("ZIP");
+      expect(img.info.vars?.predictor).toBe(2);
+      expect(img.info.vars?.planarConfiguration).toBe("Chunky");
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dump(img.getRowBuffer(0), 0, 5)).toBe("00 00 00 00 FF");
+      expect(dump(img.getRowBuffer(1), 0, 10)).toBe(
+        "00 00 00 00 FF 00 00 00 00 00"
+      );
+      expect(dump(img.getRowBuffer(2), 10, 15)).toBe("FF 00 00 00 FF");
+    });
+  });
+
+  it("TIFF Gray Alpha 32", async () => {
+    await onStreamFromGallery("tiff/grayAlpha-32.tif", async (stream) => {
+      const img = await loadImageByName(stream);
+      expect(img.info.fmt.signature).toBe("G32A32");
+      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.compression).toBe("LZW");
+      expect(img.info.vars?.predictor).toBe(3);
+      expect(img.info.vars?.planarConfiguration).toBe("Chunky");
+      expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
+      expect(dumpFloat32(img.getRowBuffer32(0), 3, 0, 4)).toBe(
+        "0.000 1.000 0.000 1.000"
+      );
+      expect(dumpFloat32(img.getRowBuffer32(2), 2, 0, 6)).toBe(
+        "0.00 1.00 0.00 0.00 1.00 1.00"
+      );
+    });
+  });
+
+  it("TIFF Gray Alpha 24 planar", async () => {
+    await onStreamFromGallery(
+      "tiff/grayAlpha-24-planar.tif",
+      async (stream) => {
+        const img = await loadImageByName(stream);
+        expect(img.info.fmt.signature).toBe("G32A32");
+        expect(img.info.vars?.numberFormat).toBe("big endian");
+        expect(img.info.vars?.compression).toBe("LZW");
+        expect(img.info.vars?.predictor).toBe(3);
+        expect(img.info.vars?.planarConfiguration).toBe("Planar");
+        expect(img.info.vars?.floatBitsPerSample).toBe(24);
+        expect(dumpFloat32(img.getRowBuffer32(0), 3, 0, 4)).toBe(
+          "0.000 1.000 0.000 1.000"
+        );
+        expect(dumpFloat32(img.getRowBuffer32(2), 2, 0, 6)).toBe(
+          "0.00 1.00 0.00 0.00 1.00 1.00"
+        );
+      }
+    );
   });
 });

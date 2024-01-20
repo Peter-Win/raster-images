@@ -2,9 +2,13 @@ import { ErrorRI } from "../../../utils";
 import { PixelDepth } from "../../../types";
 import {
   FnNumberConversion,
+  decode24bits,
   decodeDwords,
   decodeQwords,
+  decodeWords,
 } from "../../../Converter/rowOps/numbers";
+
+/* eslint no-param-reassign: "off" */
 
 export enum TiffPredictor {
   None = 1,
@@ -56,9 +60,10 @@ export const createPredictorHorizDiff = (
       );
   }
 };
-// throw Error("Have no predictor for "+pixFmt.signature);
 
 const numFmtDict: Record<number, FnNumberConversion> = {
+  16: decodeWords,
+  24: decode24bits,
   32: decodeDwords,
   64: decodeQwords,
 };

@@ -32,10 +32,10 @@ describe("imageInfoFromIfd", () => {
       expect(info.vars?.creationTime).toBe("2011-07-06 01:37:47");
     });
   });
-  xit("TIFF Gray16", async () => {
-    await onStreamFromGallery("tiff/G16.tif", async (stream) => {
+  it("TIFF Gray16", async () => {
+    await onStreamFromGallery("tiff/gray-16-predictor.tif", async (stream) => {
       const info = await loadInfo(stream);
-      expect(info.size.toString()).toBe("(200, 200)");
+      expect(info.size.toString()).toBe("(120, 80)");
       expect(info.fmt.signature).toBe("G16");
       expect(info.vars?.compression).toBe("None");
     });
@@ -80,7 +80,16 @@ describe("imageInfoFromIfd", () => {
       const info = await loadInfo(stream);
       expect(info.size.toString()).toBe("(858, 619)");
       expect(info.fmt.signature).toBe("R32G32B32");
-      expect(info.vars?.float16).toBe(1);
+      expect(info.vars?.floatBitsPerSample).toBe(16);
+    });
+  });
+
+  it("TIFF float24", async () => {
+    await onStreamFromGallery("tiff/shapes_3x24fp.tif", async (stream) => {
+      const info = await loadInfo(stream);
+      expect(info.size.toString()).toBe("(128, 72)");
+      expect(info.fmt.signature).toBe("R32G32B32");
+      expect(info.vars?.floatBitsPerSample).toBe(24);
     });
   });
 });

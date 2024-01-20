@@ -72,13 +72,22 @@ export const imageInfoFromIfd = async (
   const vars: Variables = {
     numberFormat: littleEndian ? "little endian" : "big endian",
   };
-  const makeSignature = (sampNames: "RGBA" | "GA" | "I", fixedBits?: number) =>
+  if (ifd.entries[TiffTag.TileWidth]) {
+    vars.tileWidth = await ifd.getSingleNumber(TiffTag.TileWidth, stream);
+  }
+  if (ifd.entries[TiffTag.TileLength]) {
+    vars.tileHeight = await ifd.getSingleNumber(TiffTag.TileLength, stream);
+  }
+  const makeSignature = (
+    sampNames: "CMYKA" | "RGBA" | "GA" | "I",
+    fixedBits?: number
+  ) =>
     bitsPerSample.reduce(
       (s, n, i) => `${s}${sampNames[i]}${fixedBits ?? n}`,
       ""
     );
 
-  const makeSignatureExt = (sampNames: "RGBA" | "GA") => {
+  const makeSignatureExt = (sampNames: "CMYKA" | "RGBA" | "GA") => {
     const bitsSet = new Set(bitsPerSample);
     const maxBitsPerSample = bitsPerSample.reduce(
       (acc, n) => Math.max(acc, n),
@@ -89,16 +98,19 @@ export const imageInfoFromIfd = async (
     let stdBits = [8, 16, 32, 64];
     if (sampNames[0] === "G" && bitsPerSample.length === 1)
       stdBits = [1, 2, 4, ...stdBits];
-    if (bitsSet.size === 1 && stdBits.includes(maxBitsPerSample)) {
+    if (bitsSet.size === 1) {
       if (
-        maxBitsPerSample === 16 &&
+        (maxBitsPerSample === 16 || maxBitsPerSample === 24) &&
         sampleFormats?.find((n) => n === TiffSampleFormat.floatingPoint)
       ) {
-        // 16-bit floating point => 32-bit
-        vars.float16 = 1;
+        // 16- and 24-bit floating point => 32-bit
+        vars.floatBitsPerSample = maxBitsPerSample;
         return makeSignature(sampNames, 32);
       }
-      return makeSignature(sampNames);
+
+      if (stdBits.includes(maxBitsPerSample)) {
+        return makeSignature(sampNames);
+      }
     }
     vars.bitsPerSample = bitsPerSample;
     // Пока предполагаем что любые комбинации преобразуются в 16 бит/компонент
@@ -121,6 +133,10 @@ export const imageInfoFromIfd = async (
       if (nSamples !== 1) onInvalidSamples();
       signature = makeSignature("I");
       palette = await loadTiffPalette(ifd, stream);
+      break;
+    case PhotometricInterpretation.CMYK:
+      if (nSamples < 4 || nSamples > 5) onInvalidSamples();
+      signature = makeSignatureExt("CMYKA");
       break;
     case PhotometricInterpretation.YCbCr:
       signature = "G8"; // TODO: Пока нет поддержки YCbCr
@@ -149,6 +165,10 @@ export const imageInfoFromIfd = async (
   );
   vars.compression =
     tiffCompressionDict[compressionId]?.name ?? String(compressionId);
+  const predictor = await ifd.getSingleNumberOpt(TiffTag.Predictor, stream);
+  if (predictor !== undefined) {
+    vars.predictor = predictor;
+  }
 
   const planarConfiguration = await ifd.getSingleNumber<number>(
     TiffTag.PlanarConfiguration,

@@ -1,7 +1,7 @@
 import pako from "pako";
 import { ErrorRI } from "../../../utils";
 import { TiffCompression, tiffCompressionDict } from "../tags/TiffCompression";
-import { FnRowHandler, FnStripHandler } from "../stripsReader";
+import { FnRowHandler, FnStripHandler } from "../load/stripsReader";
 import { TiffUnpackerLzw } from "./TiffUnpackerLzw";
 import { PixelDepth } from "../../../types";
 import { unpackBits } from "../../../algorithm/PackBits";

@@ -15,9 +15,7 @@ test("cmyk16toRgb16", () => {
     [0.5, 0.5, 0, 0],
   ];
   const width = src.length;
-  const wsrc = new Uint16Array(
-    src.flatMap((n) => n).map((n) => (1 - n) * 0xffff)
-  ); // <- main src row
+  const wsrc = new Uint16Array(src.flatMap((n) => n).map((n) => n * 0xffff)); // <- main src row
   const bsrc = new Uint8Array(wsrc.buffer, wsrc.byteOffset);
   const wdst = new Uint16Array(width * 3); // <- main dst row
   const bdst = new Uint8Array(wdst.buffer, wdst.byteOffset);
@@ -36,5 +34,27 @@ test("cmyk16toRgb16", () => {
   expect(ddst[p++]).toBe("FFFF FFFF 0000"); // Yellow
   expect(ddst[p++]).toBe("0000 FFFF FFFF"); // Cyan
   expect(ddst[p++]).toBe("FFFF 0000 FFFF"); // Magenta
-  expect(ddst[p++]).toBe("7FFF 7FFF FFFF");
+  expect(ddst[p++]).toBe("8000 8000 FFFF");
+});
+
+test("cmyk16toRgb16 max", () => {
+  const F = 0xffff;
+  const src: [number, number, number, number][] = [
+    [0, 0, 0, 0], // white
+    [F, 0, 0, 0], // cyan
+    [0, F, 0, 0], // mahenta
+    [0, 0, F, 0], // yellow
+    [0, 0, 0, F], // black
+  ];
+  const width = src.length;
+  const wsrc = new Uint16Array(src.flatMap((n) => n));
+  const bsrc = new Uint8Array(wsrc.buffer, wsrc.byteOffset);
+  const wdst = new Uint16Array(3 * width);
+  const bdst = new Uint8Array(wdst.buffer, wdst.byteOffset);
+  cmyk16toRgb16(width, bsrc, bdst);
+  expect(dumpW(wdst, 0, 3)).toBe("FFFF FFFF FFFF"); // white
+  expect(dumpW(wdst, 3, 6)).toBe("0000 FFFF FFFF"); // cyan
+  expect(dumpW(wdst, 6, 9)).toBe("FFFF 0000 FFFF"); // magenta
+  expect(dumpW(wdst, 9, 12)).toBe("FFFF FFFF 0000"); // yellow
+  expect(dumpW(wdst, 12, 15)).toBe("0000 0000 0000"); // black
 });

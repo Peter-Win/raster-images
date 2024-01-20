@@ -376,14 +376,14 @@ test("allConverters", async () => {
   ).toBe("1212 3434 5656 7878 9090");
   // cmyk16 red(0,1,1,0)
   expect(
-    await mkw("C16M16Y16K16", "R16G16B16", {}, wdata([0xffff, 0, 0, 0xffff]))
+    await mkw("C16M16Y16K16", "R16G16B16", {}, wdata([0, 0xffff, 0xffff, 0]))
   ).toBe("FFFF 0000 0000");
   expect(
     await mkw(
       "C16M16Y16K16A16",
       "R16G16B16A16",
       {},
-      wdata([0xffff, 0, 0, 0xffff, 0x123])
+      wdata([0, 0xffff, 0xffff, 0, 0x123])
     )
   ).toBe("FFFF 0000 0000 0123");
   // cmyk32
