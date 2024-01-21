@@ -162,7 +162,7 @@ export const createStripsReader = async (params: ParamsCreateStripsReader) => {
   }
 
   if (needNumFmtCvt) {
-    // Number format
+    // Endianness
     const numDict: Record<number, FnNumberConversion> = {
       16: decodeWords,
       32: decodeDwords,

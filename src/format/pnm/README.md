@@ -14,4 +14,4 @@ Pixel formats: G1, G8, G16, G32*, R8G8B8, R16G16B16, R32G32B32*
 
 (*) The PFM (Portable Floatmap) is the unofficial four byte IEEE 754 single precision floating point extension. Supported by PhotoShop and GIMP. See https://netpbm.sourceforge.net/doc/pfm.html
 
-Number format: big endian
+Endianness: big endian
