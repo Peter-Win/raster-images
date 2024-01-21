@@ -2,8 +2,8 @@ import { dumpW } from "../../../../utils";
 import { cmyka16toRgba16 } from "../cmyk16";
 
 test("cmyka16toRgba16", () => {
-  const Z = 0xffff;
-  const U = 0;
+  const Z = 0;
+  const U = 0xffff;
   const A100 = 0xffff;
   const A50 = 0x7fff;
   // cyan(1,0,0,0)+100%, red(0,1,1,0)+50%

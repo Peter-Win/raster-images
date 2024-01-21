@@ -15,6 +15,9 @@ export const readWordBE = async (stream: RAStream): Promise<number> => {
   return buf[1]! + (buf[0]! << 8);
 };
 
+export const readWord = (stream: RAStream, littleEndian: boolean) =>
+  littleEndian ? readWordLE(stream) : readWordBE(stream);
+
 export const readInt16LE = async (stream: RAStream): Promise<number> => {
   const buf = await stream.read(2);
   const dv = new DataView(buf.buffer, buf.byteOffset);
@@ -36,6 +39,9 @@ export const readDwordBE = async (stream: RAStream): Promise<number> => {
   const buf = await stream.read(4);
   return (buf[0]! << 24) + (buf[1]! << 16) + (buf[2]! << 8) + buf[3]!;
 };
+
+export const readDword = (stream: RAStream, littleEndian: boolean) =>
+  littleEndian ? readDwordLE(stream) : readDwordBE(stream);
 
 export const readWordArray = async (
   stream: RAStream,

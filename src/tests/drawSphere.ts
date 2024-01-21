@@ -77,7 +77,6 @@ export const drawSphere = (params: ParamsDrawSphere) => {
   const yTop = Math.round(cy - r);
   const yBottom = Math.round(cy + r);
   for (let yp = yTop; yp <= yBottom; yp++) {
-    // eslint-disable-next-line no-continue
     if (yp < 0 || yp >= height) continue;
     const row = surface.getRowBuffer(yp);
     const y = yp - cy;

@@ -62,6 +62,7 @@ import {
 } from "./rowOps/rgb/rgb24toRgba32";
 import { rgb32swap, rgb32to16 } from "./rowOps/rgb/rgb32";
 import { rgb48to24Fast } from "./rowOps/rgb/rgb48to24";
+import { rgbFloat64to32 } from "./rowOps/rgb/rgb64";
 import { rgb64to32Fast } from "./rowOps/rgb/rgb64to32";
 import { rgba32to16 } from "./rowOps/rgb/rgba32";
 import { swapRedBlue24, swapRedBlue32 } from "./rowOps/rgb/swapRedBlue";
@@ -172,6 +173,12 @@ export const allConverters: ConverterFactoryDescr[] = [
     quality: 90,
   }),
   factoryRowOp("B32G32R32A32", "B16G16R16A16", rgba32to16, {
+    loss: true,
+    speed: 90,
+    quality: 90,
+  }),
+  // RGB 3*64
+  factoryRowOp("R64G64B64", "R32G32B32", rgbFloat64to32, {
     loss: true,
     speed: 90,
     quality: 90,

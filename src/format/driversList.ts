@@ -5,6 +5,7 @@ import { driverPng } from "./png/driverPng";
 import { driverPnm } from "./pnm/driverPnm";
 import { driverPsd } from "./psd/driverPsd";
 import { driverTarga } from "./tga/driverTarga";
+import { driverTiff } from "./tiff/driverTiff";
 
 export const driversList: readonly Driver[] = Object.freeze([
   driverBmp,
@@ -13,4 +14,5 @@ export const driversList: readonly Driver[] = Object.freeze([
   driverPnm,
   driverPsd,
   driverTarga,
+  driverTiff,
 ]);

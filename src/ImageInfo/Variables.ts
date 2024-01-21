@@ -2,6 +2,7 @@ export type VarName =
   | "comment"
   | "compression" // None, RLE8, LZW ...
   | "bgColor" // special pixel value for background color
+  | "creationTime"
   | "ext" // extension: bmp, tga, jpg...
   | "interlaced" // 1 if yes, 0 or undefined if no
   | "importantColors" // important colors in palette

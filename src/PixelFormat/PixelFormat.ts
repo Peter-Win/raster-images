@@ -111,6 +111,19 @@ export class PixelFormat {
     return this.samples.reduce((acc, { length }) => Math.max(acc, length), 0);
   }
 
+  /**
+   * @returns undefined for pixel with different samples length (R5G6B5)
+   */
+  get bitsPerSample(): PixelDepth | undefined {
+    const first = this.samples[0]?.length as PixelDepth | undefined;
+    return this.samples
+      .slice(1)
+      .reduce(
+        (res, samp) => (!res || samp.length === res ? res : undefined),
+        first
+      );
+  }
+
   toString(): string {
     return this.signature;
   }

@@ -34,23 +34,24 @@
   <th data-col="11">B32G32R32</th>
   <th data-col="12">R32G32B32A32</th>
   <th data-col="13">B32G32R32A32</th>
-  <th data-col="14">G1</th>
-  <th data-col="15">G8</th>
-  <th data-col="16">G8A8</th>
-  <th data-col="17">G16</th>
-  <th data-col="18">G16A16</th>
-  <th data-col="19">G32</th>
-  <th data-col="20">G32A32</th>
-  <th data-col="21">I8</th>
-  <th data-col="22">J8</th>
-  <th data-col="23">I1</th>
-  <th data-col="24">I4</th>
-  <th data-col="25">C8M8Y8K8</th>
-  <th data-col="26">C8M8Y8K8A8</th>
-  <th data-col="27">C16M16Y16K16</th>
-  <th data-col="28">C16M16Y16K16A16</th>
-  <th data-col="29">C32M32Y32K32</th>
-  <th data-col="30">C32M32Y32K32A32</th>
+  <th data-col="14">R64G64B64</th>
+  <th data-col="15">G1</th>
+  <th data-col="16">G8</th>
+  <th data-col="17">G8A8</th>
+  <th data-col="18">G16</th>
+  <th data-col="19">G16A16</th>
+  <th data-col="20">G32</th>
+  <th data-col="21">G32A32</th>
+  <th data-col="22">I8</th>
+  <th data-col="23">J8</th>
+  <th data-col="24">I1</th>
+  <th data-col="25">I4</th>
+  <th data-col="26">C8M8Y8K8</th>
+  <th data-col="27">C8M8Y8K8A8</th>
+  <th data-col="28">C16M16Y16K16</th>
+  <th data-col="29">C16M16Y16K16A16</th>
+  <th data-col="30">C32M32Y32K32</th>
+  <th data-col="31">C32M32Y32K32A32</th>
   </tr>
   <tr>
     <th>B5G5R5</th>
@@ -70,31 +71,32 @@ B8G8R8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="B5G5R5 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="B5G5R5 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="B5G5R5 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="B5G5R5 => B8G8R8, quality
+    <td class="no" data-col="14" title="B5G5R5 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="B5G5R5 => B8G8R8, quality
 B8G8R8 => G8
 G8 => G1, dither">×3</td>
-    <td class="yes" data-col="15" title="B5G5R5 => B8G8R8, quality
+    <td class="yes" data-col="16" title="B5G5R5 => B8G8R8, quality
 B8G8R8 => G8">×2</td>
-    <td class="no" data-col="16" title="B5G5R5 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="B5G5R5 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="B5G5R5 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="B5G5R5 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="B5G5R5 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="B5G5R5 => B8G8R8, quality
+    <td class="no" data-col="17" title="B5G5R5 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="B5G5R5 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="B5G5R5 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="B5G5R5 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="B5G5R5 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="B5G5R5 => B8G8R8, quality
 B8G8R8 => I8, dither">×2</td>
-    <td class="no" data-col="22" title="B5G5R5 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="B5G5R5 => B8G8R8, quality
-B8G8R8 => I8, dither
-I8 => I1">×3</td>
+    <td class="no" data-col="23" title="B5G5R5 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="B5G5R5 => B8G8R8, quality
 B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="25" title="B5G5R5 => B8G8R8, quality
+B8G8R8 => I8, dither
 I8 => I4">×3</td>
-    <td class="no" data-col="25" title="B5G5R5 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="B5G5R5 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="B5G5R5 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="B5G5R5 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="B5G5R5 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="B5G5R5 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="B5G5R5 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="B5G5R5 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="B5G5R5 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="B5G5R5 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="B5G5R5 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="B5G5R5 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>B5G6R5</th>
@@ -115,31 +117,32 @@ B8G8R8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="B5G6R5 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="B5G6R5 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="B5G6R5 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="B5G6R5 => B8G8R8, quality
+    <td class="no" data-col="14" title="B5G6R5 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="B5G6R5 => B8G8R8, quality
 B8G8R8 => G8
 G8 => G1, dither">×3</td>
-    <td class="yes" data-col="15" title="B5G6R5 => B8G8R8, quality
+    <td class="yes" data-col="16" title="B5G6R5 => B8G8R8, quality
 B8G8R8 => G8">×2</td>
-    <td class="no" data-col="16" title="B5G6R5 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="B5G6R5 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="B5G6R5 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="B5G6R5 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="B5G6R5 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="B5G6R5 => B8G8R8, quality
+    <td class="no" data-col="17" title="B5G6R5 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="B5G6R5 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="B5G6R5 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="B5G6R5 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="B5G6R5 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="B5G6R5 => B8G8R8, quality
 B8G8R8 => I8, dither">×2</td>
-    <td class="no" data-col="22" title="B5G6R5 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="B5G6R5 => B8G8R8, quality
-B8G8R8 => I8, dither
-I8 => I1">×3</td>
+    <td class="no" data-col="23" title="B5G6R5 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="B5G6R5 => B8G8R8, quality
 B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="25" title="B5G6R5 => B8G8R8, quality
+B8G8R8 => I8, dither
 I8 => I4">×3</td>
-    <td class="no" data-col="25" title="B5G6R5 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="B5G6R5 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="B5G6R5 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="B5G6R5 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="B5G6R5 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="B5G6R5 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="B5G6R5 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="B5G6R5 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="B5G6R5 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="B5G6R5 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="B5G6R5 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="B5G6R5 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>B8G8R8</th>
@@ -157,26 +160,27 @@ I8 => I4">×3</td>
     <td class="no" data-col="11" title="B8G8R8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="B8G8R8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="B8G8R8 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="B8G8R8 => G8
+    <td class="no" data-col="14" title="B8G8R8 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="B8G8R8 => G8
 G8 => G1, dither">×2</td>
-    <td class="yes" data-col="15" title="B8G8R8 => G8">×1</td>
-    <td class="no" data-col="16" title="B8G8R8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="B8G8R8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="B8G8R8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="B8G8R8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="B8G8R8 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="B8G8R8 => I8, dither">×1</td>
-    <td class="no" data-col="22" title="B8G8R8 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="B8G8R8 => I8, dither
-I8 => I1">×2</td>
+    <td class="yes" data-col="16" title="B8G8R8 => G8">×1</td>
+    <td class="no" data-col="17" title="B8G8R8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="B8G8R8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="B8G8R8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="B8G8R8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="B8G8R8 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="B8G8R8 => I8, dither">×1</td>
+    <td class="no" data-col="23" title="B8G8R8 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="B8G8R8 => I8, dither
+I8 => I1">×2</td>
+    <td class="yes" data-col="25" title="B8G8R8 => I8, dither
 I8 => I4">×2</td>
-    <td class="no" data-col="25" title="B8G8R8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="B8G8R8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="B8G8R8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="B8G8R8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="B8G8R8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="B8G8R8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="B8G8R8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="B8G8R8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="B8G8R8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="B8G8R8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="B8G8R8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="B8G8R8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>R8G8B8</th>
@@ -195,29 +199,30 @@ B8G8R8 => B5G5R5, dither">×2</td>
     <td class="no" data-col="11" title="R8G8B8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="R8G8B8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="R8G8B8 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="R8G8B8 => G8
+    <td class="no" data-col="14" title="R8G8B8 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="R8G8B8 => G8
 G8 => G1, dither">×2</td>
-    <td class="yes" data-col="15" title="R8G8B8 => G8">×1</td>
-    <td class="no" data-col="16" title="R8G8B8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="R8G8B8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="R8G8B8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="R8G8B8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="R8G8B8 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="R8G8B8 => B8G8R8
+    <td class="yes" data-col="16" title="R8G8B8 => G8">×1</td>
+    <td class="no" data-col="17" title="R8G8B8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="R8G8B8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="R8G8B8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="R8G8B8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="R8G8B8 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="R8G8B8 => B8G8R8
 B8G8R8 => I8, dither">×2</td>
-    <td class="no" data-col="22" title="R8G8B8 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="R8G8B8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×3</td>
+    <td class="no" data-col="23" title="R8G8B8 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="R8G8B8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="25" title="R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×3</td>
-    <td class="no" data-col="25" title="R8G8B8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="R8G8B8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="R8G8B8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="R8G8B8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="R8G8B8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="R8G8B8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="R8G8B8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="R8G8B8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="R8G8B8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="R8G8B8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="R8G8B8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="R8G8B8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>B8G8R8A8</th>
@@ -235,23 +240,24 @@ I8 => I4">×3</td>
     <td class="no" data-col="11" title="B8G8R8A8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="B8G8R8A8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="B8G8R8A8 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="B8G8R8A8 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="B8G8R8A8 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="B8G8R8A8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="B8G8R8A8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="B8G8R8A8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="B8G8R8A8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="B8G8R8A8 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="B8G8R8A8 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="B8G8R8A8 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="B8G8R8A8 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="B8G8R8A8 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="B8G8R8A8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="B8G8R8A8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="B8G8R8A8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="B8G8R8A8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="B8G8R8A8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="B8G8R8A8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="B8G8R8A8 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="B8G8R8A8 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="B8G8R8A8 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="B8G8R8A8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="B8G8R8A8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="B8G8R8A8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="B8G8R8A8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="B8G8R8A8 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="B8G8R8A8 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="B8G8R8A8 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="B8G8R8A8 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="B8G8R8A8 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="B8G8R8A8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="B8G8R8A8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="B8G8R8A8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="B8G8R8A8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="B8G8R8A8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="B8G8R8A8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>R8G8B8A8</th>
@@ -269,23 +275,24 @@ I8 => I4">×3</td>
     <td class="no" data-col="11" title="R8G8B8A8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="R8G8B8A8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="R8G8B8A8 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="R8G8B8A8 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="R8G8B8A8 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="R8G8B8A8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="R8G8B8A8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="R8G8B8A8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="R8G8B8A8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="R8G8B8A8 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="R8G8B8A8 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="R8G8B8A8 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="R8G8B8A8 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="R8G8B8A8 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="R8G8B8A8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="R8G8B8A8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="R8G8B8A8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="R8G8B8A8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="R8G8B8A8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="R8G8B8A8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="R8G8B8A8 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="R8G8B8A8 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="R8G8B8A8 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="R8G8B8A8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="R8G8B8A8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="R8G8B8A8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="R8G8B8A8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="R8G8B8A8 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="R8G8B8A8 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="R8G8B8A8 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="R8G8B8A8 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="R8G8B8A8 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="R8G8B8A8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="R8G8B8A8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="R8G8B8A8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="R8G8B8A8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="R8G8B8A8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="R8G8B8A8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>R16G16B16</th>
@@ -308,34 +315,35 @@ R8G8B8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="R16G16B16 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="R16G16B16 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="R16G16B16 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="R16G16B16 => R8G8B8, fast
+    <td class="no" data-col="14" title="R16G16B16 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="R16G16B16 => R8G8B8, fast
 R8G8B8 => G8
 G8 => G1, dither">×3</td>
-    <td class="yes" data-col="15" title="R16G16B16 => R8G8B8, fast
+    <td class="yes" data-col="16" title="R16G16B16 => R8G8B8, fast
 R8G8B8 => G8">×2</td>
-    <td class="no" data-col="16" title="R16G16B16 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="R16G16B16 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="R16G16B16 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="R16G16B16 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="R16G16B16 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="R16G16B16 => R8G8B8, fast
+    <td class="no" data-col="17" title="R16G16B16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="R16G16B16 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="R16G16B16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="R16G16B16 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="R16G16B16 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither">×3</td>
-    <td class="no" data-col="22" title="R16G16B16 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="R16G16B16 => R8G8B8, fast
-R8G8B8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×4</td>
+    <td class="no" data-col="23" title="R16G16B16 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×4</td>
+    <td class="yes" data-col="25" title="R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×4</td>
-    <td class="no" data-col="25" title="R16G16B16 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="R16G16B16 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="R16G16B16 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="R16G16B16 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="R16G16B16 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="R16G16B16 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="R16G16B16 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="R16G16B16 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="R16G16B16 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="R16G16B16 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="R16G16B16 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="R16G16B16 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>B16G16R16</th>
@@ -357,31 +365,32 @@ B8G8R8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="B16G16R16 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="B16G16R16 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="B16G16R16 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="B16G16R16 => B8G8R8, fast
+    <td class="no" data-col="14" title="B16G16R16 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="B16G16R16 => B8G8R8, fast
 B8G8R8 => G8
 G8 => G1, dither">×3</td>
-    <td class="yes" data-col="15" title="B16G16R16 => B8G8R8, fast
+    <td class="yes" data-col="16" title="B16G16R16 => B8G8R8, fast
 B8G8R8 => G8">×2</td>
-    <td class="no" data-col="16" title="B16G16R16 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="B16G16R16 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="B16G16R16 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="B16G16R16 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="B16G16R16 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="B16G16R16 => B8G8R8, fast
+    <td class="no" data-col="17" title="B16G16R16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="B16G16R16 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="B16G16R16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="B16G16R16 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="B16G16R16 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="B16G16R16 => B8G8R8, fast
 B8G8R8 => I8, dither">×2</td>
-    <td class="no" data-col="22" title="B16G16R16 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="B16G16R16 => B8G8R8, fast
-B8G8R8 => I8, dither
-I8 => I1">×3</td>
+    <td class="no" data-col="23" title="B16G16R16 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="B16G16R16 => B8G8R8, fast
 B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="25" title="B16G16R16 => B8G8R8, fast
+B8G8R8 => I8, dither
 I8 => I4">×3</td>
-    <td class="no" data-col="25" title="B16G16R16 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="B16G16R16 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="B16G16R16 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="B16G16R16 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="B16G16R16 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="B16G16R16 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="B16G16R16 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="B16G16R16 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="B16G16R16 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="B16G16R16 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="B16G16R16 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="B16G16R16 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>R16G16B16A16</th>
@@ -400,23 +409,24 @@ R8G8B8A8 => B8G8R8A8">×2</td>
     <td class="no" data-col="11" title="R16G16B16A16 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="R16G16B16A16 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="R16G16B16A16 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="R16G16B16A16 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="R16G16B16A16 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="R16G16B16A16 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="R16G16B16A16 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="R16G16B16A16 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="R16G16B16A16 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="R16G16B16A16 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="R16G16B16A16 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="R16G16B16A16 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="R16G16B16A16 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="R16G16B16A16 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="R16G16B16A16 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="R16G16B16A16 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="R16G16B16A16 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="R16G16B16A16 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="R16G16B16A16 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="R16G16B16A16 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="R16G16B16A16 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="R16G16B16A16 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="R16G16B16A16 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="R16G16B16A16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="R16G16B16A16 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="R16G16B16A16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="R16G16B16A16 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="R16G16B16A16 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="R16G16B16A16 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="R16G16B16A16 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="R16G16B16A16 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="R16G16B16A16 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="R16G16B16A16 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="R16G16B16A16 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="R16G16B16A16 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="R16G16B16A16 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="R16G16B16A16 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="R16G16B16A16 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>B16G16R16A16</th>
@@ -435,23 +445,24 @@ B8G8R8A8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="B16G16R16A16 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="B16G16R16A16 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="B16G16R16A16 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="B16G16R16A16 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="B16G16R16A16 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="B16G16R16A16 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="B16G16R16A16 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="B16G16R16A16 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="B16G16R16A16 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="B16G16R16A16 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="B16G16R16A16 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="B16G16R16A16 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="B16G16R16A16 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="B16G16R16A16 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="B16G16R16A16 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="B16G16R16A16 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="B16G16R16A16 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="B16G16R16A16 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="B16G16R16A16 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="B16G16R16A16 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="B16G16R16A16 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="B16G16R16A16 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="B16G16R16A16 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="B16G16R16A16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="B16G16R16A16 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="B16G16R16A16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="B16G16R16A16 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="B16G16R16A16 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="B16G16R16A16 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="B16G16R16A16 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="B16G16R16A16 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="B16G16R16A16 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="B16G16R16A16 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="B16G16R16A16 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="B16G16R16A16 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="B16G16R16A16 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="B16G16R16A16 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="B16G16R16A16 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>R32G32B32</th>
@@ -480,39 +491,40 @@ B32G32R32 => B16G16R16">×2</td>
     <td class="yes" data-col="11" title="R32G32B32 => B32G32R32">×1</td>
     <td class="no" data-col="12" title="R32G32B32 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="R32G32B32 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="R32G32B32 => R16G16B16
+    <td class="no" data-col="14" title="R32G32B32 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="R32G32B32 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => G8
 G8 => G1, dither">×4</td>
-    <td class="yes" data-col="15" title="R32G32B32 => R16G16B16
+    <td class="yes" data-col="16" title="R32G32B32 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => G8">×3</td>
-    <td class="no" data-col="16" title="R32G32B32 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="R32G32B32 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="R32G32B32 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="R32G32B32 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="R32G32B32 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="R32G32B32 => R16G16B16
+    <td class="no" data-col="17" title="R32G32B32 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="R32G32B32 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="R32G32B32 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="R32G32B32 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="R32G32B32 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="R32G32B32 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither">×4</td>
-    <td class="no" data-col="22" title="R32G32B32 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="R32G32B32 => R16G16B16
-R16G16B16 => R8G8B8, fast
-R8G8B8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×5</td>
+    <td class="no" data-col="23" title="R32G32B32 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="R32G32B32 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×5</td>
+    <td class="yes" data-col="25" title="R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×5</td>
-    <td class="no" data-col="25" title="R32G32B32 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="R32G32B32 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="R32G32B32 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="R32G32B32 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="R32G32B32 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="R32G32B32 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="R32G32B32 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="R32G32B32 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="R32G32B32 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="R32G32B32 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="R32G32B32 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="R32G32B32 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>B32G32R32</th>
@@ -540,36 +552,37 @@ R32G32B32 => R16G16B16">×2</td>
     <td class="" data-col="11" title="B32G32R32 -x-&gt; B32G32R32"></td>
     <td class="no" data-col="12" title="B32G32R32 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="B32G32R32 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="B32G32R32 => B16G16R16
+    <td class="no" data-col="14" title="B32G32R32 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="B32G32R32 => B16G16R16
 B16G16R16 => B8G8R8, fast
 B8G8R8 => G8
 G8 => G1, dither">×4</td>
-    <td class="yes" data-col="15" title="B32G32R32 => B16G16R16
+    <td class="yes" data-col="16" title="B32G32R32 => B16G16R16
 B16G16R16 => B8G8R8, fast
 B8G8R8 => G8">×3</td>
-    <td class="no" data-col="16" title="B32G32R32 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="B32G32R32 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="B32G32R32 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="B32G32R32 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="B32G32R32 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="B32G32R32 => B16G16R16
+    <td class="no" data-col="17" title="B32G32R32 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="B32G32R32 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="B32G32R32 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="B32G32R32 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="B32G32R32 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="B32G32R32 => B16G16R16
 B16G16R16 => B8G8R8, fast
 B8G8R8 => I8, dither">×3</td>
-    <td class="no" data-col="22" title="B32G32R32 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="B32G32R32 => B16G16R16
-B16G16R16 => B8G8R8, fast
-B8G8R8 => I8, dither
-I8 => I1">×4</td>
+    <td class="no" data-col="23" title="B32G32R32 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="B32G32R32 => B16G16R16
 B16G16R16 => B8G8R8, fast
 B8G8R8 => I8, dither
+I8 => I1">×4</td>
+    <td class="yes" data-col="25" title="B32G32R32 => B16G16R16
+B16G16R16 => B8G8R8, fast
+B8G8R8 => I8, dither
 I8 => I4">×4</td>
-    <td class="no" data-col="25" title="B32G32R32 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="B32G32R32 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="B32G32R32 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="B32G32R32 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="B32G32R32 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="B32G32R32 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="B32G32R32 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="B32G32R32 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="B32G32R32 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="B32G32R32 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="B32G32R32 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="B32G32R32 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>R32G32B32A32</th>
@@ -590,23 +603,24 @@ R16G16B16A16 => R8G8B8A8, fast">×2</td>
     <td class="no" data-col="11" title="R32G32B32A32 -x-&gt; B32G32R32">-</td>
     <td class="" data-col="12" title="R32G32B32A32 -x-&gt; R32G32B32A32"></td>
     <td class="no" data-col="13" title="R32G32B32A32 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="R32G32B32A32 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="R32G32B32A32 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="R32G32B32A32 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="R32G32B32A32 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="R32G32B32A32 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="R32G32B32A32 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="R32G32B32A32 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="R32G32B32A32 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="R32G32B32A32 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="R32G32B32A32 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="R32G32B32A32 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="R32G32B32A32 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="R32G32B32A32 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="R32G32B32A32 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="R32G32B32A32 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="R32G32B32A32 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="R32G32B32A32 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="R32G32B32A32 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="R32G32B32A32 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="R32G32B32A32 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="R32G32B32A32 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="R32G32B32A32 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="R32G32B32A32 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="R32G32B32A32 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="R32G32B32A32 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="R32G32B32A32 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="R32G32B32A32 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="R32G32B32A32 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="R32G32B32A32 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="R32G32B32A32 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="R32G32B32A32 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="R32G32B32A32 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="R32G32B32A32 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="R32G32B32A32 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="R32G32B32A32 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>B32G32R32A32</th>
@@ -627,23 +641,99 @@ B8G8R8A8 => R8G8B8A8">×3</td>
     <td class="no" data-col="11" title="B32G32R32A32 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="B32G32R32A32 -x-&gt; R32G32B32A32">-</td>
     <td class="" data-col="13" title="B32G32R32A32 -x-&gt; B32G32R32A32"></td>
-    <td class="no" data-col="14" title="B32G32R32A32 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="B32G32R32A32 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="B32G32R32A32 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="B32G32R32A32 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="B32G32R32A32 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="B32G32R32A32 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="B32G32R32A32 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="B32G32R32A32 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="B32G32R32A32 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="B32G32R32A32 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="B32G32R32A32 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="B32G32R32A32 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="B32G32R32A32 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="B32G32R32A32 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="B32G32R32A32 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="B32G32R32A32 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="B32G32R32A32 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="B32G32R32A32 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="B32G32R32A32 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="B32G32R32A32 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="B32G32R32A32 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="B32G32R32A32 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="B32G32R32A32 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="B32G32R32A32 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="B32G32R32A32 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="B32G32R32A32 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="B32G32R32A32 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="B32G32R32A32 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="B32G32R32A32 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="B32G32R32A32 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="B32G32R32A32 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="B32G32R32A32 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="B32G32R32A32 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="B32G32R32A32 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="B32G32R32A32 -x-&gt; C32M32Y32K32A32">-</td>
+  </tr>
+  <tr>
+    <th>R64G64B64</th>
+    <td class="yes" data-col="0" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => B5G5R5, dither">×5</td>
+    <td class="no" data-col="1" title="R64G64B64 -x-&gt; B5G6R5">-</td>
+    <td class="yes" data-col="2" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8">×4</td>
+    <td class="yes" data-col="3" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast">×3</td>
+    <td class="yes" data-col="4" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8A8">×4</td>
+    <td class="yes" data-col="5" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => R8G8B8A8">×4</td>
+    <td class="yes" data-col="6" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16">×2</td>
+    <td class="yes" data-col="7" title="R64G64B64 => R32G32B32
+R32G32B32 => B32G32R32
+B32G32R32 => B16G16R16">×3</td>
+    <td class="no" data-col="8" title="R64G64B64 -x-&gt; R16G16B16A16">-</td>
+    <td class="no" data-col="9" title="R64G64B64 -x-&gt; B16G16R16A16">-</td>
+    <td class="yes" data-col="10" title="R64G64B64 => R32G32B32">×1</td>
+    <td class="yes" data-col="11" title="R64G64B64 => R32G32B32
+R32G32B32 => B32G32R32">×2</td>
+    <td class="no" data-col="12" title="R64G64B64 -x-&gt; R32G32B32A32">-</td>
+    <td class="no" data-col="13" title="R64G64B64 -x-&gt; B32G32R32A32">-</td>
+    <td class="" data-col="14" title="R64G64B64 -x-&gt; R64G64B64"></td>
+    <td class="yes" data-col="15" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => G8
+G8 => G1, dither">×5</td>
+    <td class="yes" data-col="16" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => G8">×4</td>
+    <td class="no" data-col="17" title="R64G64B64 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="R64G64B64 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="R64G64B64 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="R64G64B64 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="R64G64B64 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither">×5</td>
+    <td class="no" data-col="23" title="R64G64B64 -x-&gt; J8">-</td>
+    <td class="yes" data-col="24" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I1">×6</td>
+    <td class="yes" data-col="25" title="R64G64B64 => R32G32B32
+R32G32B32 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
+I8 => I4">×6</td>
+    <td class="no" data-col="26" title="R64G64B64 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="R64G64B64 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="R64G64B64 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="R64G64B64 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="R64G64B64 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="R64G64B64 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>G1</th>
@@ -662,28 +752,29 @@ B8G8R8 => B5G5R5, dither">×2</td>
     <td class="no" data-col="11" title="G1 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="G1 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="G1 -x-&gt; B32G32R32A32">-</td>
-    <td class="" data-col="14" title="G1 -x-&gt; G1"></td>
-    <td class="yes" data-col="15" title="G1 => G8">×1</td>
-    <td class="no" data-col="16" title="G1 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="G1 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="G1 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="G1 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="G1 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="G1 => B8G8R8
+    <td class="no" data-col="14" title="G1 -x-&gt; R64G64B64">-</td>
+    <td class="" data-col="15" title="G1 -x-&gt; G1"></td>
+    <td class="yes" data-col="16" title="G1 => G8">×1</td>
+    <td class="no" data-col="17" title="G1 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="G1 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="G1 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="G1 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="G1 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="G1 => B8G8R8
 B8G8R8 => I8, dither">×2</td>
-    <td class="no" data-col="22" title="G1 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="G1 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×3</td>
+    <td class="no" data-col="23" title="G1 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="G1 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="25" title="G1 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×3</td>
-    <td class="no" data-col="25" title="G1 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="G1 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="G1 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="G1 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="G1 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="G1 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="G1 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="G1 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="G1 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="G1 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="G1 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="G1 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>G8</th>
@@ -702,28 +793,29 @@ B8G8R8 => B5G5R5, dither">×2</td>
     <td class="no" data-col="11" title="G8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="G8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="G8 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="G8 => G1, dither">×1</td>
-    <td class="" data-col="15" title="G8 -x-&gt; G8"></td>
-    <td class="no" data-col="16" title="G8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="G8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="G8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="G8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="G8 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="G8 => B8G8R8
+    <td class="no" data-col="14" title="G8 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="G8 => G1, dither">×1</td>
+    <td class="" data-col="16" title="G8 -x-&gt; G8"></td>
+    <td class="no" data-col="17" title="G8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="G8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="G8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="G8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="G8 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="G8 => B8G8R8
 B8G8R8 => I8, dither">×2</td>
-    <td class="no" data-col="22" title="G8 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="G8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×3</td>
+    <td class="no" data-col="23" title="G8 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="G8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×3</td>
+    <td class="yes" data-col="25" title="G8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×3</td>
-    <td class="no" data-col="25" title="G8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="G8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="G8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="G8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="G8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="G8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="G8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="G8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="G8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="G8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="G8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="G8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>G8A8</th>
@@ -741,23 +833,24 @@ I8 => I4">×3</td>
     <td class="no" data-col="11" title="G8A8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="G8A8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="G8A8 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="G8A8 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="G8A8 -x-&gt; G8">-</td>
-    <td class="" data-col="16" title="G8A8 -x-&gt; G8A8"></td>
-    <td class="no" data-col="17" title="G8A8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="G8A8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="G8A8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="G8A8 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="G8A8 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="G8A8 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="G8A8 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="G8A8 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="G8A8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="G8A8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="G8A8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="G8A8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="G8A8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="G8A8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="G8A8 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="G8A8 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="G8A8 -x-&gt; G8">-</td>
+    <td class="" data-col="17" title="G8A8 -x-&gt; G8A8"></td>
+    <td class="no" data-col="18" title="G8A8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="G8A8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="G8A8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="G8A8 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="G8A8 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="G8A8 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="G8A8 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="G8A8 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="G8A8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="G8A8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="G8A8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="G8A8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="G8A8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="G8A8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>G16</th>
@@ -781,32 +874,33 @@ G8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="G16 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="G16 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="G16 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="G16 => G8
+    <td class="no" data-col="14" title="G16 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="G16 => G8
 G8 => G1, dither">×2</td>
-    <td class="yes" data-col="15" title="G16 => G8">×1</td>
-    <td class="no" data-col="16" title="G16 -x-&gt; G8A8">-</td>
-    <td class="" data-col="17" title="G16 -x-&gt; G16"></td>
-    <td class="no" data-col="18" title="G16 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="G16 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="G16 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="G16 => G8
+    <td class="yes" data-col="16" title="G16 => G8">×1</td>
+    <td class="no" data-col="17" title="G16 -x-&gt; G8A8">-</td>
+    <td class="" data-col="18" title="G16 -x-&gt; G16"></td>
+    <td class="no" data-col="19" title="G16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="G16 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="G16 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="G16 => G8
 G8 => B8G8R8
 B8G8R8 => I8, dither">×3</td>
-    <td class="no" data-col="22" title="G16 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="G16 => G8
-G8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×4</td>
+    <td class="no" data-col="23" title="G16 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="G16 => G8
 G8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×4</td>
+    <td class="yes" data-col="25" title="G16 => G8
+G8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×4</td>
-    <td class="no" data-col="25" title="G16 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="G16 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="G16 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="G16 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="G16 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="G16 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="G16 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="G16 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="G16 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="G16 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="G16 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="G16 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>G16A16</th>
@@ -826,23 +920,24 @@ G8A8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="G16A16 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="G16A16 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="G16A16 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="G16A16 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="G16A16 -x-&gt; G8">-</td>
-    <td class="yes" data-col="16" title="G16A16 => G8A8">×1</td>
-    <td class="no" data-col="17" title="G16A16 -x-&gt; G16">-</td>
-    <td class="" data-col="18" title="G16A16 -x-&gt; G16A16"></td>
-    <td class="no" data-col="19" title="G16A16 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="G16A16 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="G16A16 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="G16A16 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="G16A16 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="G16A16 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="G16A16 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="G16A16 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="G16A16 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="G16A16 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="G16A16 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="G16A16 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="G16A16 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="G16A16 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="G16A16 -x-&gt; G8">-</td>
+    <td class="yes" data-col="17" title="G16A16 => G8A8">×1</td>
+    <td class="no" data-col="18" title="G16A16 -x-&gt; G16">-</td>
+    <td class="" data-col="19" title="G16A16 -x-&gt; G16A16"></td>
+    <td class="no" data-col="20" title="G16A16 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="G16A16 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="G16A16 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="G16A16 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="G16A16 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="G16A16 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="G16A16 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="G16A16 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="G16A16 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="G16A16 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="G16A16 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="G16A16 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>G32</th>
@@ -866,32 +961,33 @@ G8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="G32 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="G32 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="G32 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="G32 => G8
+    <td class="no" data-col="14" title="G32 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="G32 => G8
 G8 => G1, dither">×2</td>
-    <td class="yes" data-col="15" title="G32 => G8">×1</td>
-    <td class="no" data-col="16" title="G32 -x-&gt; G8A8">-</td>
-    <td class="yes" data-col="17" title="G32 => G16">×1</td>
-    <td class="no" data-col="18" title="G32 -x-&gt; G16A16">-</td>
-    <td class="" data-col="19" title="G32 -x-&gt; G32"></td>
-    <td class="no" data-col="20" title="G32 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="G32 => G8
+    <td class="yes" data-col="16" title="G32 => G8">×1</td>
+    <td class="no" data-col="17" title="G32 -x-&gt; G8A8">-</td>
+    <td class="yes" data-col="18" title="G32 => G16">×1</td>
+    <td class="no" data-col="19" title="G32 -x-&gt; G16A16">-</td>
+    <td class="" data-col="20" title="G32 -x-&gt; G32"></td>
+    <td class="no" data-col="21" title="G32 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="G32 => G8
 G8 => B8G8R8
 B8G8R8 => I8, dither">×3</td>
-    <td class="no" data-col="22" title="G32 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="G32 => G8
-G8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×4</td>
+    <td class="no" data-col="23" title="G32 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="G32 => G8
 G8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×4</td>
+    <td class="yes" data-col="25" title="G32 => G8
+G8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×4</td>
-    <td class="no" data-col="25" title="G32 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="G32 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="G32 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="G32 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="G32 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="G32 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="G32 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="G32 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="G32 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="G32 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="G32 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="G32 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>G32A32</th>
@@ -913,24 +1009,25 @@ G8A8 => R8G8B8A8">×3</td>
     <td class="no" data-col="11" title="G32A32 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="G32A32 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="G32A32 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="G32A32 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="G32A32 -x-&gt; G8">-</td>
-    <td class="yes" data-col="16" title="G32A32 => G16A16
+    <td class="no" data-col="14" title="G32A32 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="G32A32 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="G32A32 -x-&gt; G8">-</td>
+    <td class="yes" data-col="17" title="G32A32 => G16A16
 G16A16 => G8A8">×2</td>
-    <td class="no" data-col="17" title="G32A32 -x-&gt; G16">-</td>
-    <td class="yes" data-col="18" title="G32A32 => G16A16">×1</td>
-    <td class="no" data-col="19" title="G32A32 -x-&gt; G32">-</td>
-    <td class="" data-col="20" title="G32A32 -x-&gt; G32A32"></td>
-    <td class="no" data-col="21" title="G32A32 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="G32A32 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="G32A32 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="G32A32 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="G32A32 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="G32A32 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="G32A32 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="G32A32 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="G32A32 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="G32A32 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="18" title="G32A32 -x-&gt; G16">-</td>
+    <td class="yes" data-col="19" title="G32A32 => G16A16">×1</td>
+    <td class="no" data-col="20" title="G32A32 -x-&gt; G32">-</td>
+    <td class="" data-col="21" title="G32A32 -x-&gt; G32A32"></td>
+    <td class="no" data-col="22" title="G32A32 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="G32A32 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="G32A32 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="G32A32 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="G32A32 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="G32A32 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="G32A32 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="G32A32 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="G32A32 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="G32A32 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>I8</th>
@@ -949,26 +1046,27 @@ B8G8R8 => B5G5R5, dither">×2</td>
     <td class="no" data-col="11" title="I8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="I8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="I8 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="I8 => B8G8R8
+    <td class="no" data-col="14" title="I8 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="I8 => B8G8R8
 B8G8R8 => G8
 G8 => G1, dither">×3</td>
-    <td class="yes" data-col="15" title="I8 => B8G8R8
+    <td class="yes" data-col="16" title="I8 => B8G8R8
 B8G8R8 => G8">×2</td>
-    <td class="no" data-col="16" title="I8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="I8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="I8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="I8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="I8 -x-&gt; G32A32">-</td>
-    <td class="" data-col="21" title="I8 -x-&gt; I8"></td>
-    <td class="no" data-col="22" title="I8 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="I8 => I1">×1</td>
-    <td class="yes" data-col="24" title="I8 => I4">×1</td>
-    <td class="no" data-col="25" title="I8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="I8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="I8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="I8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="I8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="I8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="17" title="I8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="I8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="I8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="I8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="I8 -x-&gt; G32A32">-</td>
+    <td class="" data-col="22" title="I8 -x-&gt; I8"></td>
+    <td class="no" data-col="23" title="I8 -x-&gt; J8">-</td>
+    <td class="yes" data-col="24" title="I8 => I1">×1</td>
+    <td class="yes" data-col="25" title="I8 => I4">×1</td>
+    <td class="no" data-col="26" title="I8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="I8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="I8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="I8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="I8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="I8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>J8</th>
@@ -986,23 +1084,24 @@ B8G8R8 => G8">×2</td>
     <td class="no" data-col="11" title="J8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="J8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="J8 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="J8 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="J8 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="J8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="J8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="J8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="J8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="J8 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="J8 -x-&gt; I8">-</td>
-    <td class="" data-col="22" title="J8 -x-&gt; J8"></td>
-    <td class="no" data-col="23" title="J8 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="J8 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="J8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="J8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="J8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="J8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="J8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="J8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="J8 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="J8 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="J8 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="J8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="J8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="J8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="J8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="J8 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="J8 -x-&gt; I8">-</td>
+    <td class="" data-col="23" title="J8 -x-&gt; J8"></td>
+    <td class="no" data-col="24" title="J8 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="J8 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="J8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="J8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="J8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="J8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="J8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="J8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>I1</th>
@@ -1026,29 +1125,30 @@ I8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="I1 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="I1 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="I1 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="I1 => I8
+    <td class="no" data-col="14" title="I1 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="I1 => I8
 I8 => B8G8R8
 B8G8R8 => G8
 G8 => G1, dither">×4</td>
-    <td class="yes" data-col="15" title="I1 => I8
+    <td class="yes" data-col="16" title="I1 => I8
 I8 => B8G8R8
 B8G8R8 => G8">×3</td>
-    <td class="no" data-col="16" title="I1 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="I1 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="I1 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="I1 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="I1 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="I1 => I8">×1</td>
-    <td class="no" data-col="22" title="I1 -x-&gt; J8">-</td>
-    <td class="" data-col="23" title="I1 -x-&gt; I1"></td>
-    <td class="yes" data-col="24" title="I1 => I8
+    <td class="no" data-col="17" title="I1 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="I1 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="I1 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="I1 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="I1 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="I1 => I8">×1</td>
+    <td class="no" data-col="23" title="I1 -x-&gt; J8">-</td>
+    <td class="" data-col="24" title="I1 -x-&gt; I1"></td>
+    <td class="yes" data-col="25" title="I1 => I8
 I8 => I4">×2</td>
-    <td class="no" data-col="25" title="I1 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="I1 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="I1 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="I1 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="I1 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="I1 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="I1 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="I1 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="I1 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="I1 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="I1 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="I1 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>I4</th>
@@ -1072,29 +1172,30 @@ I8 => R8G8B8A8">×2</td>
     <td class="no" data-col="11" title="I4 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="I4 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="I4 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="I4 => I8
+    <td class="no" data-col="14" title="I4 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="I4 => I8
 I8 => B8G8R8
 B8G8R8 => G8
 G8 => G1, dither">×4</td>
-    <td class="yes" data-col="15" title="I4 => I8
+    <td class="yes" data-col="16" title="I4 => I8
 I8 => B8G8R8
 B8G8R8 => G8">×3</td>
-    <td class="no" data-col="16" title="I4 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="I4 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="I4 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="I4 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="I4 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="I4 => I8">×1</td>
-    <td class="no" data-col="22" title="I4 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="I4 => I8
+    <td class="no" data-col="17" title="I4 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="I4 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="I4 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="I4 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="I4 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="I4 => I8">×1</td>
+    <td class="no" data-col="23" title="I4 -x-&gt; J8">-</td>
+    <td class="yes" data-col="24" title="I4 => I8
 I8 => I1">×2</td>
-    <td class="" data-col="24" title="I4 -x-&gt; I4"></td>
-    <td class="no" data-col="25" title="I4 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="I4 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="I4 -x-&gt; C16M16Y16K16">-</td>
-    <td class="no" data-col="28" title="I4 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="I4 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="I4 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="" data-col="25" title="I4 -x-&gt; I4"></td>
+    <td class="no" data-col="26" title="I4 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="I4 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="I4 -x-&gt; C16M16Y16K16">-</td>
+    <td class="no" data-col="29" title="I4 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="I4 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="I4 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>C8M8Y8K8</th>
@@ -1128,44 +1229,45 @@ C16M16Y16K16 => R16G16B16">×2</td>
     <td class="no" data-col="11" title="C8M8Y8K8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="C8M8Y8K8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="C8M8Y8K8 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="C8M8Y8K8 => C16M16Y16K16
+    <td class="no" data-col="14" title="C8M8Y8K8 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="C8M8Y8K8 => C16M16Y16K16
 C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => G8
 G8 => G1, dither">×5</td>
-    <td class="yes" data-col="15" title="C8M8Y8K8 => C16M16Y16K16
+    <td class="yes" data-col="16" title="C8M8Y8K8 => C16M16Y16K16
 C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => G8">×4</td>
-    <td class="no" data-col="16" title="C8M8Y8K8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="C8M8Y8K8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="C8M8Y8K8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="C8M8Y8K8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="C8M8Y8K8 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="C8M8Y8K8 => C16M16Y16K16
+    <td class="no" data-col="17" title="C8M8Y8K8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="C8M8Y8K8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="C8M8Y8K8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="C8M8Y8K8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="C8M8Y8K8 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="C8M8Y8K8 => C16M16Y16K16
 C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither">×5</td>
-    <td class="no" data-col="22" title="C8M8Y8K8 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="C8M8Y8K8 => C16M16Y16K16
-C16M16Y16K16 => R16G16B16
-R16G16B16 => R8G8B8, fast
-R8G8B8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×6</td>
+    <td class="no" data-col="23" title="C8M8Y8K8 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="C8M8Y8K8 => C16M16Y16K16
 C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×6</td>
+    <td class="yes" data-col="25" title="C8M8Y8K8 => C16M16Y16K16
+C16M16Y16K16 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×6</td>
-    <td class="" data-col="25" title="C8M8Y8K8 -x-&gt; C8M8Y8K8"></td>
-    <td class="no" data-col="26" title="C8M8Y8K8 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="yes" data-col="27" title="C8M8Y8K8 => C16M16Y16K16">×1</td>
-    <td class="no" data-col="28" title="C8M8Y8K8 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="C8M8Y8K8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="C8M8Y8K8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="" data-col="26" title="C8M8Y8K8 -x-&gt; C8M8Y8K8"></td>
+    <td class="no" data-col="27" title="C8M8Y8K8 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="yes" data-col="28" title="C8M8Y8K8 => C16M16Y16K16">×1</td>
+    <td class="no" data-col="29" title="C8M8Y8K8 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="C8M8Y8K8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="C8M8Y8K8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>C8M8Y8K8A8</th>
@@ -1189,23 +1291,24 @@ C16M16Y16K16A16 => R16G16B16A16">×2</td>
     <td class="no" data-col="11" title="C8M8Y8K8A8 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="C8M8Y8K8A8 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="C8M8Y8K8A8 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="C8M8Y8K8A8 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="C8M8Y8K8A8 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="C8M8Y8K8A8 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="C8M8Y8K8A8 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="C8M8Y8K8A8 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="C8M8Y8K8A8 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="C8M8Y8K8A8 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="C8M8Y8K8A8 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="C8M8Y8K8A8 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="C8M8Y8K8A8 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="C8M8Y8K8A8 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="C8M8Y8K8A8 -x-&gt; C8M8Y8K8">-</td>
-    <td class="" data-col="26" title="C8M8Y8K8A8 -x-&gt; C8M8Y8K8A8"></td>
-    <td class="no" data-col="27" title="C8M8Y8K8A8 -x-&gt; C16M16Y16K16">-</td>
-    <td class="yes" data-col="28" title="C8M8Y8K8A8 => C16M16Y16K16A16">×1</td>
-    <td class="no" data-col="29" title="C8M8Y8K8A8 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="C8M8Y8K8A8 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="C8M8Y8K8A8 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="C8M8Y8K8A8 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="C8M8Y8K8A8 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="C8M8Y8K8A8 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="C8M8Y8K8A8 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="C8M8Y8K8A8 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="C8M8Y8K8A8 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="C8M8Y8K8A8 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="C8M8Y8K8A8 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="C8M8Y8K8A8 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="C8M8Y8K8A8 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="C8M8Y8K8A8 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="C8M8Y8K8A8 -x-&gt; C8M8Y8K8">-</td>
+    <td class="" data-col="27" title="C8M8Y8K8A8 -x-&gt; C8M8Y8K8A8"></td>
+    <td class="no" data-col="28" title="C8M8Y8K8A8 -x-&gt; C16M16Y16K16">-</td>
+    <td class="yes" data-col="29" title="C8M8Y8K8A8 => C16M16Y16K16A16">×1</td>
+    <td class="no" data-col="30" title="C8M8Y8K8A8 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="C8M8Y8K8A8 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>C16M16Y16K16</th>
@@ -1233,39 +1336,40 @@ R8G8B8 => R8G8B8A8">×3</td>
     <td class="no" data-col="11" title="C16M16Y16K16 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="C16M16Y16K16 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="C16M16Y16K16 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="C16M16Y16K16 => R16G16B16
+    <td class="no" data-col="14" title="C16M16Y16K16 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => G8
 G8 => G1, dither">×4</td>
-    <td class="yes" data-col="15" title="C16M16Y16K16 => R16G16B16
+    <td class="yes" data-col="16" title="C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => G8">×3</td>
-    <td class="no" data-col="16" title="C16M16Y16K16 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="C16M16Y16K16 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="C16M16Y16K16 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="C16M16Y16K16 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="C16M16Y16K16 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="C16M16Y16K16 => R16G16B16
+    <td class="no" data-col="17" title="C16M16Y16K16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="C16M16Y16K16 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="C16M16Y16K16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="C16M16Y16K16 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="C16M16Y16K16 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither">×4</td>
-    <td class="no" data-col="22" title="C16M16Y16K16 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="C16M16Y16K16 => R16G16B16
-R16G16B16 => R8G8B8, fast
-R8G8B8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×5</td>
+    <td class="no" data-col="23" title="C16M16Y16K16 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×5</td>
+    <td class="yes" data-col="25" title="C16M16Y16K16 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×5</td>
-    <td class="no" data-col="25" title="C16M16Y16K16 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="C16M16Y16K16 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="" data-col="27" title="C16M16Y16K16 -x-&gt; C16M16Y16K16"></td>
-    <td class="no" data-col="28" title="C16M16Y16K16 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="no" data-col="29" title="C16M16Y16K16 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="C16M16Y16K16 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="C16M16Y16K16 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="C16M16Y16K16 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="" data-col="28" title="C16M16Y16K16 -x-&gt; C16M16Y16K16"></td>
+    <td class="no" data-col="29" title="C16M16Y16K16 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="no" data-col="30" title="C16M16Y16K16 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="C16M16Y16K16 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>C16M16Y16K16A16</th>
@@ -1286,23 +1390,24 @@ R16G16B16A16 => R8G8B8A8, fast">×2</td>
     <td class="no" data-col="11" title="C16M16Y16K16A16 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="C16M16Y16K16A16 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="C16M16Y16K16A16 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="C16M16Y16K16A16 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="C16M16Y16K16A16 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="C16M16Y16K16A16 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="C16M16Y16K16A16 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="C16M16Y16K16A16 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="C16M16Y16K16A16 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="C16M16Y16K16A16 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="C16M16Y16K16A16 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="C16M16Y16K16A16 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="C16M16Y16K16A16 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="C16M16Y16K16A16 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="C16M16Y16K16A16 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="C16M16Y16K16A16 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="C16M16Y16K16A16 -x-&gt; C16M16Y16K16">-</td>
-    <td class="" data-col="28" title="C16M16Y16K16A16 -x-&gt; C16M16Y16K16A16"></td>
-    <td class="no" data-col="29" title="C16M16Y16K16A16 -x-&gt; C32M32Y32K32">-</td>
-    <td class="no" data-col="30" title="C16M16Y16K16A16 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="14" title="C16M16Y16K16A16 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="C16M16Y16K16A16 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="C16M16Y16K16A16 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="C16M16Y16K16A16 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="C16M16Y16K16A16 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="C16M16Y16K16A16 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="C16M16Y16K16A16 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="C16M16Y16K16A16 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="C16M16Y16K16A16 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="C16M16Y16K16A16 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="C16M16Y16K16A16 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="C16M16Y16K16A16 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="C16M16Y16K16A16 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="C16M16Y16K16A16 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="C16M16Y16K16A16 -x-&gt; C16M16Y16K16">-</td>
+    <td class="" data-col="29" title="C16M16Y16K16A16 -x-&gt; C16M16Y16K16A16"></td>
+    <td class="no" data-col="30" title="C16M16Y16K16A16 -x-&gt; C32M32Y32K32">-</td>
+    <td class="no" data-col="31" title="C16M16Y16K16A16 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>C32M32Y32K32</th>
@@ -1336,44 +1441,45 @@ C16M16Y16K16 => R16G16B16">×2</td>
     <td class="no" data-col="11" title="C32M32Y32K32 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="C32M32Y32K32 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="C32M32Y32K32 -x-&gt; B32G32R32A32">-</td>
-    <td class="yes" data-col="14" title="C32M32Y32K32 => C16M16Y16K16
+    <td class="no" data-col="14" title="C32M32Y32K32 -x-&gt; R64G64B64">-</td>
+    <td class="yes" data-col="15" title="C32M32Y32K32 => C16M16Y16K16
 C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => G8
 G8 => G1, dither">×5</td>
-    <td class="yes" data-col="15" title="C32M32Y32K32 => C16M16Y16K16
+    <td class="yes" data-col="16" title="C32M32Y32K32 => C16M16Y16K16
 C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => G8">×4</td>
-    <td class="no" data-col="16" title="C32M32Y32K32 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="C32M32Y32K32 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="C32M32Y32K32 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="C32M32Y32K32 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="C32M32Y32K32 -x-&gt; G32A32">-</td>
-    <td class="yes" data-col="21" title="C32M32Y32K32 => C16M16Y16K16
+    <td class="no" data-col="17" title="C32M32Y32K32 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="C32M32Y32K32 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="C32M32Y32K32 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="C32M32Y32K32 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="C32M32Y32K32 -x-&gt; G32A32">-</td>
+    <td class="yes" data-col="22" title="C32M32Y32K32 => C16M16Y16K16
 C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither">×5</td>
-    <td class="no" data-col="22" title="C32M32Y32K32 -x-&gt; J8">-</td>
-    <td class="yes" data-col="23" title="C32M32Y32K32 => C16M16Y16K16
-C16M16Y16K16 => R16G16B16
-R16G16B16 => R8G8B8, fast
-R8G8B8 => B8G8R8
-B8G8R8 => I8, dither
-I8 => I1">×6</td>
+    <td class="no" data-col="23" title="C32M32Y32K32 -x-&gt; J8">-</td>
     <td class="yes" data-col="24" title="C32M32Y32K32 => C16M16Y16K16
 C16M16Y16K16 => R16G16B16
 R16G16B16 => R8G8B8, fast
 R8G8B8 => B8G8R8
 B8G8R8 => I8, dither
+I8 => I1">×6</td>
+    <td class="yes" data-col="25" title="C32M32Y32K32 => C16M16Y16K16
+C16M16Y16K16 => R16G16B16
+R16G16B16 => R8G8B8, fast
+R8G8B8 => B8G8R8
+B8G8R8 => I8, dither
 I8 => I4">×6</td>
-    <td class="no" data-col="25" title="C32M32Y32K32 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="C32M32Y32K32 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="yes" data-col="27" title="C32M32Y32K32 => C16M16Y16K16">×1</td>
-    <td class="no" data-col="28" title="C32M32Y32K32 -x-&gt; C16M16Y16K16A16">-</td>
-    <td class="" data-col="29" title="C32M32Y32K32 -x-&gt; C32M32Y32K32"></td>
-    <td class="no" data-col="30" title="C32M32Y32K32 -x-&gt; C32M32Y32K32A32">-</td>
+    <td class="no" data-col="26" title="C32M32Y32K32 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="C32M32Y32K32 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="yes" data-col="28" title="C32M32Y32K32 => C16M16Y16K16">×1</td>
+    <td class="no" data-col="29" title="C32M32Y32K32 -x-&gt; C16M16Y16K16A16">-</td>
+    <td class="" data-col="30" title="C32M32Y32K32 -x-&gt; C32M32Y32K32"></td>
+    <td class="no" data-col="31" title="C32M32Y32K32 -x-&gt; C32M32Y32K32A32">-</td>
   </tr>
   <tr>
     <th>C32M32Y32K32A32</th>
@@ -1397,23 +1503,24 @@ C16M16Y16K16A16 => R16G16B16A16">×2</td>
     <td class="no" data-col="11" title="C32M32Y32K32A32 -x-&gt; B32G32R32">-</td>
     <td class="no" data-col="12" title="C32M32Y32K32A32 -x-&gt; R32G32B32A32">-</td>
     <td class="no" data-col="13" title="C32M32Y32K32A32 -x-&gt; B32G32R32A32">-</td>
-    <td class="no" data-col="14" title="C32M32Y32K32A32 -x-&gt; G1">-</td>
-    <td class="no" data-col="15" title="C32M32Y32K32A32 -x-&gt; G8">-</td>
-    <td class="no" data-col="16" title="C32M32Y32K32A32 -x-&gt; G8A8">-</td>
-    <td class="no" data-col="17" title="C32M32Y32K32A32 -x-&gt; G16">-</td>
-    <td class="no" data-col="18" title="C32M32Y32K32A32 -x-&gt; G16A16">-</td>
-    <td class="no" data-col="19" title="C32M32Y32K32A32 -x-&gt; G32">-</td>
-    <td class="no" data-col="20" title="C32M32Y32K32A32 -x-&gt; G32A32">-</td>
-    <td class="no" data-col="21" title="C32M32Y32K32A32 -x-&gt; I8">-</td>
-    <td class="no" data-col="22" title="C32M32Y32K32A32 -x-&gt; J8">-</td>
-    <td class="no" data-col="23" title="C32M32Y32K32A32 -x-&gt; I1">-</td>
-    <td class="no" data-col="24" title="C32M32Y32K32A32 -x-&gt; I4">-</td>
-    <td class="no" data-col="25" title="C32M32Y32K32A32 -x-&gt; C8M8Y8K8">-</td>
-    <td class="no" data-col="26" title="C32M32Y32K32A32 -x-&gt; C8M8Y8K8A8">-</td>
-    <td class="no" data-col="27" title="C32M32Y32K32A32 -x-&gt; C16M16Y16K16">-</td>
-    <td class="yes" data-col="28" title="C32M32Y32K32A32 => C16M16Y16K16A16">×1</td>
-    <td class="no" data-col="29" title="C32M32Y32K32A32 -x-&gt; C32M32Y32K32">-</td>
-    <td class="" data-col="30" title="C32M32Y32K32A32 -x-&gt; C32M32Y32K32A32"></td>
+    <td class="no" data-col="14" title="C32M32Y32K32A32 -x-&gt; R64G64B64">-</td>
+    <td class="no" data-col="15" title="C32M32Y32K32A32 -x-&gt; G1">-</td>
+    <td class="no" data-col="16" title="C32M32Y32K32A32 -x-&gt; G8">-</td>
+    <td class="no" data-col="17" title="C32M32Y32K32A32 -x-&gt; G8A8">-</td>
+    <td class="no" data-col="18" title="C32M32Y32K32A32 -x-&gt; G16">-</td>
+    <td class="no" data-col="19" title="C32M32Y32K32A32 -x-&gt; G16A16">-</td>
+    <td class="no" data-col="20" title="C32M32Y32K32A32 -x-&gt; G32">-</td>
+    <td class="no" data-col="21" title="C32M32Y32K32A32 -x-&gt; G32A32">-</td>
+    <td class="no" data-col="22" title="C32M32Y32K32A32 -x-&gt; I8">-</td>
+    <td class="no" data-col="23" title="C32M32Y32K32A32 -x-&gt; J8">-</td>
+    <td class="no" data-col="24" title="C32M32Y32K32A32 -x-&gt; I1">-</td>
+    <td class="no" data-col="25" title="C32M32Y32K32A32 -x-&gt; I4">-</td>
+    <td class="no" data-col="26" title="C32M32Y32K32A32 -x-&gt; C8M8Y8K8">-</td>
+    <td class="no" data-col="27" title="C32M32Y32K32A32 -x-&gt; C8M8Y8K8A8">-</td>
+    <td class="no" data-col="28" title="C32M32Y32K32A32 -x-&gt; C16M16Y16K16">-</td>
+    <td class="yes" data-col="29" title="C32M32Y32K32A32 => C16M16Y16K16A16">×1</td>
+    <td class="no" data-col="30" title="C32M32Y32K32A32 -x-&gt; C32M32Y32K32">-</td>
+    <td class="" data-col="31" title="C32M32Y32K32A32 -x-&gt; C32M32Y32K32A32"></td>
   </tr>
   </table>
   <script>

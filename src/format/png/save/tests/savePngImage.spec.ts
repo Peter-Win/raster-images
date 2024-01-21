@@ -8,8 +8,8 @@ import { ProgressInfo } from "../../../../Converter";
 import { streamLock } from "../../../../stream";
 import { NodeJSFile } from "../../../../stream/NodeJSFile";
 import { FormatPng } from "../../FormatPng";
-import { dump, rangeLimit } from "../../../../utils";
-import { loadImageFromFrame } from "../../../../loadImage";
+import { dump, dumpW, rangeLimit } from "../../../../utils";
+import { loadImageByName, loadImageFromFrame } from "../../../../loadImage";
 import { PixelFormat } from "../../../../PixelFormat";
 
 describe("savePngImage", () => {
@@ -55,10 +55,10 @@ describe("savePngImage", () => {
     const height = 300;
     const img = SurfaceStd.createSign(width, height, "C8M8Y8K8");
     const colors = [
-      [0, 0xff, 0xff, 0xff], // cyan
-      [0xff, 0, 0xff, 0xff], // magenta
-      [0xff, 0xff, 0, 0xff],
-      [0xff, 0xff, 0xff, 0],
+      [0xff, 0, 0, 0], // cyan
+      [0, 0xff, 0, 0], // magenta
+      [0, 0, 0xff, 0],
+      [0, 0, 0, 0xff],
     ];
     const k = colors.length / width;
     for (let y = 0; y < height; y++) {
@@ -109,5 +109,51 @@ describe("savePngImage", () => {
       const frm = fmt.frames[0]!;
       expect(frm.info.fmt.signature).toBe("I8");
     });
+  });
+
+  it("PNG 16 save", async () => {
+    // Необходимо проверить правильность порядка байт в 16-битовых пиксельных форматах. Должно быть Big Endian
+    const width = 128;
+    const stripHeight = 20;
+    const stripColors: [number, number, number][] = [
+      [1, 0, 0],
+      [0, 1, 0],
+      [0, 0, 1],
+      [1, 1, 1],
+    ];
+    const height = stripColors.length * stripHeight;
+    const img = SurfaceStd.createSign(width, height, "R16G16B16");
+    stripColors.forEach(([kr, kg, kb], iStrip) => {
+      for (let y = 0; y < stripHeight; y++) {
+        const row = img.getRowBuffer16(iStrip * stripHeight + y);
+        let p = 0;
+        for (let x = 0; x < width; x++) {
+          const v = (x * 0xff) / (width - 1);
+          row[p++] = ((kr * v) << 8) | 1;
+          row[p++] = ((kg * v) << 8) | 1;
+          row[p++] = ((kb * v) << 8) | 1;
+        }
+      }
+    });
+    const endPos = width * 3;
+    const lastPixPos = endPos - 3;
+    const r0 = img.getRowBuffer16(0);
+    expect(dumpW(r0, 0, 3)).toBe("0001 0001 0001");
+    expect(dumpW(r0, lastPixPos, endPos)).toBe("FF01 0001 0001");
+    const rL = img.getRowBuffer16(height - 1);
+    expect(dumpW(rL, 0, 3)).toBe("0001 0001 0001");
+    expect(dumpW(rL, lastPixPos, endPos)).toBe("FF01 FF01 FF01");
+
+    const ws = await getTestFile(__dirname, "rgb16.png", "w");
+    await savePngImage(img, ws);
+
+    const rs = new NodeJSFile(ws.name, "r");
+    const img1 = await loadImageByName(rs);
+    const c0 = img1.getRowBuffer16(0);
+    expect(dumpW(c0, 0, 3)).toBe("0001 0001 0001");
+    expect(dumpW(c0, lastPixPos, endPos)).toBe("FF01 0001 0001");
+    const cL = img1.getRowBuffer16(height - 1);
+    expect(dumpW(cL, 0, 3)).toBe("0001 0001 0001");
+    expect(dumpW(cL, lastPixPos, endPos)).toBe("FF01 FF01 FF01");
   });
 });

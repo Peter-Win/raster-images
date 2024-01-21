@@ -46,8 +46,8 @@ describe("parseSignature", () => {
     expect(() => parseSignature("R1G1B1A0")).toThrowError(
       "Invalid sample size 0 in [R1G1B1A0]"
     );
-    expect(() => parseSignature("G33")).toThrowError(
-      "Invalid sample size 33 in [G33]"
+    expect(() => parseSignature("G65")).toThrowError(
+      "Invalid sample size 65 in [G65]"
     );
   });
 });
