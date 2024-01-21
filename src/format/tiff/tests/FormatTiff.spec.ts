@@ -355,7 +355,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/shapes_16.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("R16G16B16");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
       await compareImages(img, shapesName, (fact, need) => {
         expect(fact).toBe(need);
@@ -367,7 +367,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/shapes_16_planar.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("R16G16B16");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.planarConfiguration).toBe("Planar");
       await compareImages(img, shapesName, (fact, need) => {
         expect(fact).toBe(need);
@@ -379,7 +379,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/shapes_16fp.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("R32G32B32");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
       // Похоже что фотошоп применил какую-то гамма-коррекцию, в результате чего изменилась контрастность.
       // await compareImages(img, shapesName, (fact, need) => {
@@ -392,7 +392,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/shapes_16fp_planar.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("R32G32B32");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.planarConfiguration).toBe("Planar");
       await compareImages(img, "tiff/shapes_16fp.tif", (fact, need) => {
         expect(fact).toBe(need);
@@ -404,7 +404,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/shapes_3x24fp.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("R32G32B32");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
       expect(img.info.vars?.floatBitsPerSample).toBe(24);
       await compareImages(img, "tiff/shapes_16fp.tif", (fact, need) => {
@@ -418,7 +418,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/gray-16-predictor.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("G16");
-      expect(img.info.vars?.numberFormat).toBe("little endian");
+      expect(img.info.vars?.endianness).toBe("little endian");
       expect(img.info.vars?.predictor).toBe(3);
       expect(img.info.vars?.compression).toBe("None");
       expect(img.info.vars?.planarConfiguration).toBeUndefined();
@@ -434,7 +434,7 @@ describe("FormatTiff", () => {
       async (stream) => {
         const img = await loadImageByName(stream);
         expect(img.info.fmt.signature).toBe("G32");
-        expect(img.info.vars?.numberFormat).toBe("little endian");
+        expect(img.info.vars?.endianness).toBe("little endian");
         expect(img.info.vars?.predictor).toBe(3);
         expect(img.info.vars?.compression).toBe("LZW");
         expect(img.info.vars?.planarConfiguration).toBeUndefined();
@@ -456,7 +456,7 @@ describe("FormatTiff", () => {
       async (stream) => {
         const img = await loadImageByName(stream);
         expect(img.info.fmt.signature).toBe("G32");
-        expect(img.info.vars?.numberFormat).toBe("big endian");
+        expect(img.info.vars?.endianness).toBe("big endian");
         expect(img.info.vars?.predictor).toBe(3);
         expect(img.info.vars?.compression).toBe("LZW");
         expect(img.info.vars?.planarConfiguration).toBeUndefined();
@@ -475,7 +475,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/cmyk-16.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("C16M16Y16K16");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.compression).toBe("None");
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
       expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
@@ -492,7 +492,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/cmyk-16-planar.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("C16M16Y16K16");
-      expect(img.info.vars?.numberFormat).toBe("little endian");
+      expect(img.info.vars?.endianness).toBe("little endian");
       expect(img.info.vars?.compression).toBe("None");
       expect(img.info.vars?.planarConfiguration).toBe("Planar");
       expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
@@ -510,7 +510,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/cmyk-8.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("C8M8Y8K8");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.compression).toBe("LZW");
       expect(img.info.vars?.predictor).toBe(2);
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
@@ -524,7 +524,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/cmyk-8-planar.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("C8M8Y8K8");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.compression).toBe("ZIP");
       expect(img.info.vars?.predictor).toBe(2);
       expect(img.info.vars?.planarConfiguration).toBe("Planar");
@@ -539,7 +539,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/cmyka-16.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("C16M16Y16K16A16");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.compression).toBe("None");
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
       expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
@@ -559,7 +559,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/cmyka-16-planar.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("C16M16Y16K16A16");
-      expect(img.info.vars?.numberFormat).toBe("little endian");
+      expect(img.info.vars?.endianness).toBe("little endian");
       expect(img.info.vars?.compression).toBe("LZW");
       expect(img.info.vars?.planarConfiguration).toBe("Planar");
       expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
@@ -579,7 +579,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/cmyka-8.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("C8M8Y8K8A8");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.compression).toBe("ZIP");
       expect(img.info.vars?.predictor).toBe(2);
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
@@ -596,7 +596,7 @@ describe("FormatTiff", () => {
     await onStreamFromGallery("tiff/grayAlpha-32.tif", async (stream) => {
       const img = await loadImageByName(stream);
       expect(img.info.fmt.signature).toBe("G32A32");
-      expect(img.info.vars?.numberFormat).toBe("big endian");
+      expect(img.info.vars?.endianness).toBe("big endian");
       expect(img.info.vars?.compression).toBe("LZW");
       expect(img.info.vars?.predictor).toBe(3);
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
@@ -616,7 +616,7 @@ describe("FormatTiff", () => {
       async (stream) => {
         const img = await loadImageByName(stream);
         expect(img.info.fmt.signature).toBe("G32A32");
-        expect(img.info.vars?.numberFormat).toBe("big endian");
+        expect(img.info.vars?.endianness).toBe("big endian");
         expect(img.info.vars?.compression).toBe("LZW");
         expect(img.info.vars?.predictor).toBe(3);
         expect(img.info.vars?.planarConfiguration).toBe("Planar");

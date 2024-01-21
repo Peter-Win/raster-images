@@ -70,7 +70,7 @@ export const imageInfoFromIfd = async (
     });
   };
   const vars: Variables = {
-    numberFormat: littleEndian ? "little endian" : "big endian",
+    endianness: littleEndian ? "little endian" : "big endian",
   };
   if (ifd.entries[TiffTag.TileWidth]) {
     vars.tileWidth = await ifd.getSingleNumber(TiffTag.TileWidth, stream);

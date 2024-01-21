@@ -123,7 +123,7 @@ const makeHexView = (buffer, startOffset) => {
         for (let i=0; i<rowSize; i++) content += `${buffer[rowStart + i].toString(16).toUpperCase().padStart(2, "0")} `;
         for (let i=0; i<rowSize; i++) {
             const c = buffer[rowStart + i];
-            content += (c < 32 || c >= 0x78) ? "." : String.fromCharCode(c);
+            content += (c < 32 || c >= 0x73) ? "." : String.fromCharCode(c);
         }
         offset += rowSize;
     }
@@ -198,7 +198,7 @@ const template = `<!doctype html>
 <body>
   <h1><%=fileName%></h1>
   <p>File size: <%=fileSize%></p>
-  <p>Number format: <%=numFmt%></p>
+  <p>Endianness: <%=numFmt%></p>
 <%=frames%>  
 </body>
 </html>
