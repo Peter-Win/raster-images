@@ -1,7 +1,3 @@
-/**
- * TODO: Пока что эксперимент
- */
-
 // Table 1/T.4 Terminating codes
 // indexes from 0 to 63
 type TermCodeDef = [string, string]; // white, black, length = index

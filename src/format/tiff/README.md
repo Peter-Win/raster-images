@@ -1,9 +1,11 @@
+TIFF - Tagged Image File Format
+
 Number format: both little endian and big endian
 
 Pixel formats (bits per sample):
-* Gray 8, 32, ext
-* RGB 8, 16, 32, 64, ext
-* CMYK 8
+* Gray 8, 32, ext, +Alpha
+* RGB 8, 16, 32, 64, ext, +Alpha
+* CMYK 8, 16, +Alpha
 * Indexed
 ext: Non-standard formats with an arbitrary number of bits per sample.
 

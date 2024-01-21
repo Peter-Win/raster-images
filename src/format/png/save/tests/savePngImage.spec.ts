@@ -55,10 +55,6 @@ describe("savePngImage", () => {
     const height = 300;
     const img = SurfaceStd.createSign(width, height, "C8M8Y8K8");
     const colors = [
-      // [0, 0xff, 0xff, 0xff], // cyan
-      // [0xff, 0, 0xff, 0xff], // magenta
-      // [0xff, 0xff, 0, 0xff],
-      // [0xff, 0xff, 0xff, 0],
       [0xff, 0, 0, 0], // cyan
       [0, 0xff, 0, 0], // magenta
       [0, 0, 0xff, 0],
