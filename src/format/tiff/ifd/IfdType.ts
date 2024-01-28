@@ -1,6 +1,7 @@
 import { ErrorRI } from "../../../utils";
 
 export enum IfdType {
+  noType = 0,
   byte = 1,
   ascii = 2,
   short = 3,
@@ -13,6 +14,7 @@ export enum IfdType {
   srational = 10,
   float = 11,
   double = 12,
+  ifd = 13,
 }
 
 export interface IfdTypeDef {
@@ -22,6 +24,11 @@ export interface IfdTypeDef {
 }
 
 export const typeDef: Record<IfdType, IfdTypeDef> = {
+  [IfdType.noType]: {
+    size: 1,
+    name: "NoType",
+    getNumber: (data, index) => data.getUint8(index),
+  },
   [IfdType.byte]: {
     size: 1,
     name: "Byte",
@@ -93,5 +100,11 @@ export const typeDef: Record<IfdType, IfdTypeDef> = {
     name: "Double",
     getNumber: (data, index, littleEndian) =>
       data.getFloat64(index * 8, littleEndian),
+  },
+  [IfdType.ifd]: {
+    size: 4,
+    name: "IFD",
+    getNumber: (data, index, littleEndian) =>
+      data.getUint32(index * 4, littleEndian),
   },
 };

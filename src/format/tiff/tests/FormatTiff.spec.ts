@@ -4,7 +4,7 @@ import {
 } from "../../../Converter/rowOps/indexed/indexed8toRgb";
 import { loadImageByName, loadImageFromFrame } from "../../../loadImage";
 import { onStreamFromGallery } from "../../../tests/streamFromGallery";
-import { dump, dumpA, dumpFloat32, dumpW } from "../../../utils";
+import { dump, dumpA, dumpFloat, dumpW } from "../../../utils";
 import { getTestFile } from "../../../tests/getTestFile";
 import { FormatTiff } from "../FormatTiff";
 import { TiffTag } from "../TiffTag";
@@ -439,10 +439,10 @@ describe("FormatTiff", () => {
         expect(img.info.vars?.compression).toBe("LZW");
         expect(img.info.vars?.planarConfiguration).toBeUndefined();
         expect(img.info.vars?.floatBitsPerSample).toBe(16);
-        expect(dumpFloat32(img.getRowBuffer32(0), 4, 0, 3)).toBe(
+        expect(dumpFloat(img.getRowBuffer32(0), 4, 0, 3)).toBe(
           "1.0000 1.0000 1.0000"
         );
-        expect(dumpFloat32(img.getRowBuffer32(1), 4, 0, 3)).toBe(
+        expect(dumpFloat(img.getRowBuffer32(1), 4, 0, 3)).toBe(
           "1.0000 0.0000 0.0000"
         );
       }
@@ -461,10 +461,10 @@ describe("FormatTiff", () => {
         expect(img.info.vars?.compression).toBe("LZW");
         expect(img.info.vars?.planarConfiguration).toBeUndefined();
         expect(img.info.vars?.floatBitsPerSample).toBe(24);
-        expect(dumpFloat32(img.getRowBuffer32(0), 4, 0, 3)).toBe(
+        expect(dumpFloat(img.getRowBuffer32(0), 4, 0, 3)).toBe(
           "1.0000 1.0000 1.0000"
         );
-        expect(dumpFloat32(img.getRowBuffer32(1), 4, 0, 3)).toBe(
+        expect(dumpFloat(img.getRowBuffer32(1), 4, 0, 3)).toBe(
           "1.0000 0.0000 0.0000"
         );
       }
@@ -601,10 +601,10 @@ describe("FormatTiff", () => {
       expect(img.info.vars?.predictor).toBe(3);
       expect(img.info.vars?.planarConfiguration).toBe("Chunky");
       expect(img.info.vars?.floatBitsPerSample).toBeUndefined();
-      expect(dumpFloat32(img.getRowBuffer32(0), 3, 0, 4)).toBe(
+      expect(dumpFloat(img.getRowBuffer32(0), 3, 0, 4)).toBe(
         "0.000 1.000 0.000 1.000"
       );
-      expect(dumpFloat32(img.getRowBuffer32(2), 2, 0, 6)).toBe(
+      expect(dumpFloat(img.getRowBuffer32(2), 2, 0, 6)).toBe(
         "0.00 1.00 0.00 0.00 1.00 1.00"
       );
     });
@@ -621,12 +621,40 @@ describe("FormatTiff", () => {
         expect(img.info.vars?.predictor).toBe(3);
         expect(img.info.vars?.planarConfiguration).toBe("Planar");
         expect(img.info.vars?.floatBitsPerSample).toBe(24);
-        expect(dumpFloat32(img.getRowBuffer32(0), 3, 0, 4)).toBe(
+        expect(dumpFloat(img.getRowBuffer32(0), 3, 0, 4)).toBe(
           "0.000 1.000 0.000 1.000"
         );
-        expect(dumpFloat32(img.getRowBuffer32(2), 2, 0, 6)).toBe(
+        expect(dumpFloat(img.getRowBuffer32(2), 2, 0, 6)).toBe(
           "0.00 1.00 0.00 0.00 1.00 1.00"
         );
+      }
+    );
+  });
+
+  it("TIFF loop test", async () => {
+    const errMsg = "Incorrect IFD-loop file";
+    await onStreamFromGallery(
+      "tiff/test_ifd_loop_subifd.tif",
+      async (stream) => {
+        await expect(async () =>
+          FormatTiff.create(stream)
+        ).rejects.toThrowError(errMsg);
+      }
+    );
+    await onStreamFromGallery(
+      "tiff/test_ifd_loop_to_first.tif",
+      async (stream) => {
+        await expect(async () =>
+          FormatTiff.create(stream)
+        ).rejects.toThrowError(errMsg);
+      }
+    );
+    await onStreamFromGallery(
+      "tiff/test_ifd_loop_to_self.tif",
+      async (stream) => {
+        await expect(async () =>
+          FormatTiff.create(stream)
+        ).rejects.toThrowError(errMsg);
       }
     );
   });

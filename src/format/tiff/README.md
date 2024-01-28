@@ -15,7 +15,7 @@ Compression methods:
 * Group3 Fax (T4)
 * Group4 Fax (T6)
 * PackBits
-* LZW
+* LZW and [old-style LZW|https://stackoverflow.com/questions/26366659/whats-special-about-tiff-5-0-style-lzw-compression]
 * ZIP
 
 FormatTiff ---> BitmapFormat
@@ -25,3 +25,4 @@ FormatTiff ---> BitmapFormat
        +--Ifd
           |
           +-(n)-IfdEntry
+

@@ -1,7 +1,7 @@
 import { surfaceConverter } from "../../../Converter/surfaceConverter";
 import { SurfaceStd } from "../../../Surface";
 import { onStreamFromGallery } from "../../../tests/streamFromGallery";
-import { dump, dumpFloat32 } from "../../../utils";
+import { dump, dumpFloat } from "../../../utils";
 import { FormatPnm } from "../FormatPnm";
 
 describe("FormatPnm", () => {
@@ -273,7 +273,7 @@ describe("FormatPnm", () => {
       const surface = new SurfaceStd(frame.info);
       await frame.read(surfaceConverter(surface));
       const row = surface.getRowBuffer32(0);
-      expect(dumpFloat32(row, 2, 0, 3)).toEqual("1.00 1.00 1.00");
+      expect(dumpFloat(row, 2, 0, 3)).toEqual("1.00 1.00 1.00");
     });
   });
 
@@ -285,13 +285,13 @@ describe("FormatPnm", () => {
 
       const surface = new SurfaceStd(frame.info);
       await frame.read(surfaceConverter(surface));
-      expect(dumpFloat32(surface.getRowBuffer32(0), 1, 0, 4)).toEqual(
+      expect(dumpFloat(surface.getRowBuffer32(0), 1, 0, 4)).toEqual(
         "1.0 0.0 0.0 0.0"
       );
-      expect(dumpFloat32(surface.getRowBuffer32(1), 1, 0, 4)).toEqual(
+      expect(dumpFloat(surface.getRowBuffer32(1), 1, 0, 4)).toEqual(
         "0.0 0.0 1.0 1.0"
       );
-      expect(dumpFloat32(surface.getRowBuffer32(2), 1, 0, 4)).toEqual(
+      expect(dumpFloat(surface.getRowBuffer32(2), 1, 0, 4)).toEqual(
         "0.0 1.0 0.0 0.0"
       );
     });

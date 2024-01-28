@@ -1,6 +1,6 @@
 import { Surface } from "../Surface";
 import { loadImageByName } from "../loadImage";
-import { dump, dumpW, dumpFloat32 } from "../utils";
+import { dump, dumpW, dumpFloat } from "../utils";
 import { onStreamFromGallery } from "./streamFromGallery";
 
 type OptCompareImages = {
@@ -109,4 +109,4 @@ const getDump8 = (row: Uint8Array, start: number, stop: number) =>
 const getDump16 = (row: Uint16Array, start: number, stop: number) =>
   dumpW(row, start, stop);
 const getDump32 = (row: Float32Array, start: number, stop: number) =>
-  dumpFloat32(row, 3, start, stop);
+  dumpFloat(row, 3, start, stop);

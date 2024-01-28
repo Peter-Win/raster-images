@@ -18,6 +18,7 @@ import { getTiffResolution } from "./tags/TiffResolution";
 import { getTiffTimeStr } from "./tags/TiffTime";
 import { loadTiffPalette } from "./TiffPalette";
 import { TiffSampleFormat } from "./tags/TiffSampleFormat";
+import { isOldStyleLzw } from "./compression/isOldStyleLzw";
 
 /**
  * Important! File pointer is undefined after this function
@@ -31,19 +32,25 @@ export const imageInfoFromIfd = async (
   const { littleEndian } = ifd;
   const width = await ifd.getSingleNumber(TiffTag.ImageWidth, stream);
   const height = await ifd.getSingleNumber(TiffTag.ImageLength, stream);
-  const pi = await ifd.getSingleNumber<PhotometricInterpretation>(
-    TiffTag.PhotometricInterpretation,
-    stream
-  );
   const srcBps = await ifd.getNumbers(TiffTag.BitsPerSample, stream);
   const nSamples = await ifd.getSingleNumber<number>(
     TiffTag.SamplesPerPixel,
     stream,
     1
   );
+  let pi = await ifd.getSingleNumberOpt<PhotometricInterpretation>(
+    TiffTag.PhotometricInterpretation,
+    stream
+  );
+  if (pi === undefined) {
+    if (srcBps.length === 1 && (srcBps[0] === 8 || srcBps[0] === 4)) {
+      pi = PhotometricInterpretation.BlackIsZero;
+    }
+  }
   const sampleFormats = await ifd.getNumbersOpt(TiffTag.SampleFormat, stream);
   let bitsPerSample: number[];
-  const colorName = (): string => photoIntNames[pi] ?? String(pi);
+  const colorName = (): string =>
+    pi === undefined ? "Undefined" : photoIntNames[pi] ?? String(pi);
   if (srcBps.length === nSamples) {
     bitsPerSample = srcBps;
   } else if (srcBps.length === 1) {
@@ -165,6 +172,10 @@ export const imageInfoFromIfd = async (
   );
   vars.compression =
     tiffCompressionDict[compressionId]?.name ?? String(compressionId);
+  if (compressionId === TiffCompression.LZW) {
+    const isOld = await isOldStyleLzw(ifd, stream);
+    if (isOld) vars.compression = "LZW (old-style)";
+  }
   const predictor = await ifd.getSingleNumberOpt(TiffTag.Predictor, stream);
   if (predictor !== undefined) {
     vars.predictor = predictor;

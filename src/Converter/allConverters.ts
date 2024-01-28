@@ -21,6 +21,7 @@ import {
   gray32toGray8,
   grayAlpha32to16,
 } from "./rowOps/gray/gray32";
+import { gray64toGray32 } from "./rowOps/gray/gray64";
 import {
   gray8toGray1Dither,
   gray8toGray1Fast,
@@ -238,6 +239,8 @@ export const allConverters: ConverterFactoryDescr[] = [
   factoryRowOp("G32", "G16", gray32toGray16, { loss: true }),
   // Gray32 + Alpha
   factoryRowOp("G32A32", "G16A16", grayAlpha32to16, { loss: true }),
+  // Gray 64
+  factoryRowOp("G64", "G32", gray64toGray32, { loss: true }),
 
   // -------------
   // Indexed

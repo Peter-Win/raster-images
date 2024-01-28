@@ -2,7 +2,7 @@ import { savePnm } from "../savePnm";
 import { getTestFile } from "../../../../tests/getTestFile";
 import { SurfaceStd } from "../../../../Surface";
 import { streamLock } from "../../../../stream";
-import { bytesToUtf8, dump, dumpA, dumpFloat32 } from "../../../../utils";
+import { bytesToUtf8, dump, dumpA, dumpFloat } from "../../../../utils";
 import { copyWordsToBigEndian } from "../../../../Converter/rowOps/copy/copyWordsToBigEndian";
 import { PixelFormat } from "../../../../PixelFormat";
 import { createRowsReader } from "../../../../Converter";
@@ -469,7 +469,7 @@ describe("savePnm", () => {
       expect(realHeader).toBe(needHeader);
       const pixBytes = await rs.read(4 * 2);
       const pixFl = new Float32Array(pixBytes.buffer, pixBytes.byteOffset);
-      expect(dumpFloat32(pixFl)).toBe("1.00 0.00");
+      expect(dumpFloat(pixFl)).toBe("1.00 0.00");
     });
   });
 
@@ -507,7 +507,7 @@ describe("savePnm", () => {
       expect(realHeader).toBe(needHeader);
       const pixBytes = await rs.read(4 * 2 * 3);
       const pixFl = new Float32Array(pixBytes.buffer, pixBytes.byteOffset);
-      expect(dumpFloat32(pixFl)).toBe("1.00 1.00 1.00 0.00 0.00 0.00");
+      expect(dumpFloat(pixFl)).toBe("1.00 1.00 1.00 0.00 0.00 0.00");
     });
   });
 });

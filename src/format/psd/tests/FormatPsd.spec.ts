@@ -4,7 +4,7 @@ import { loadImageFromFrame } from "../../../loadImage";
 import { getTestFile } from "../../../tests/getTestFile";
 import { savePnmImage } from "../../pnm";
 import { saveBmpImage } from "../../bmp/save";
-import { dump, dumpA, dumpFloat32, dumpW } from "../../../utils";
+import { dump, dumpA, dumpFloat, dumpW } from "../../../utils";
 import { PixelFormat } from "../../../PixelFormat";
 import { FramePsdImage } from "../FramePsdImage";
 
@@ -154,7 +154,7 @@ describe("FormatPsd", () => {
         "AC 1B 80 3F AD 19 F6 3B AE 19 F6 3B"
       );
       const frowL = new Float32Array(rowL.buffer, rowL.byteOffset);
-      expect(dumpFloat32(frowL, 3, 0, 3)).toBe("1.001 0.008 0.008");
+      expect(dumpFloat(frowL, 3, 0, 3)).toBe("1.001 0.008 0.008");
     });
   });
 
