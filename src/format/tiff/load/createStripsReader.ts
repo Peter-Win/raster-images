@@ -50,7 +50,7 @@ export const createStripsReader = async (params: ParamsCreateStripsReader) => {
   let needNumFmtCvt = bitsPerSample > 8;
   const stripHandlers: FnStripHandler[] = [];
   const rowHandlers: FnRowHandler[] = [];
-  const photoInt: PhotometricInterpretation = await ifd.getSingleNumber(
+  const photoInt = await ifd.getSingleNumberOpt(
     TiffTag.PhotometricInterpretation,
     stream
   );
@@ -103,7 +103,10 @@ export const createStripsReader = async (params: ParamsCreateStripsReader) => {
     stream,
     TiffPredictor.None
   );
-  if (predId === TiffPredictor.FloatingPoint) {
+  if (
+    predId === TiffPredictor.FloatingPoint ||
+    predId === TiffPredictor.HorizontalDifferencing
+  ) {
     needNumFmtCvt = false;
     // нужна функция, которая скопирует неполные строки в исходном формате.
     // затем предиктор обработает эти данные.

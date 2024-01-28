@@ -8,6 +8,8 @@ export const enum PhotometricInterpretation {
   TransparencyMask = 4,
   CMYK = 5,
   YCbCr = 6,
+  LogL = 32844,
+  LogLuv = 32845, // http://www.anyhere.com/gward/pixformat/tiffluv.html
 }
 
 export const photoIntNames: Record<PhotometricInterpretation, string> = {
@@ -18,6 +20,8 @@ export const photoIntNames: Record<PhotometricInterpretation, string> = {
   [PhotometricInterpretation.TransparencyMask]: "Transparency Mask",
   [PhotometricInterpretation.CMYK]: "CMYK",
   [PhotometricInterpretation.YCbCr]: "YCbCr",
+  [PhotometricInterpretation.LogL]: "CIE Log2(L)",
+  [PhotometricInterpretation.LogLuv]: "CIE Log2(L) (u',v')",
 };
 
 export const photoIntToColorModel: Record<
@@ -31,4 +35,6 @@ export const photoIntToColorModel: Record<
   [PhotometricInterpretation.TransparencyMask]: "Gray",
   [PhotometricInterpretation.CMYK]: "CMYK",
   [PhotometricInterpretation.YCbCr]: "YCbCr",
+  [PhotometricInterpretation.LogL]: "Unknown",
+  [PhotometricInterpretation.LogLuv]: "Unknown",
 };

@@ -16,8 +16,8 @@ export const dumpA = (arr: (number | BigInt)[]): string =>
     .map((s) => (s.length & 1 ? `0${s}` : s))
     .join(" ");
 
-export const dumpFloat32 = (
-  arr: Float32Array,
+export const dumpFloat = (
+  arr: Float32Array | Float64Array,
   precision: number = 2,
   begin: number = 0,
   end?: number

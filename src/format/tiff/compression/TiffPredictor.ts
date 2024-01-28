@@ -42,17 +42,6 @@ export const createPredictorHorizDiff = (
           sRow[dstPos++] += sRow[srcPos++]!;
         }
       };
-    case 16:
-      // пока не тестировано
-      return (width, row) => {
-        const sRow = new Int16Array(row.buffer, row.byteOffset);
-        let srcPos = 0;
-        let dstPos = srcPos + nSamples;
-        const end = width * nSamples;
-        while (dstPos < end) {
-          sRow[dstPos++] += sRow[srcPos++]!;
-        }
-      };
     default:
       throw new ErrorRI(
         "Can't create horizontal predictor for <n> bits/sample",

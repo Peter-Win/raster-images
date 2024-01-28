@@ -299,6 +299,11 @@ test("allConverters", async () => {
   // Gray32 + Alpga
   expect(await mkw("G32A32", "G16A16", {}, fdata([0.5, 1]))).toBe("7FFF FFFF");
 
+  // Gray 64
+  expect(await mkf("G64", "G32", {}, f64data([0, 0.5, 1]), 3)).toBe(
+    "0.00 0.50 1.00"
+  );
+
   // -----------
   // Indexed
   // -----------

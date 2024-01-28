@@ -10,6 +10,8 @@ import { Ifd } from "../ifd/Ifd";
 import { RAStream } from "../../../stream";
 import { createModifiedHuffmanDecoder } from "./ccitt/createModifiedHuffmanDecoder";
 import { createGroup4Decoder } from "./ccitt/createGroup4Decoder";
+import { isOldStyleLzw } from "./isOldStyleLzw";
+import { TiffUnpackerLzwOld } from "./TiffUnpackerLzwOld";
 
 type ResTiffDecompressor = {
   stripEncoder?: FnStripHandler;
@@ -32,12 +34,15 @@ export const createTiffDecompressor = async (
   params: ParamsCreateTiffDecompressor
 ): Promise<ResTiffDecompressor> => {
   const { compressionId, rowSize, rowsPerStrip, depth, ifd, stream } = params;
+  const lzwOld = await isOldStyleLzw(ifd, stream);
   const createStripBuffer = (): Uint8Array =>
     new Uint8Array(rowSize * rowsPerStrip);
   const lzw =
     (): FnStripHandler =>
     (src: Uint8Array): Uint8Array => {
-      const unpk = new TiffUnpackerLzw(depth, src);
+      const unpk = lzwOld
+        ? new TiffUnpackerLzwOld(depth, src)
+        : new TiffUnpackerLzw(depth, src);
       const dst = createStripBuffer();
       unpk.unpackAll(dst);
       return dst;

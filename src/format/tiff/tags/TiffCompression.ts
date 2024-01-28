@@ -4,7 +4,8 @@ export const enum TiffCompression {
   Group3Fax = 3, // T4Options
   Group4Fax = 4, // T6Options
   LZW = 5,
-  JPEG = 6,
+  OJPEG = 6,
+  NJPEG = 7,
   ZIP = 8,
   PackBits = 32773,
 }
@@ -30,8 +31,11 @@ export const tiffCompressionDict: Record<TiffCompression, TiffCompressionDef> =
     [TiffCompression.LZW]: {
       name: "LZW",
     },
-    [TiffCompression.JPEG]: {
-      name: "JPEG",
+    [TiffCompression.OJPEG]: {
+      name: "JPEG (old-style)",
+    },
+    [TiffCompression.NJPEG]: {
+      name: "JPEG (new-style)",
     },
     [TiffCompression.ZIP]: {
       name: "ZIP",
